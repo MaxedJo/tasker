@@ -19,6 +19,17 @@ export default function Task() {
         }).then (r => console.log("ADDED"))
     }
 
+    const handleText= (e)=> {
+        if (e.key === "Enter") {
+            const task = {description}
+            fetch("http://localhost:8080/task/add", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(task)
+            }).then(r => console.log("ADDED"))
+        }
+    }
+
     useEffect(()=>{
         fetch("http://localhost:8080/task/get")
             .then (r => r.json())
@@ -39,8 +50,8 @@ export default function Task() {
             autoComplete="off"
         >
             <h1>Add Task</h1>
-            <TextField value={description} onChange={(e) => setDescription(e.target.value) } id="description" label="Description" variant="standard" />
-            <Button variant="contained" onClick={handleClick} >Create Task</Button>
+            <TextField value={description} onKeyDown={handleText} onChange={(e) => setDescription(e.target.value) } id="description" label="Description" variant="standard" />
+            <Button variant="contained" onClick={handleClick} >Create Task!</Button>
         </Box>
         </Paper>
         <Paper elevation={3} style={paperStyle}>
