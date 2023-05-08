@@ -1,7 +1,7 @@
 package ru.vorobev.tasker.controller;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.vorobev.tasker.model.Task;
 import ru.vorobev.tasker.service.TaskService;
@@ -9,11 +9,11 @@ import ru.vorobev.tasker.service.TaskService;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/task")
+@RequiredArgsConstructor
+@CrossOrigin
 public class TaskController {
 
-    @Autowired
     private TaskService taskService;
 
     @PostMapping("/add")

@@ -1,8 +1,9 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import {Button, Paper} from "@mui/material";
-import {useEffect, useState} from "react";
+import authToken from "../authToken";
 
 export default function Task() {
     const paperStyle = {width: "40%",position:"center"}
@@ -20,7 +21,12 @@ export default function Task() {
     }
 
     useEffect(()=>{
-        fetch("http://localhost:8080/task/get")
+
+        console.log(authToken())
+        console.log(1111)
+        fetch("http://localhost:8080/task/get1",{
+            headers : authToken()
+        })
             .then (r => r.json())
                 .then (r => {
                     setTasks(r)
