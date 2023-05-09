@@ -1,17 +1,16 @@
 package ru.vorobev.tasker.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.vorobev.tasker.model.Task;
 import ru.vorobev.tasker.repository.TaskRepository;
 
-import java.security.SecureRandom;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class TaskServiceImpl implements TaskService {
 
-    @Autowired
     private TaskRepository taskRepository;
 
     @Override

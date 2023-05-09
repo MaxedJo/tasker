@@ -7,10 +7,8 @@ import axios from "axios";
 const Home = () => {
     const [content, setContent] = useState("");
 
+
     useEffect(() => {
-
-
-        console.log(authToken())
         axios
             .get("http://localhost:8080/user-api/user/all",
                 {

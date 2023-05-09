@@ -8,7 +8,6 @@ const Profile = () => {
     if (!currentUser) {
         return <Navigate to="/login" />;
     }
-    console.log(currentUser)
     return (
         <div className="container">
             <header className="jumbotron">

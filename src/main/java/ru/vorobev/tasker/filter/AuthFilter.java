@@ -18,7 +18,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import ru.vorobev.tasker.service.JwtService;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 @Slf4j
 @Configuration
@@ -37,7 +36,6 @@ public class AuthFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
         String jwt;
         String username;
-        System.out.println(Arrays.toString(request.getCookies()));
         System.out.println(authHeader);
         if (ObjectUtils.isEmpty(authHeader) || !authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request,response);
@@ -49,8 +47,9 @@ public class AuthFilter extends OncePerRequestFilter {
         System.out.println("USER : "+username);
         if(!ObjectUtils.isEmpty(username) && ObjectUtils.isEmpty(SecurityContextHolder.getContext().getAuthentication())) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            System.out.println(userDetails);
+            System.out.println("userDetails " + userDetails);
             if (jwtService.isTokenValid(jwt,userDetails)){
+                System.out.println("VAILD");
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,

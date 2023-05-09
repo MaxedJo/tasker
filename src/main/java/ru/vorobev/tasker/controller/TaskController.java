@@ -1,7 +1,7 @@
 package ru.vorobev.tasker.controller;
 
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.vorobev.tasker.model.Task;
 import ru.vorobev.tasker.service.TaskService;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/task")
-@RequiredArgsConstructor
+@AllArgsConstructor
 @CrossOrigin
 public class TaskController {
 
@@ -18,6 +18,8 @@ public class TaskController {
 
     @PostMapping("/add")
     public String add(@RequestBody Task task) {
+        System.out.println(task);
+
         taskService.saveTask(task);
         return "New Task Added";
     }

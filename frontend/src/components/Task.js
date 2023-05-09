@@ -4,32 +4,25 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import {Button, Paper} from "@mui/material";
 import authToken from "../authToken";
+import axios from "axios";
+
 
 export default function Task() {
-    const paperStyle = {width: "40%",position:"center"}
+    const paperStyle = {width: "40%", position: "center"}
     const [description, setDescription] = useState('')
-    const [tasks,setTasks] = useState([])
-
-    const handleClick= (e)=> {
+    const [tasks, setTasks] = useState([])
+    const handleClick = (e) => {
         e.preventDefault()
         const task = {description}
-        fetch("http://localhost:8080/task/add", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(task)
-        }).then (r => console.log("ADDED"))
+        axios.post("http://localhost:8080/task/add", task
+            , {headers: authToken()}
+        ).then(() => console.log("ADDED"));
     }
 
-    useEffect(()=>{
-
-        console.log(authToken())
-        console.log(1111)
-        fetch("http://localhost:8080/task/get1",{
-            headers : authToken()
-        })
-            .then (r => r.json())
-                .then (r => {
-                    setTasks(r)
+    useEffect(() => {
+        axios.get("http://localhost:8080/task/get", {headers: authToken()})
+            .then(r => {
+                setTasks(r.data)
                 })
     },[])
 

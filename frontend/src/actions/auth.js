@@ -1,12 +1,13 @@
 import {LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT, REGISTER_FAIL, REGISTER_SUCCESS, SET_MESSAGE,} from "./type";
 
-import AuthService from "../AuthService";
+import AuthService from "../auth/AuthService";
+import axios from "axios";
 
 export const register = (username, fio, password) => (dispatch) => {
     return AuthService.register(username, fio, password).then(
         (response) => {
             dispatch({
-                type: REGISTER_SUCCESS,
+                type: REGISTER_SUCCESS
             });
 
             dispatch({
@@ -41,9 +42,10 @@ export const register = (username, fio, password) => (dispatch) => {
 export const login = (username, password) => (dispatch) => {
     return AuthService.login(username, password).then(
         (data) => {
+            axios.defaults.headers.common['Authorization'] = data.token;
             dispatch({
                 type: LOGIN_SUCCESS,
-                payload: { user: data },
+                payload: {user: data},
             });
 
             return Promise.resolve();
@@ -72,7 +74,6 @@ export const login = (username, password) => (dispatch) => {
 
 export const logout = () => (dispatch) => {
     AuthService.logout();
-
     dispatch({
         type: LOGOUT,
     });
