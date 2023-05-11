@@ -1,12 +1,19 @@
 import NavAppBar from "./ui/NavAppBar";
 import {Outlet} from "react-router-dom";
+import Footer from "./ui/Footer";
+import {Box} from "@mui/material";
 
 function Wrapper() {
     return (
-        <div className="App">
+        <Box className="App" sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: '100vh',
+        }}>
             <NavAppBar/>
             <Outlet/>
-        </div>
+            <Footer/>
+        </Box>
     )
 }
 

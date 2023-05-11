@@ -1,6 +1,6 @@
 package ru.vorobev.tasker.controller;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +15,7 @@ import ru.vorobev.tasker.service.AuthService;
 @Controller
 @RequestMapping("/auth")
 @CrossOrigin
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class AuthController {
 
     private final AuthService authService;

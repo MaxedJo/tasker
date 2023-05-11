@@ -17,6 +17,12 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity(name = "users")
+@Table(uniqueConstraints =
+        {
+                @UniqueConstraint(columnNames = "id"),
+                @UniqueConstraint(columnNames = "username")
+        }
+)
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +31,7 @@ public class User implements UserDetails {
     private String fio;
     private String password;
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(255) default 'USER'")
     private Role role;
 
     @Override

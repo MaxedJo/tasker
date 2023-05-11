@@ -10,7 +10,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import Copyright from "../ui/Copyright";
 import {useDispatch, useSelector} from "react-redux";
 import {register} from "../../actions/auth";
 import {Navigate, useNavigate} from "react-router-dom";
@@ -21,7 +20,6 @@ export default function RegistrationPage() {
     const dispatch = useDispatch();
     const {isLoggedIn} = useSelector(state => state.auth);
     let navigate = useNavigate();
-
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -105,7 +103,6 @@ export default function RegistrationPage() {
                         </Link>
                     </Box>
                 </Box>
-                <Copyright sx={{mt: 5}}/>
             </Container>
         </ThemeProvider>
     );

@@ -1,9 +1,6 @@
 package ru.vorobev.tasker.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +16,10 @@ public class Task {
     private Long id;
 
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @Column(name = "project_id")
+    private Long project;
 }

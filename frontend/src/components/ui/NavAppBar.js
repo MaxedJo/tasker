@@ -14,8 +14,18 @@ import ProfileMenu from "./ProfileMenu";
 const pages = [{
     key: 'Projects',
     title: 'Проекты',
-    url: '/home'
+    url: '/projects'
 },
+    {
+        key: 'Users',
+        title: 'Пользователи',
+        url: '/users'
+    },
+    {
+        key: 'Tasks',
+        title: 'Задачи',
+        url: '/tasks'
+    },
     // 'Проекты', 'Задачи', 'Что ещё'
 ];
 

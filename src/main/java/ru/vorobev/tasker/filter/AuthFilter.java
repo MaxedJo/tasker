@@ -36,7 +36,7 @@ public class AuthFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
         String jwt;
         String username;
-        System.out.println(authHeader);
+        System.out.println("Header" + authHeader);
         if (ObjectUtils.isEmpty(authHeader) || !authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request,response);
             return;
