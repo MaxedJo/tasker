@@ -94,8 +94,10 @@ function NavAppBar() {
                         >
                             {pages.map((page) => (
                                 <MenuItem key={page.key} onClick={handleCloseNavMenu}
-                                          href={page.url}>
-                                    <Typography textAlign="center">{page.title}</Typography>
+                                >
+                                    <Button href={page.url}>
+                                        <Typography textAlign="center">{page.title}</Typography>
+                                    </Button>
                                 </MenuItem>
                             ))}
                         </Menu>

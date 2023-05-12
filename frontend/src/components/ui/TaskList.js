@@ -19,7 +19,7 @@ export default function TaskList(props) {
             {
                 props.tasks.map(task => (
                     <ListItem key={`item-${task}`}>
-                        <ListItemButton>
+                        <ListItemButton href={"/tasks/" + task.id}>
                             <ListItemText primary={task.description} secondary={task.status}/>
                         </ListItemButton>
                     </ListItem>

@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.vorobev.tasker.model.Task;
 import ru.vorobev.tasker.model.User;
+import ru.vorobev.tasker.repository.UserRepository;
 import ru.vorobev.tasker.service.UserService;
 
 import java.net.URI;
@@ -19,6 +21,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
 
     @GetMapping("/user/all")
@@ -40,12 +43,22 @@ public class UserController {
     }
 
     @PostMapping("/user/edit")
-    public ResponseEntity<User> editUser(Principal principal,@RequestBody User user){
-        System.out.println("CHECK |"+ principal.getName()+"|"+user.getUsername());
+    public ResponseEntity<User> editUser(Principal principal, @RequestBody User user) {
+        System.out.println("CHECK |" + principal.getName() + "|" + user.getUsername());
         if (!principal.getName().equals(user.getUsername())) {
-            return  ResponseEntity.status(HttpStatus.LOCKED).build();
+            return ResponseEntity.status(HttpStatus.LOCKED).build();
         }
         return ResponseEntity.ok(userService.updateUser(user));
+    }
+
+    @GetMapping("/created-tasks")
+    public List<Task> getCreated(Principal principal) {
+        return userRepository.findByUsername(principal.getName()).get().getCreated();
+    }
+
+    @GetMapping("/assigned-tasks")
+    public List<Task> getAssigned(Principal principal) {
+        return userRepository.findByUsername(principal.getName()).get().getAssigned();
     }
 
 }

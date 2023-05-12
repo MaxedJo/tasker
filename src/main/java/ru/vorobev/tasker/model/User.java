@@ -33,6 +33,10 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(255) default 'USER'")
     private Role role;
+    @OneToMany(mappedBy = "user")
+    private List<Task> assigned;
+    @OneToMany(mappedBy = "owner")
+    private List<Task> created;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
