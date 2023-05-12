@@ -21,6 +21,7 @@ public class Task {
     private String description;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(255) default 'OPENED'")
     private Status status;
 
     @Column(name = "project_id")

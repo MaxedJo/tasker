@@ -15,9 +15,10 @@ export default function ProfileForm(props) {
         const data = new FormData(event.currentTarget);
         const userFromData = {
             fio: data.get("fio"),
-            username: data.get("username")
+            username: data.get("username"),
+            profession: data.get("profession"),
+
         }
-        console.log(userFromData);
         axios
             .post("http://localhost:8080/user-api/user/edit", userFromData,{headers: authToken()});
         nav("/login");
@@ -55,6 +56,17 @@ export default function ProfileForm(props) {
                         id="fio"
                         label="ФИО"
                         defaultValue={props.userData.fio}
+                        autoFocus
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                        autoComplete="given-profession"
+                        name="profession"
+                        fullWidth
+                        id="profession"
+                        label="Профессия"
+                        defaultValue={props.userData.profession}
                         autoFocus
                     />
                 </Grid>

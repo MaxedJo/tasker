@@ -38,8 +38,13 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<User> currentUser(Principal principal){
+    public ResponseEntity<User> currentUser(Principal principal) {
         return ResponseEntity.ok(userService.getUser(principal.getName()));
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userRepository.findUserByIdIs(id));
     }
 
     @PostMapping("/user/edit")

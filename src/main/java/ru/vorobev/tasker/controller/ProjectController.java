@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.vorobev.tasker.model.Project;
 import ru.vorobev.tasker.service.ProjectService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -26,4 +27,9 @@ public class ProjectController {
         return service.getProject(id);
     }
 
+    @PostMapping("/edit")
+    public Project editUser(Principal principal, @RequestBody Project project) {
+//        return Project.builder().id(1L).build();
+        return service.updateProject(project, principal.getName());
+    }
 }

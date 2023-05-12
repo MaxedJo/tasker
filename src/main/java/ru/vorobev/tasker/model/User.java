@@ -27,9 +27,11 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String username;
     private String fio;
     private String password;
+    private String profession;
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(255) default 'USER'")
     private Role role;

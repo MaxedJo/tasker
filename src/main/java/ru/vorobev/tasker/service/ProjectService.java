@@ -6,6 +6,9 @@ import java.util.List;
 
 public interface ProjectService {
     List<Project> getAllProjects();
+
     Project getProject(Long id);
+
+    Project updateProject(Project project, String user);
 
 }

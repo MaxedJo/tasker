@@ -17,9 +17,9 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping("/add")
-    public String add(@RequestBody Task task) {
-        taskService.saveTask(task);
-        return "New Task Added";
+    public Task add(@RequestBody Task task) {
+
+        return taskService.saveTask(task);
     }
 
     @GetMapping("/get")

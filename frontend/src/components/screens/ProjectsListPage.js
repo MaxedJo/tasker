@@ -4,8 +4,9 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {List, ListItem, ListItemButton, ListItemText} from "@mui/material";
 import Box from "@mui/material/Box";
-import limitedString from "../../utility";
 import Typography from "@mui/material/Typography";
+import {limitedString} from "../../utility";
+import Button from "@mui/material/Button";
 
 export default function ProjectsListPage() {
     const paperStyle = {width: "40%", position: "center"}
@@ -41,7 +42,8 @@ export default function ProjectsListPage() {
                         </ListItem>
                     ))
                 }
-                    </List>
+            </List>
+            <Button href={"/projects/create"}>Создать Проект</Button>
             </Box>
     );
 }

@@ -6,4 +6,5 @@ import ru.vorobev.tasker.model.Project;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project,Long> {
+    Project findProjectByIdIs(Long id);
 }
