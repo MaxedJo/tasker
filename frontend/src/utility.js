@@ -11,6 +11,14 @@ export function fixStatus(str) {
     switch (str) {
         case "OPENED":
             return "Открыта"
+        case "WORKING":
+            return "В работе"
+        case "ARCHIVED":
+            return "В архиве"
+        case "TESTING":
+            return "На тестировании"
+        case "CLOSED":
+            return "Закрыта"
         default :
             return "Не известно"
     }

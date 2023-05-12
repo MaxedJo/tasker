@@ -3,6 +3,7 @@ package ru.vorobev.tasker.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.vorobev.tasker.model.Project;
+import ru.vorobev.tasker.model.User;
 import ru.vorobev.tasker.service.ProjectService;
 
 import java.security.Principal;
@@ -29,7 +30,16 @@ public class ProjectController {
 
     @PostMapping("/edit")
     public Project editUser(Principal principal, @RequestBody Project project) {
-//        return Project.builder().id(1L).build();
         return service.updateProject(project, principal.getName());
+    }
+
+    @PostMapping("/{id}/add-user")
+    public Project addUserToProject(Principal principal, @PathVariable Long id, @RequestBody User user) {
+        return service.updateProject(user, principal.getName(), id);
+    }
+
+    @GetMapping("/{id}/members")
+    public List<User> getMembers(Principal principal, @PathVariable Long id) {
+        return service.getProject(id).getMembers();
     }
 }

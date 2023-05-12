@@ -47,6 +47,20 @@ public class ProjectServiceImpl implements ProjectService {
             return projectRepository.save(old);
         }
         project.setOwner(user);
+        project.setMembers(List.of(user));
         return projectRepository.save(project);
+    }
+
+    @Override
+    public Project updateProject(User member, String ownerName, Long projectId) {
+        User user = userService.getUser(ownerName);
+        var old = projectRepository.findProjectByIdIs(projectId);
+        if (ObjectUtils.isNotEmpty(old)) {
+            if (!Objects.equals(user.getId(), old.getOwner().getId()) && !Role.ADMIN.equals(user.getRole()))
+                return null;
+            old.getMembers().add(member);
+            return projectRepository.save(old);
+        }
+        return null;
     }
 }

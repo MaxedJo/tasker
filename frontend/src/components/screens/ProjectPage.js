@@ -14,13 +14,14 @@ export default function ProjectPage() {
     const [value, setValue] = useState(4);
     const load = useLoaderData();
     const data = load.data;
+    console.log(data)
     const handleEdit = () => {
         setValue(3)
     }
     const renderAll = (state) => {
         switch (state) {
             case 0 :
-                return <UserList users={data.members} create/>
+                return <UserList users={data.members} create project={data.id}/>
             case 1 :
                 return <TaskList tasks={data.tasks} id={data.id} create={true}/>
             case 2:

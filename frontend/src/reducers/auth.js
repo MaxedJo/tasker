@@ -6,8 +6,8 @@ const initialState = user
     ? { isLoggedIn: true, user }
     : { isLoggedIn: false, user: null };
 
-export default function (state = initialState, action) {
-    const { type, payload } = action;
+export default function auth(state = initialState, action) {
+    const {type, payload} = action;
 
     switch (type) {
         case REGISTER_SUCCESS:

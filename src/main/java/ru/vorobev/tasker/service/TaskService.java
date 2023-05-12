@@ -13,4 +13,7 @@ public interface TaskService {
 
     Task getTask(Long id);
 
+    Task updateTask(Task task, String user);
+
+
 }

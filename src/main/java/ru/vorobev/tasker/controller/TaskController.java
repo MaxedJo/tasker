@@ -3,9 +3,11 @@ package ru.vorobev.tasker.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.vorobev.tasker.model.Status;
 import ru.vorobev.tasker.model.Task;
 import ru.vorobev.tasker.service.TaskService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -18,7 +20,7 @@ public class TaskController {
 
     @PostMapping("/add")
     public Task add(@RequestBody Task task) {
-
+        task.setStatus(Status.OPENED);
         return taskService.saveTask(task);
     }
 
@@ -31,6 +33,11 @@ public class TaskController {
     public Task getTask(@PathVariable Long id) {
 
         return taskService.getTask(id);
+    }
+
+    @PostMapping("/edit")
+    public Task updateTask(@RequestBody Task task, Principal principal) {
+        return taskService.updateTask(task, principal.getName());
     }
 
 }
