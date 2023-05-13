@@ -1,5 +1,5 @@
 import React from "react";
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
 
 import "./assets/App.css";
 import LoginPage from "./components/screens/LoginPage";
@@ -68,7 +68,8 @@ const router = createBrowserRouter([
                 },
             },
             {path: "/*", element: <NotAllowed/>},
-        ]
+        ],
+        errorElement: <Navigate to={"/login"}/>
     }
 ])
 

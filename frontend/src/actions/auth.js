@@ -77,4 +77,5 @@ export const logout = () => (dispatch) => {
     dispatch({
         type: LOGOUT,
     });
+    window.location.reload()
 };
