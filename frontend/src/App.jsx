@@ -3,8 +3,6 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 
 import "./assets/App.css";
 import LoginPage from "./components/screens/LoginPage";
-import Home from "./components/Home";
-import Task from "./components/Task";
 import Wrapper from "./components/Wrapper";
 import RegistrationPage from "./components/screens/RegistrationPage";
 import ProfilePage from "./components/screens/ProfilePage";
@@ -25,8 +23,7 @@ const router = createBrowserRouter([
         path: "/",
         element: <Wrapper/>,
         children: [
-            {path: "/", element: <Task/>},
-            {path: "/home", element: <Home/>},
+            {path: "/", element: <LoginPage/>},
             {path: "/projects", element: <ProjectsListPage/>},
             {path: "/projects/create", element: <CreateProject/>},
             {

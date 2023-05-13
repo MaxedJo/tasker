@@ -8,6 +8,7 @@ import axios from "axios";
 import authToken from "../../authToken";
 import Typography from "@mui/material/Typography";
 import DeleteIcon from '@mui/icons-material/Delete';
+import {validateUser} from "../../utility";
 
 export default function UserList(props) {
     const [users, setUsers] = useState([]);
@@ -68,40 +69,44 @@ export default function UserList(props) {
                                 <ListItemText primary={user.fio} secondary={buildSecondary(user)}/>
                             </ListItemButton>
                             {props.delete && props.owner !== user.id ?
-                                <IconButton aria-label="delete" onClick={() => handleDelete(user.id)}>
-                                    <DeleteIcon/>
-                                </IconButton> : <></>}
+                                validateUser(props.owner,
+                                    <IconButton aria-label="delete"
+                                                onClick={() => handleDelete(user.id)}>
+                                        <DeleteIcon/>
+                                    </IconButton>) : <></>}
                         </ListItem>
                     ))
                 }
             </List>
             {props.create ?
-                <Box component="form" onSubmit={submit}>
-                    <Grid container direction="column"
-                          justifyContent="center"
-                          alignItems="center">
-                        <Grid item>
-                            <TextField
-                                id="users"
-                                select
-                                name="users"
-                                defaultValue=""
-                                label="Добавление участников"
-                                helperText="Выберите пользователя"
-                            >
-                                {users.map((option) => (
-                                    <MenuItem key={option.id} value={option.id}>
-                                        <Typography
-                                            variant="h7">{option.fio} {option.username} {option.profession}</Typography>
-                                    </MenuItem>
-                                ))}
-                            </TextField>
+                validateUser(props.owner,
+                    <Box component="form" onSubmit={submit}>
+                        <Grid container direction="column"
+                              justifyContent="center"
+                              alignItems="center">
+                            <Grid item>
+                                <TextField
+                                    id="users"
+                                    select
+                                    name="users"
+                                    defaultValue=""
+                                    label="Добавление участников"
+                                    helperText="Выберите пользователя"
+                                >
+                                    {users.map((option) => (
+                                        <MenuItem key={option.id} value={option.id}>
+                                            <Typography
+                                                variant="h7">{option.fio} {option.username} {option.profession}</Typography>
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                            <Grid item>
+                                <Button type="submit">Добавить</Button>
+                            </Grid>
                         </Grid>
-                        <Grid item>
-                            <Button type="submit">Добавить</Button>
-                        </Grid>
-                    </Grid>
-                </Box>
+                    </Box>)
+
                 : <></>
 
             }

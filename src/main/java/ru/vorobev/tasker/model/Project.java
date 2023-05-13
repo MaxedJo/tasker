@@ -29,5 +29,6 @@ public class Project {
 
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 }

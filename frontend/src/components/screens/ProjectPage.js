@@ -36,7 +36,8 @@ export default function ProjectPage() {
                 return <TaskList tasks={data.tasks} id={data.id} create={true}/>
             case 2:
                 return <>
-                    <Typography sx={{whiteSpace: 'pre-line'}} mt={3}>{data.description}</Typography>
+                    <Typography sx={{whiteSpace: 'pre-line'}} maxWidth={800} ml="auto" mr="auto"
+                                mt={3}>{data.description}</Typography>
                     {validateUser(data.owner.id, <Button onClick={handleEdit}>Редактировать</Button>)}
                     {validateUser(data.owner.id, <Button onClick={handleDelete}>Удалить</Button>)}
 
