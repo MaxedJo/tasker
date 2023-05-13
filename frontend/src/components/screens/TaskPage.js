@@ -1,4 +1,4 @@
-import {useLoaderData} from "react-router-dom";
+import {Navigate, useLoaderData} from "react-router-dom";
 import Box from "@mui/material/Box";
 import axios from "axios";
 import authToken from "../../authToken";
@@ -13,9 +13,14 @@ export default function TaskPage() {
     const [user, setUser] = useState({});
     const [owner, setOwner] = useState({});
     const [edit, setEdit] = useState(true);
-
     const handleEdit = () => {
         setEdit(false);
+    }
+    const handleDelete = () => {
+        axios.get("http://localhost:8080/task/" + task.id + "/delete", {headers: authToken()})
+            .then(r => {
+                window.location.reload()
+            });
     }
     let task = load.data;
     useEffect(() => {
@@ -28,6 +33,11 @@ export default function TaskPage() {
                 setUser(r.data);
             });
     }, []);
+    if (!load.data.id) {
+        return <Navigate to={"/tasks/"}/>
+    }
+
+
     return (
         <>
             {edit
@@ -42,7 +52,10 @@ export default function TaskPage() {
                         <Button sx={{color: "black"}}
                                 href={"/profile/" + user.id}>Исполнитель: {user ? user.fio : null}</Button>
                         <Typography>Статус: {fixStatus(task.status)}</Typography>
-                        {validateUser(task.owner, <Button onClick={handleEdit}>Редактировать</Button>)}
+                        {validateUser(task.owner, <Button
+                            onClick={handleEdit}>Редактировать</Button>, validateUser(task.member, <Button
+                            onClick={handleEdit}>Редактировать</Button>))}
+                        {validateUser(task.owner, <Button onClick={handleDelete}>Удалить</Button>)}
                     </Box>
                 </>
                 :

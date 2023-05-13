@@ -8,4 +8,6 @@ import ru.vorobev.tasker.model.Task;
 @Repository
 public interface TaskRepository extends JpaRepository<Task,Long> {
      Task getTasksByIdIs(Long id);
+
+     void deleteTaskByIdIs(Long id);
 }

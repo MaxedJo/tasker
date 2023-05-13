@@ -40,4 +40,8 @@ public class TaskController {
         return taskService.updateTask(task, principal.getName());
     }
 
+    @GetMapping("/{id}/delete")
+    public void deleteTask(@PathVariable Long id, Principal principal) {
+        taskService.deleteTask(id, principal.getName());
+    }
 }

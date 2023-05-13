@@ -55,4 +55,18 @@ public class TaskServiceImpl implements TaskService {
         System.out.println("ERROR2");
         return null;
     }
+
+    @Override
+    public void deleteTask(Long id, String username) {
+        Task task = taskRepository.getTasksByIdIs(id);
+        User user = userService.getUser(username);
+
+        if (ObjectUtils.isNotEmpty(task)) {
+            if (!Role.ADMIN.equals(user.getRole())) {
+                if (!task.getOwner().equals(user.getId()))
+                    return;
+            }
+            taskRepository.delete(task);
+        }
+    }
 }

@@ -12,5 +12,10 @@ public interface ProjectService {
 
     Project updateProject(Project project, String user);
 
+    Project deleteUserFromProject(Long id, String user, Long userId);
+
+    void deleteProject(Long id, String username);
+
+
     Project updateProject(User member, String ownerName, Long projectId);
 }

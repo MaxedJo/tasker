@@ -42,4 +42,15 @@ public class ProjectController {
     public List<User> getMembers(Principal principal, @PathVariable Long id) {
         return service.getProject(id).getMembers();
     }
+
+    @GetMapping("/{id}/delete")
+    public void deleteProject(@PathVariable Long id, Principal principal) {
+        service.deleteProject(id, principal.getName());
+    }
+
+    @GetMapping("/{id}/delete-user/{userId}")
+    public Project deleteUserFromProject(@PathVariable Long id, Principal principal, @PathVariable Long userId) {
+        System.out.println("WORKING");
+        return service.deleteUserFromProject(id, principal.getName(), userId);
+    }
 }

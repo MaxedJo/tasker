@@ -1,4 +1,4 @@
-import {Button, Grid, List, ListItem, ListItemButton, ListItemText} from "@mui/material";
+import {Button, Grid, IconButton, List, ListItem, ListItemButton, ListItemText} from "@mui/material";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import Box from "@mui/material/Box";
@@ -7,9 +7,11 @@ import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import authToken from "../../authToken";
 import Typography from "@mui/material/Typography";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function UserList(props) {
     const [users, setUsers] = useState([]);
+    const [baseusers, setBaseusers] = useState(props.users);
     const buildSecondary = (user) => {
         let str = user.username;
         str += user.profession
@@ -36,6 +38,14 @@ export default function UserList(props) {
         })
         console.log(data.get("users"));
     }
+
+    function handleDelete(id) {
+        console.log(props)
+        axios
+            .get("http://localhost:8080/project/" + props.project + "/delete-user/" + id, {headers: authToken()});
+        setBaseusers(baseusers.filter(e => e.id !== id));
+    }
+
     return (
         <Box>
             <List
@@ -52,11 +62,15 @@ export default function UserList(props) {
                 }}
             >
                 {
-                    props.users.map(user => (
+                    baseusers.map(user => (
                         <ListItem key={`item-${user.id}`}>
                             <ListItemButton href={"/profile/" + user.id}>
                                 <ListItemText primary={user.fio} secondary={buildSecondary(user)}/>
                             </ListItemButton>
+                            {props.delete && props.owner !== user.id ?
+                                <IconButton aria-label="delete" onClick={() => handleDelete(user.id)}>
+                                    <DeleteIcon/>
+                                </IconButton> : <></>}
                         </ListItem>
                     ))
                 }
@@ -84,7 +98,7 @@ export default function UserList(props) {
                             </TextField>
                         </Grid>
                         <Grid item>
-                            <Button type="submit">Сохранить</Button>
+                            <Button type="submit">Добавить</Button>
                         </Grid>
                     </Grid>
                 </Box>

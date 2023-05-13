@@ -11,6 +11,7 @@ import ru.vorobev.tasker.model.Project;
 import ru.vorobev.tasker.model.Role;
 import ru.vorobev.tasker.model.User;
 import ru.vorobev.tasker.repository.ProjectRepository;
+import ru.vorobev.tasker.repository.UserRepository;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,6 +24,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectMapper mapper;
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     public List<Project> getAllProjects() {
@@ -52,6 +54,20 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Project deleteUserFromProject(Long id, String username, Long userId) {
+        User user = userService.getUser(username);
+        User userToDelete = userRepository.findUserByIdIs(userId);
+        var old = projectRepository.findProjectByIdIs(id);
+        if (ObjectUtils.isNotEmpty(old)) {
+            if (!Objects.equals(user.getId(), old.getOwner().getId()) && !Role.ADMIN.equals(user.getRole()))
+                return null;
+            old.getMembers().remove(userToDelete);
+            return projectRepository.save(old);
+        }
+        return null;
+    }
+
+    @Override
     public Project updateProject(User member, String ownerName, Long projectId) {
         User user = userService.getUser(ownerName);
         var old = projectRepository.findProjectByIdIs(projectId);
@@ -62,5 +78,19 @@ public class ProjectServiceImpl implements ProjectService {
             return projectRepository.save(old);
         }
         return null;
+    }
+
+    @Override
+    public void deleteProject(Long id, String username) {
+        Project project = projectRepository.findProjectByIdIs(id);
+        User user = userService.getUser(username);
+
+        if (ObjectUtils.isNotEmpty(project)) {
+            if (!Role.ADMIN.equals(user.getRole())) {
+                if (!project.getOwner().equals(user))
+                    return;
+            }
+            projectRepository.delete(project);
+        }
     }
 }
