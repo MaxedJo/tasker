@@ -17,8 +17,8 @@ public class ProjectController {
     private final ProjectService service;
 
     @GetMapping("/all")
-    public List<Project> getAll() {
-        return service.getAllProjects();
+    public List<Project> getAll(Principal principal) {
+        return service.getAllProjects(principal.getName());
     }
 
     @GetMapping("/{id}")

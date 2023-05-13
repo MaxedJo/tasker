@@ -27,8 +27,11 @@ public class ProjectServiceImpl implements ProjectService {
     private final UserRepository userRepository;
 
     @Override
-    public List<Project> getAllProjects() {
-        return projectRepository.findAll();
+    public List<Project> getAllProjects(String username) {
+        User user = userService.getUser(username);
+        if (user.getRole().equals(Role.ADMIN))
+            return projectRepository.findAll();
+        return projectRepository.findProjectByMembers_Id(user.getId());
     }
 
     @Override

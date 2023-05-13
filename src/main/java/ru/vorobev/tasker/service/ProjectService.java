@@ -6,7 +6,7 @@ import ru.vorobev.tasker.model.User;
 import java.util.List;
 
 public interface ProjectService {
-    List<Project> getAllProjects();
+    List<Project> getAllProjects(String user);
 
     Project getProject(Long id);
 
