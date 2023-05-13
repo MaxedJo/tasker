@@ -1,4 +1,4 @@
-import {Navigate, useLoaderData} from "react-router-dom";
+import {Navigate, useLoaderData, useNavigate} from "react-router-dom";
 import Box from "@mui/material/Box";
 import axios from "axios";
 import authToken from "../../authToken";
@@ -10,6 +10,7 @@ import TaskForm from "../ui/TaskForm";
 
 export default function TaskPage() {
     const load = useLoaderData();
+    const navigate = useNavigate();
     const [user, setUser] = useState({});
     const [owner, setOwner] = useState({});
     const [edit, setEdit] = useState(true);
@@ -19,7 +20,7 @@ export default function TaskPage() {
     const handleDelete = () => {
         axios.get("http://localhost:8080/task/" + task.id + "/delete", {headers: authToken()})
             .then(r => {
-                window.location.reload()
+                navigate(-1);
             });
     }
     let task = load.data;

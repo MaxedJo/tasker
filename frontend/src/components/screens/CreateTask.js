@@ -32,8 +32,7 @@ export default function CreateTask(props) {
             .post("http://localhost:8080/task/add", taskFromData, {headers: authToken()})
             .then(r => {
                 setTask(r.data);
-                nav("/projects/" + r.data.project);
-                window.location.reload();
+                nav(-1);
             });
     }
     return (
