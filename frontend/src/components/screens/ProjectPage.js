@@ -20,7 +20,7 @@ export default function ProjectPage() {
     const data = load.data;
     console.log(data)
     const leave = () => {
-        axios.get("http://localhost:8080/project/" + data.id + "/leave", {headers: authToken()})
+        axios.get("http://185.225.34.140:8080/project/" + data.id + "/leave", {headers: authToken()})
             .then(r => {
                 nav("/projects");
             });
@@ -29,7 +29,7 @@ export default function ProjectPage() {
         setValue(3)
     }
     const handleDelete = () => {
-        axios.get("http://localhost:8080/project/" + data.id + "/delete", {headers: authToken()})
+        axios.get("http://185.225.34.140:8080/project/" + data.id + "/delete", {headers: authToken()})
             .then(r => {
                 nav("/projects");
             });

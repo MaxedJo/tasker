@@ -20,7 +20,7 @@ export default function Chat(props) {
     const send = () => {
         const date = new Date();
         let str = date.getFullYear() + "-" + fix(date.getMonth().toString()) + "-" + date.getDate() + "T" + date.toLocaleTimeString()
-        axios.post("http://localhost:8080/message/send", {
+        axios.post("http://185.225.34.140:8080/message/send", {
             text: message,
             author: user.id,
             task: props.task,

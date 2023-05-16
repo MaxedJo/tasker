@@ -19,18 +19,18 @@ export default function TaskPage() {
         setEdit(false);
     }
     const handleDelete = () => {
-        axios.get("http://localhost:8080/task/" + task.id + "/delete", {headers: authToken()})
+        axios.get("http://185.225.34.140:8080/task/" + task.id + "/delete", {headers: authToken()})
             .then(r => {
                 navigate(-1);
             });
     }
     let task = load.data;
     useEffect(() => {
-        axios.get("http://localhost:8080/user-api/user/" + task.owner, {headers: authToken()})
+        axios.get("http://185.225.34.140:8080/user-api/user/" + task.owner, {headers: authToken()})
             .then(r => {
                 setOwner(r.data);
             });
-        if (task.user != null) axios.get("http://localhost:8080/user-api/user/" + task.user, {headers: authToken()})
+        if (task.user != null) axios.get("http://185.225.34.140:8080/user-api/user/" + task.user, {headers: authToken()})
             .then(r => {
                 setUser(r.data);
             });

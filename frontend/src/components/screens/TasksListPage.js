@@ -11,10 +11,10 @@ export default function TasksListPage() {
     const [assigned, setAssigned] = useState([]);
     useEffect(() => {
         axios
-            .get("http://localhost:8080/user-api/created-tasks", {headers: authToken()})
+            .get("http://185.225.34.140:8080/user-api/created-tasks", {headers: authToken()})
             .then(response => setCreated(response.data));
         axios
-            .get("http://localhost:8080/user-api/assigned-tasks", {headers: authToken()})
+            .get("http://185.225.34.140:8080/user-api/assigned-tasks", {headers: authToken()})
             .then(response => setAssigned(response.data));
     }, []);
     return (

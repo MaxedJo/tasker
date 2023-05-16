@@ -19,7 +19,7 @@ export default function CreateProject(props) {
             id: props.project ? props.project.id : null
         }
         axios
-            .post("http://localhost:8080/project/edit", projectFromData, {headers: authToken()})
+            .post("http://185.225.34.140:8080/project/edit", projectFromData, {headers: authToken()})
             .then(r => {
                 nav("/projects/" + r.data.id);
             });
