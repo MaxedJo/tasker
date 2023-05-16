@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.vorobev.tasker.model.Role;
 import ru.vorobev.tasker.model.Task;
 import ru.vorobev.tasker.model.User;
 import ru.vorobev.tasker.repository.UserRepository;
@@ -50,7 +51,8 @@ public class UserController {
     @PostMapping("/user/edit")
     public ResponseEntity<User> editUser(Principal principal, @RequestBody User user) {
         System.out.println("CHECK |" + principal.getName() + "|" + user.getUsername());
-        if (!principal.getName().equals(user.getUsername())) {
+        User user1 = userRepository.findByUsername(principal.getName()).get();
+        if (!principal.getName().equals(user.getUsername()) && user1.getRole().equals(Role.USER)) {
             return ResponseEntity.status(HttpStatus.LOCKED).build();
         }
         return ResponseEntity.ok(userService.updateUser(user));
