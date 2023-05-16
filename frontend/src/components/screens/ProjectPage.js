@@ -19,6 +19,12 @@ export default function ProjectPage() {
     const nav = useNavigate();
     const data = load.data;
     console.log(data)
+    const leave = () => {
+        axios.get("http://localhost:8080/project/" + data.id + "/leave", {headers: authToken()})
+            .then(r => {
+                nav("/projects");
+            });
+    }
     const handleEdit = () => {
         setValue(3)
     }
@@ -40,6 +46,7 @@ export default function ProjectPage() {
                                 mt={3}>{data.description}</Typography>
                     {validateUser(data.owner.id, <Button onClick={handleEdit}>Редактировать</Button>)}
                     {validateUser(data.owner.id, <Button onClick={handleDelete}>Удалить</Button>)}
+                    {validateUser(data.owner.id, <></>, <Button onClick={leave}>Покинуть</Button>)}
 
                 </>
             case 3:

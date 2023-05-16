@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import {fixStatus, validateUser} from "../../utility";
 import Button from "@mui/material/Button";
 import TaskForm from "../ui/TaskForm";
+import Chat from "../ui/Chat";
 
 export default function TaskPage() {
     const load = useLoaderData();
@@ -58,6 +59,8 @@ export default function TaskPage() {
                             onClick={handleEdit}>Редактировать</Button>, validateUser(task.member, <Button
                             onClick={handleEdit}>Редактировать</Button>))}
                         {validateUser(task.owner, <Button onClick={handleDelete}>Удалить</Button>)}
+                        <Typography variant="h4" mb={3} mt={2}>Обсуждение</Typography>
+                        <Chat task={task.id} messages={task.messages}/>
                     </Box>
                 </>
                 :

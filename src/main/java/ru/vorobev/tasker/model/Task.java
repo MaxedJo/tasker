@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Data
 @Builder
@@ -33,5 +35,8 @@ public class Task {
 
     @Column(name = "user_id")
     private Long user;
+
+    @OneToMany(mappedBy = "task")
+    private List<Message> messages;
 
 }

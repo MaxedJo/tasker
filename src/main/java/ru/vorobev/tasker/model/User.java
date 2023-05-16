@@ -40,6 +40,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "owner")
     private List<Task> created;
 
+    @OneToMany(mappedBy = "author")
+    private List<Message> messages;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

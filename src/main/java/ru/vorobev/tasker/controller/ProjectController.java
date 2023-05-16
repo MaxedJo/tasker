@@ -23,7 +23,6 @@ public class ProjectController {
 
     @GetMapping("/{id}")
     public Project getProject(@PathVariable Long id) {
-
         System.out.println(id);
         return service.getProject(id);
     }
@@ -46,6 +45,11 @@ public class ProjectController {
     @GetMapping("/{id}/delete")
     public void deleteProject(@PathVariable Long id, Principal principal) {
         service.deleteProject(id, principal.getName());
+    }
+
+    @GetMapping("/{id}/leave")
+    public void leaveProject(@PathVariable Long id, Principal principal) {
+        service.leaveProject(id, principal.getName());
     }
 
     @GetMapping("/{id}/delete-user/{userId}")

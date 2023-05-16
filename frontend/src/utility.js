@@ -5,7 +5,7 @@ export function limitedString(str, len) {
 export function validateUser(id, elem, def = null) {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user.role === "ADMIN") return elem;
-    return user.id === id ? elem : null;
+    return user.id === id ? elem : def;
 }
 
 export function fixStatus(str) {

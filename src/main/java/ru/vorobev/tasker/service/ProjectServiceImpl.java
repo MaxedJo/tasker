@@ -96,4 +96,19 @@ public class ProjectServiceImpl implements ProjectService {
             projectRepository.delete(project);
         }
     }
+
+    @Override
+    public void leaveProject(Long id, String username) {
+        Project project = projectRepository.findProjectByIdIs(id);
+        User user = userService.getUser(username);
+
+        if (ObjectUtils.isNotEmpty(project)) {
+            if (!Role.ADMIN.equals(user.getRole())) {
+                if (!project.getMembers().contains(user))
+                    return;
+            }
+            project.getMembers().remove(user);
+            projectRepository.save(project);
+        }
+    }
 }

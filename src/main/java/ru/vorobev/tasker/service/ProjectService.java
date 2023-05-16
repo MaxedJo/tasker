@@ -8,6 +8,8 @@ import java.util.List;
 public interface ProjectService {
     List<Project> getAllProjects(String user);
 
+    void leaveProject(Long id, String username);
+
     Project getProject(Long id);
 
     Project updateProject(Project project, String user);
