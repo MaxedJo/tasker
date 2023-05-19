@@ -1,5 +1,5 @@
 import {Outlet, useLoaderData, useNavigate} from "react-router-dom";
-import {BottomNavigation, BottomNavigationAction, Box, Typography} from "@mui/material";
+import {BottomNavigation, BottomNavigationAction, Box, ListItemText, Typography} from "@mui/material";
 import React, {useState} from "react";
 import UserList from "../ui/UserList";
 import PersonIcon from "@mui/icons-material/Person";
@@ -11,6 +11,7 @@ import CreateProject from "./CreateProject";
 import {validateUser} from "../../utility";
 import {deleteProject, leaveProject} from "../../api/client";
 import parse from "html-react-parser";
+import CompletitionProgress from "../ui/CompletitionProgress";
 
 
 export default function ProjectPage() {
@@ -55,7 +56,22 @@ export default function ProjectPage() {
     }
     return (
         <Box>
-            <Typography mt={3} variant="h3">{data.title}</Typography>
+            <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'inline'}}>
+                <Typography mt={3} variant="h3">{data.title}</Typography>
+                {data.activeTasks > 0 ?
+                    <Box sx={{
+                        ml: 3,
+                        mt: 3,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}>
+                        <CompletitionProgress
+                            value={data.completedTasks / data.activeTasks * 100}/>
+                        <ListItemText secondary={data.completedTasks + "/" + data.activeTasks}/>
+                    </Box> : <></>}
+            </Box>
             <Box mt={3}>
                 <BottomNavigation
                     showLabels
