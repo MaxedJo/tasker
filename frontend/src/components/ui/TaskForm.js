@@ -11,10 +11,14 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './TaskForm.css';
 import {getProjectMembers, getStatuses, updateTask} from "../../api/client";
+import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 export default function TaskForm(props) {
     const [users, setUsers] = useState([]);
     const [statuses, setStatuses] = useState([]);
+    const [deadline, setDeadline] = useState(dayjs(props.task.deadline));
     const [description, setDescription] = useState(props.task ? props.task.description : "");
     let nav = useNavigate();
     const handleSubmit = (event) => {
@@ -25,7 +29,8 @@ export default function TaskForm(props) {
             description: description,
             status: data.get("status"),
             id: props.task.id,
-            user: data.get("user")
+            user: data.get("user"),
+            deadline: deadline.format('YYYY-MM-DD'),
         }
         updateTask(taskFromData)
             .then(r => {
@@ -109,6 +114,12 @@ export default function TaskForm(props) {
                             </MenuItem>
                         ))}
                     </TextField>
+                </Grid>
+                <Grid item xs={12}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker defaultValue={dayjs(props.task.deadline)} onChange={setDeadline}
+                                    label="Срок выполнения"/>
+                    </LocalizationProvider>
                 </Grid>
             </Grid>
             <Button sx={{mt: 4}} variant="contained" type="submit">Сохранить</Button>

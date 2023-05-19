@@ -16,6 +16,8 @@ import {deleteTask, getFileList, getTaskHistory, getUserInfo} from "../../api/cl
 import HistoryList from "../history/HistoryList";
 import FileInput from "../ui/FileInput";
 import FileList from "../files/FileList";
+import dayjs from "dayjs";
+import DeadLineMark from "../ui/DeadLineMark";
 
 export default function TaskPage() {
     const load = useLoaderData();
@@ -77,16 +79,25 @@ export default function TaskPage() {
                 <>
                     <Box>
                         <Typography m={3} variant="h4">{task.title}</Typography>
-                        <Typography m={3} variant="h6">Описание</Typography>
-                        <Typography sx={{whiteSpace: 'pre-line'}} ml="auto" mr="auto" maxWidth={800}
-                                    className="tmx-description"
-                                    mb={2}>{parse(task.description)}</Typography>
-                        <Button sx={{color: "black"}}
-                                href={"/profile/" + owner.id}>Создатель: {owner ? owner.fio : null}</Button>
-                        <Typography/>
-                        <Button sx={{color: "black"}}
-                                href={"/profile/" + user.id}>Исполнитель: {user ? user.fio : null}</Button>
-                        <Typography>Статус: {fixStatus(task.status)}</Typography>
+                        <Box display="flex">
+                            <Box ml="auto" mr="auto" width="100vh">
+                                <Typography m={3} variant="h6">Описание</Typography>
+                                <Typography sx={{whiteSpace: 'pre-line'}} ml="auto" mr="auto" maxWidth={800}
+                                            className="tmx-description"
+                                            mb={2}>{parse(task.description)}</Typography>
+                            </Box>
+                            <Box mr={4}>
+                                <Button sx={{color: "black"}}
+                                        href={"/profile/" + owner.id}>Создатель: {owner ? owner.fio : null}</Button>
+                                <Typography/>
+                                <Button sx={{color: "black"}}
+                                        href={"/profile/" + user.id}>Исполнитель: {user ? user.fio : null}</Button>
+                                <Typography>Статус: {fixStatus(task.status)}</Typography>
+                                <Typography mt={1}>Срок выполнения: {!task.deadline ? 'без срока' :
+                                    dayjs(task.deadline).format('DD.MM.YYYY')}</Typography>
+                                <DeadLineMark task={task}/>
+                            </Box>
+                        </Box>
                         {validateUser(task.owner, <Button
                             onClick={handleEdit}>Редактировать</Button>, validateUser(task.member, <Button
                             onClick={handleEdit}>Редактировать</Button>))}

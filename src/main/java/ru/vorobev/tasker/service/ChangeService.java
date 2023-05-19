@@ -7,6 +7,7 @@ import ru.vorobev.tasker.repository.ChangeRepository;
 import ru.vorobev.tasker.repository.UserRepository;
 import ru.vorobev.tasker.util.UserValidator;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -20,11 +21,12 @@ public class ChangeService {
     public List<Change> getChangesByTaskId(Long taskId, String username) {
 
         if (!userValidator.projectMemberByTaskId(taskId, username)) {
-            throw new RuntimeException("You are not a member of this project");
+            throw new RuntimeException("Вы не участник данного проекта");
         }
         List<Change> changes = changeRepository.getChangesByTaskIs(taskId);
         changes.forEach(change -> change.setUsername(
                 userRepository.findUserByIdIs(change.getAuthor()).getFio()));
+        Collections.reverse(changes);
         return changes;
     }
 }
