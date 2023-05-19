@@ -39,8 +39,6 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task updateTask(Task task, String username) {
-        System.out.println("TASK");
-        System.out.println(task);
         User user = userService.getUser(username);
         var old = taskRepository.getTasksByIdIs(task.getId());
         if (ObjectUtils.isNotEmpty(old)) {
@@ -52,7 +50,6 @@ public class TaskServiceImpl implements TaskService {
             taskMapper.updateTaskFromDto(task, old);
             return taskRepository.save(old);
         }
-        System.out.println("ERROR2");
         return null;
     }
 

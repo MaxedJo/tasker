@@ -15,6 +15,18 @@ export default function TaskPage() {
     const [user, setUser] = useState({});
     const [owner, setOwner] = useState({});
     const [edit, setEdit] = useState(true);
+    useEffect(() => {
+        axios.get("http://185.225.34.140:8080/user-api/user/"
+            + task.owner, {headers: authToken()})
+            .then(r => {
+                setOwner(r.data);
+            });
+        if (task.user != null) axios.get("http://185.225.34.140:8080/user-api/user/"
+            + task.user, {headers: authToken()})
+            .then(r => {
+                setUser(r.data);
+            });
+    }, []);
     const handleEdit = () => {
         setEdit(false);
     }
@@ -25,16 +37,7 @@ export default function TaskPage() {
             });
     }
     let task = load.data;
-    useEffect(() => {
-        axios.get("http://185.225.34.140:8080/user-api/user/" + task.owner, {headers: authToken()})
-            .then(r => {
-                setOwner(r.data);
-            });
-        if (task.user != null) axios.get("http://185.225.34.140:8080/user-api/user/" + task.user, {headers: authToken()})
-            .then(r => {
-                setUser(r.data);
-            });
-    }, []);
+
     if (!load.data.id) {
         return <Navigate to={"/tasks/"}/>
     }
