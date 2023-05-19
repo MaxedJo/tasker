@@ -37,7 +37,6 @@ export default function TaskForm(props) {
             .then(r => {
                 setUsers(r.data);
             });
-        console.log(111)
         getStatuses(props.task.id)
             .then(r => {
                 setStatuses(r.data);

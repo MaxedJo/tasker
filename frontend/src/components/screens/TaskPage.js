@@ -3,6 +3,10 @@ import Box from "@mui/material/Box";
 import authToken from "../../authToken";
 import React, {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 import {fixStatus, validateUser} from "../../utility";
 import Button from "@mui/material/Button";
 import TaskForm from "../ui/TaskForm";
@@ -10,6 +14,7 @@ import Chat from "../ui/Chat";
 import parse from 'html-react-parser';
 import './assets/TaskPage.css';
 import {deleteTask, getTaskHistory, getUserInfo} from "../../api/client";
+import HistoryList from "../history/HistoryList";
 
 export default function TaskPage() {
     const load = useLoaderData();
@@ -17,7 +22,11 @@ export default function TaskPage() {
     const [user, setUser] = useState({});
     const [owner, setOwner] = useState({});
     const [edit, setEdit] = useState(true);
-
+    const [tab, setTab] = useState('1');
+    const [history, setHistory] = useState([]);
+    const handleTabChange = (event, newValue) => {
+        setTab(newValue);
+    };
     useEffect(() => {
         getUserInfo(task.owner).then(r => {
             setOwner(r.data);
@@ -29,7 +38,7 @@ export default function TaskPage() {
         }
         getTaskHistory(task.id)
             .then(r => {
-                console.log(r.data);
+                setHistory(r.data);
             });
     }, []);
     const handleEdit = () => {
@@ -70,8 +79,18 @@ export default function TaskPage() {
                             onClick={handleEdit}>Редактировать</Button>, validateUser(task.member, <Button
                             onClick={handleEdit}>Редактировать</Button>))}
                         {validateUser(task.owner, <Button onClick={handleDelete}>Удалить</Button>)}
-                        <Typography variant="h4" mb={3} mt={2}>Обсуждение</Typography>
-                        <Chat task={task.id} messages={task.messages}/>
+                        <TabContext value={tab}>
+                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                <TabList onChange={handleTabChange} aria-label="lab API tabs example">
+                                    <Tab label="Обсуждение" value="1" />
+                                    <Tab label="История изменений" value="2" />
+                                </TabList>
+                            </Box>
+                            <TabPanel value="1"><Chat task={task.id} messages={task.messages}/></TabPanel>
+                            <TabPanel value="2">
+                                <HistoryList items={history}/>
+                            </TabPanel>
+                        </TabContext>
                     </Box>
                 </>
                 :
