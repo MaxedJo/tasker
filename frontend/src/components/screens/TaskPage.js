@@ -52,9 +52,10 @@ export default function TaskPage() {
                 <>
                     <Box>
                         <Typography m={3} variant="h4">{task.title}</Typography>
+                        <Typography m={3} variant="h6">Описание</Typography>
                         <Typography sx={{whiteSpace: 'pre-line'}} ml="auto" mr="auto" maxWidth={800}
                                     className="tmx-description"
-                                    mb={2}>Описание: {parse(task.description)}</Typography>
+                                    mb={2}>{parse(task.description)}</Typography>
                         <Button sx={{color: "black"}}
                                 href={"/profile/" + owner.id}>Создатель: {owner ? owner.fio : null}</Button>
                         <Typography/>

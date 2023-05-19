@@ -12,6 +12,7 @@ import {validateUser} from "../../utility";
 import axios from "axios";
 import authToken from "../../authToken";
 import {deleteProject, leaveProject} from "../../api/client";
+import parse from "html-react-parser";
 
 
 export default function ProjectPage() {
@@ -42,8 +43,9 @@ export default function ProjectPage() {
                 return <TaskList tasks={data.tasks} id={data.id} create={true}/>
             case 2:
                 return <>
-                    <Typography sx={{whiteSpace: 'pre-line'}} maxWidth={800} ml="auto" mr="auto"
-                                mt={3}>{data.description}</Typography>
+                    <Typography sx={{whiteSpace: 'pre-line'}} ml="auto" mr="auto"
+                                className="tmx-description"
+                                mb={2}>{parse(data.description)}</Typography>
                     {validateUser(data.owner.id, <Button onClick={handleEdit}>Редактировать</Button>)}
                     {validateUser(data.owner.id, <Button onClick={handleDelete}>Удалить</Button>)}
                     {validateUser(data.owner.id, <></>, <Button onClick={leave}>Покинуть</Button>)}
