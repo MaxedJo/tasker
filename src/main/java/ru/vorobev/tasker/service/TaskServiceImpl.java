@@ -69,7 +69,7 @@ public class TaskServiceImpl implements TaskService {
                             .withOldValue(String.valueOf(old.getUser())));
                 }
                 if (task.getStatus() != old.getStatus()) {
-                    changeRepository.save(change.withField(Field.USER)
+                    changeRepository.save(change.withField(Field.STATUS)
                             .withNewValue(String.valueOf(task.getStatus()))
                             .withOldValue(String.valueOf(old.getStatus())));
                 }
@@ -79,9 +79,7 @@ public class TaskServiceImpl implements TaskService {
                             .withOldValue(old.getTitle()));
                 }
                 if (!Objects.equals(task.getDescription(), old.getDescription())) {
-                    changeRepository.save(change.withField(Field.DESCRIPTION)
-                            .withNewValue(task.getDescription())
-                            .withOldValue(old.getDescription()));
+                    changeRepository.save(change.withField(Field.DESCRIPTION));
                 }
             }
             taskMapper.updateTaskFromDto(task, old);
