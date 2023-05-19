@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import {fixStatus} from "../../utility";
-import Link from '@mui/material/Link';
+import {Link} from "react-router-dom";
 
 const fieldName = {
     'NONE': 'Создание задачи',
@@ -47,7 +47,7 @@ export default function HistoryList(props) {
     const rows = props.items.map(item => ({
         id: item.id,
         changeTime: (new Date(item.changeTime,)).toLocaleString(),
-        user: <Link href={'/profile/' + item.author}>{item.username}</Link>,
+        user: <Link to={'/profile/' + item.author}>{item.username}</Link>,
         field: fieldName.hasOwnProperty(item.field) ? fieldName[item.field] : 'Общие',
         changes: parseChanges(item.oldValue, item.newValue, item.field),
     }));

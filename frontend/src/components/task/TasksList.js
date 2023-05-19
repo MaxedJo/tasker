@@ -9,7 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import {fixStatus} from "../../utility";
-import Link from '@mui/material/Link';
+import {Link} from "react-router-dom";
 import {getUserList} from "../../api/client";
 import DeadLineMark from "../ui/DeadLineMark";
 
@@ -42,13 +42,13 @@ export default function TasksList(props) {
 
     const rows = props.items.map(item => ({
         ...item,
-        title: <Link href={"/tasks/" + item.id}>{item.title}</Link>,
+        title: <Link to={"/tasks/" + item.id}>{item.title}</Link>,
         status: fixStatus(item.status),
         owner: (userList.hasOwnProperty(item.owner) ?
-            <Link href={"/profile/" + item.owner}>{userList[item.owner].username}</Link>
+            <Link to={"/profile/" + item.owner}>{userList[item.owner].username}</Link>
             : 'Неизвестный'),
         user: (userList.hasOwnProperty(item.user) ?
-            <Link href={"/profile/" + item.owner}>{userList[item.user].username}</Link>
+            <Link to={"/profile/" + item.owner}>{userList[item.user].username}</Link>
             : ''),
         mark: <DeadLineMark task={item}/>
     }));
