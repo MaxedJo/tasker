@@ -3,8 +3,6 @@ import TextField from "@mui/material/TextField";
 import React, {useState} from "react";
 import SendIcon from "@mui/icons-material/Send";
 import IconButton from "@mui/material/IconButton";
-import axios from "axios";
-import authToken from "../../authToken";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
@@ -50,10 +48,15 @@ export default function Chat(props) {
             {props.messages ? [...props.messages].reverse().map(mes => (
                 <Box key={mes.id} maxWidth="100vh" mt={1} mr={1} display="flex">
                     {user.id === mes.author ?
-                        <>
+                        <Box flexDirection="row" sx={{display: "flex"}}>
                             <IconButton onClick={() => profile(mes.author)}><Avatar/></IconButton>
-                            <Typography mr="auto" ml={1} mt={2}>{mes.text}</Typography>
-                        </>
+                            <Box mt={0.5}>
+                                <Typography sx={{color: "grey", fontSize: "0.8rem", display: "inline"}} ml="auto"
+                                            mr={1}>{mes.localDateTime.replace("T", " ")}</Typography>
+
+                                <Typography mr="auto" ml={1}>{mes.text}</Typography>
+                            </Box>
+                        </Box>
                         :
                         <>
                             <Typography ml="auto" mr={1} mt={2}>{mes.text}</Typography>
