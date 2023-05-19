@@ -9,7 +9,7 @@ import TaskForm from "../ui/TaskForm";
 import Chat from "../ui/Chat";
 import parse from 'html-react-parser';
 import './assets/TaskPage.css';
-import {deleteTask, getUserInfo} from "../../api/client";
+import {deleteTask, getTaskHistory, getUserInfo} from "../../api/client";
 
 export default function TaskPage() {
     const load = useLoaderData();
@@ -27,6 +27,10 @@ export default function TaskPage() {
                 setUser(r.data);
             });
         }
+        getTaskHistory(task.id)
+            .then(r => {
+                console.log(r.data);
+            });
     }, []);
     const handleEdit = () => {
         setEdit(false);
@@ -52,9 +56,10 @@ export default function TaskPage() {
                 <>
                     <Box>
                         <Typography m={3} variant="h4">{task.title}</Typography>
+                        <Typography m={3} variant="h6">Описание</Typography>
                         <Typography sx={{whiteSpace: 'pre-line'}} ml="auto" mr="auto" maxWidth={800}
                                     className="tmx-description"
-                                    mb={2}>Описание: {parse(task.description)}</Typography>
+                                    mb={2}>{parse(task.description)}</Typography>
                         <Button sx={{color: "black"}}
                                 href={"/profile/" + owner.id}>Создатель: {owner ? owner.fio : null}</Button>
                         <Typography/>

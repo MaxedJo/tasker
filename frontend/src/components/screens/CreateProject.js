@@ -1,23 +1,27 @@
+import * as React from "react";
+import {useState} from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import * as React from "react";
 import {Button} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import {useNavigate} from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import {updateProject} from "../../api/client";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 export default function CreateProject(props) {
     let nav = useNavigate();
+    const [description, setDescription] = useState(props.project ? props.project.description : "");
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const projectFromData = {
             title: data.get("title"),
-            description: data.get("description"),
+            description: description,
             id: props.project ? props.project.id : null
         }
-        //axios            .post("http://localhost:8080/project/edit", projectFromData, {headers: authToken()})
         updateProject(projectFromData)
             .then(r => {
                 nav("/projects/" + r.data.id);
@@ -49,16 +53,7 @@ export default function CreateProject(props) {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField
-                            required
-                            multiline
-                            fullWidth
-                            id="description"
-                            label="Описание проекта"
-                            name="description"
-                            autoComplete="description"
-                            defaultValue={props.project ? props.project.description : ""}
-                        />
+                        <ReactQuill theme="snow" value={description} onChange={setDescription}/>
                     </Grid>
                 </Grid>
                 <Button sx={{mt: 4}} variant="contained" type="submit">Сохранить</Button>
