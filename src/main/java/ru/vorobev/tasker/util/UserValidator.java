@@ -27,4 +27,25 @@ public class UserValidator {
         }
         return true;
     }
+
+    public boolean ownerByTaskId(Long taskId, String username) {
+        User user = userService.getUser(username);
+        Task task = taskRepository.getTasksByIdIs(taskId);
+        Project project = projectRepository.findProjectByIdIs(task.getProject());
+        if (!Role.ADMIN.equals(user.getRole())) {
+            if (!project.getOwner().getId().equals(user.getId()))
+                return user.getId().equals(task.getOwner());
+        }
+        return true;
+    }
+
+    public boolean projectOwnerByTaskId(Long taskId, String username) {
+        User user = userService.getUser(username);
+        Task task = taskRepository.getTasksByIdIs(taskId);
+        Project project = projectRepository.findProjectByIdIs(task.getProject());
+        if (!Role.ADMIN.equals(user.getRole())) {
+            return user.getId().equals(project.getOwner().getId());
+        }
+        return true;
+    }
 }

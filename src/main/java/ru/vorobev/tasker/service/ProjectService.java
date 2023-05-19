@@ -6,11 +6,10 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vorobev.tasker.mapper.ProjectMapper;
-import ru.vorobev.tasker.model.Project;
-import ru.vorobev.tasker.model.Role;
-import ru.vorobev.tasker.model.User;
+import ru.vorobev.tasker.model.*;
 import ru.vorobev.tasker.repository.ProjectRepository;
 import ru.vorobev.tasker.repository.UserRepository;
+import ru.vorobev.tasker.util.UserValidator;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +25,8 @@ public class ProjectService {
     private final UserService userService;
     private final UserRepository userRepository;
 
+    private final UserValidator userValidator;
+
     public List<Project> getAllProjects(String username) {
         User user = userService.getUser(username);
         if (user.getRole().equals(Role.ADMIN))
@@ -33,9 +34,19 @@ public class ProjectService {
         return projectRepository.findProjectByMembers_Id(user.getId()).stream().peek(p -> p.workProgress()).collect(Collectors.toList());
     }
 
-    public Project getProject(Long id) {
+    public Project getProject(Long id, String username) {
         Project project = projectRepository.findProjectByIdIs(id);
         project.workProgress();
+        List<Task> tasks = project.getTasks();
+        List<Task> taskToDelete = tasks.stream()
+                .filter(t -> {
+                    if (userValidator.projectOwnerByTaskId(t.getId(), username))
+                        return false;
+                    return Status.ARCHIVED.equals(t.getStatus());
+                })
+                .collect(Collectors.toList());
+        tasks.removeAll(taskToDelete);
+        project.setTasks(tasks);
         return project;
     }
 

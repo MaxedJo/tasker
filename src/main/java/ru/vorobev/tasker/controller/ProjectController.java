@@ -22,9 +22,8 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    public Project getProject(@PathVariable Long id) {
-        System.out.println(id);
-        return service.getProject(id);
+    public Project getProject(@PathVariable Long id, Principal principal) {
+        return service.getProject(id, principal.getName());
     }
 
     @PostMapping("/edit")
@@ -39,7 +38,7 @@ public class ProjectController {
 
     @GetMapping("/{id}/members")
     public List<User> getMembers(Principal principal, @PathVariable Long id) {
-        return service.getProject(id).getMembers();
+        return service.getProject(id, principal.getName()).getMembers();
     }
 
     @GetMapping("/{id}/delete")
@@ -54,7 +53,6 @@ public class ProjectController {
 
     @GetMapping("/{id}/delete-user/{userId}")
     public Project deleteUserFromProject(@PathVariable Long id, Principal principal, @PathVariable Long userId) {
-        System.out.println("WORKING");
         return service.deleteUserFromProject(id, principal.getName(), userId);
     }
 }

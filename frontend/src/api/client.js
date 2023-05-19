@@ -24,6 +24,10 @@ export const deleteTask = (taskId) => axios.get(
     host + "/task/" + taskId + '/delete',
     {headers: authToken()}
 );
+export const getStatuses = (taskId) => axios.get(
+    host + "/task/" + taskId + '/statuses',
+    {headers: authToken()}
+);
 export const getTaskCreated = () => axios.get(
     host + "/user-api/created-tasks",
     {headers: authToken()}
@@ -32,6 +36,7 @@ export const getTaskAssigned = () => axios.get(
     host + "/user-api/assigned-tasks",
     {headers: authToken()}
 );
+
 export const updateTask = data => axios.post(
     host + "/task/edit",
     data,
@@ -80,12 +85,12 @@ export const sendMessage = (data) => axios.post(
     {headers: authToken()}
 );
 export const addProjectMember = (projectId,data) => axios.post(
-    host + "/project/" + projectId + '/add_user',
+    host + "/project/" + projectId + '/add-user',
     data,
     {headers: authToken()}
 );
 export const removeProjectMember = (projectId,userId) => axios.get(
-    host + "/project/" + projectId + '/delete_user/' + userId,
+    host + "/project/" + projectId + '/delete-user/' + userId,
     {headers: authToken()}
 );
 

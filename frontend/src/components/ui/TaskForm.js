@@ -10,32 +10,11 @@ import Typography from "@mui/material/Typography";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './TaskForm.css';
-import {getProjectMembers, updateTask} from "../../api/client";
+import {getProjectMembers, getStatuses, updateTask} from "../../api/client";
 
-const statuses = [
-    {
-        value: 'OPENED',
-        label: 'Открыта',
-    },
-    {
-        value: 'WORKING',
-        label: 'В работе',
-    },
-    {
-        value: 'TESTING',
-        label: 'На тестировании',
-    },
-    {
-        value: 'CLOSED',
-        label: 'Завершена',
-    },
-    {
-        value: 'ARCHIVED',
-        label: 'В архиве',
-    },
-];
 export default function TaskForm(props) {
     const [users, setUsers] = useState([]);
+    const [statuses, setStatuses] = useState([]);
     const [description, setDescription] = useState(props.task ? props.task.description : "");
     let nav = useNavigate();
     const handleSubmit = (event) => {
@@ -57,6 +36,11 @@ export default function TaskForm(props) {
         getProjectMembers(props.task.project)
             .then(r => {
                 setUsers(r.data);
+            });
+        console.log(111)
+        getStatuses(props.task.id)
+            .then(r => {
+                setStatuses(r.data);
             })
     }, []);
 
@@ -100,8 +84,8 @@ export default function TaskForm(props) {
                         defaultValue={props.task.status}
                     >
                         {statuses.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                <Typography variant="h7">{option.label}</Typography>
+                            <MenuItem key={option.status} value={option.status}>
+                                <Typography variant="h7">{option.description}</Typography>
                             </MenuItem>
                         ))}
                     </TextField>

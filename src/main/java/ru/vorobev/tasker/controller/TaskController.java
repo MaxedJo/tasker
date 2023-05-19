@@ -3,6 +3,7 @@ package ru.vorobev.tasker.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.vorobev.tasker.controller.dto.StatusValues;
 import ru.vorobev.tasker.model.Status;
 import ru.vorobev.tasker.model.Task;
 import ru.vorobev.tasker.service.TaskService;
@@ -44,4 +45,10 @@ public class TaskController {
     public void deleteTask(@PathVariable Long id, Principal principal) {
         taskService.deleteTask(id, principal.getName());
     }
+
+    @GetMapping("/{id}/statuses")
+    public List<StatusValues> getStatuses(@PathVariable Long id, Principal principal) {
+        return taskService.getStatuses(id, principal.getName());
+    }
+
 }
