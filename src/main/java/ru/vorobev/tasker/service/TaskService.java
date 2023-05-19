@@ -74,6 +74,11 @@ public class TaskService {
                             .withNewValue(task.getTitle())
                             .withOldValue(old.getTitle()));
                 }
+                if (!Objects.equals(task.getDeadline(), old.getDeadline())) {
+                    changeRepository.save(change.withField(Field.DEADLINE)
+                            .withNewValue(String.valueOf(task.getDeadline()))
+                            .withOldValue(String.valueOf(old.getDeadline())));
+                }
                 if (!Objects.equals(task.getDescription(), old.getDescription())) {
                     changeRepository.save(change.withField(Field.DESCRIPTION));
                 }

@@ -7,5 +7,6 @@ public enum Field {
     USER,
     NONE,
     FILE_DELETE,
-    FILE_ADD
+    FILE_ADD,
+    DEADLINE
 }

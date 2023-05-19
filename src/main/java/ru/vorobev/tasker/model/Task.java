@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -38,5 +39,7 @@ public class Task {
 
     @OneToMany(mappedBy = "task")
     private List<Message> messages;
+
+    private LocalDate deadline;
 
 }
