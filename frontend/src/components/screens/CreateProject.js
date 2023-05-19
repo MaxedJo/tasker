@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import authToken from "../../authToken";
 import Typography from "@mui/material/Typography";
+import {updateProject} from "../../api/client";
 
 export default function CreateProject(props) {
     let nav = useNavigate();
@@ -18,8 +19,8 @@ export default function CreateProject(props) {
             description: data.get("description"),
             id: props.project ? props.project.id : null
         }
-        axios
-            .post("http://localhost:8080/project/edit", projectFromData, {headers: authToken()})
+        //axios            .post("http://localhost:8080/project/edit", projectFromData, {headers: authToken()})
+        updateProject(projectFromData)
             .then(r => {
                 nav("/projects/" + r.data.id);
             });

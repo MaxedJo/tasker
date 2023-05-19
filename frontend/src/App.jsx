@@ -8,14 +8,13 @@ import RegistrationPage from "./components/screens/RegistrationPage";
 import ProfilePage from "./components/screens/ProfilePage";
 import ProjectsListPage from "./components/screens/ProjectsListPage";
 import ProjectPage from "./components/screens/ProjectPage";
-import axios from "axios";
-import authToken from "./authToken";
 import TasksListPage from "./components/screens/TasksListPage";
 import TaskPage from "./components/screens/TaskPage";
 import UserListPage from "./components/screens/UserListPage";
 import NotAllowed from "./components/ui/NotAllowed";
 import CreateProject from "./components/screens/CreateProject";
 import CreateTask from "./components/screens/CreateTask";
+import {getProjectInfo, getTask, getUserCurrent, getUserInfo, getUserList} from "./api/client";
 
 
 const router = createBrowserRouter([
@@ -28,8 +27,7 @@ const router = createBrowserRouter([
             {path: "/projects/create", element: <CreateProject/>},
             {
                 path: "/projects/:projectId", element: <ProjectPage/>, loader: async ({params}) => {
-                    return axios
-                        .get(`http://localhost:8080/project/${params.projectId}`, {headers: authToken()});
+                    return getProjectInfo(params.projectId);
                 },
                 children: [{
                     path: "/projects/:projectId/task",
@@ -43,30 +41,12 @@ const router = createBrowserRouter([
             {path: "/login", element: <LoginPage/>},
             {path: "/tasks", element: <TasksListPage/>},
             {
-                path: "/tasks/:taskId", element: <TaskPage/>, loader: async ({params}) => {
-                    return axios
-                        .get(`http://localhost:8080/task/${params.taskId}`, {headers: authToken()});
-                },
+                path: "/tasks/:taskId", element: <TaskPage/>, loader: async ({params}) => getTask(params.taskId),
             },
-            {
-                path: "/users", element: <UserListPage/>, loader: async () => {
-                    return axios
-                        .get(`http://localhost:8080/user-api/user/all`, {headers: authToken()});
-                },
-            },
+            {path: "/users", element: <UserListPage/>, loader: async () => getUserList()},
             {path: "/register", element: <RegistrationPage/>},
-            {
-                path: "/profile", element: <ProfilePage/>, loader: async ({params}) => {
-                    return axios
-                        .get(`http://localhost:8080/user-api/user`, {headers: authToken()});
-                },
-            },
-            {
-                path: "/profile/:userId", element: <ProfilePage/>, loader: async ({params}) => {
-                    return axios
-                        .get(`http://localhost:8080/user-api/user/${params.userId}`, {headers: authToken()});
-                },
-            },
+            {path: "/profile", element: <ProfilePage/>, loader: async ({params}) => getUserCurrent()},
+            {path: "/profile/:userId", element: <ProfilePage/>, loader: async ({params}) => getUserInfo(params.userId)},
             {path: "/*", element: <NotAllowed/>},
         ],
         errorElement: <Navigate to={"/login"}/>

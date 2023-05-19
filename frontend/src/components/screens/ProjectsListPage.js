@@ -7,13 +7,13 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {limitedString} from "../../utility";
 import Button from "@mui/material/Button";
+import {getProjectList} from "../../api/client";
 
 export default function ProjectsListPage() {
     const paperStyle = {width: "40%", position: "center"}
     const [projects, setProjects] = useState([]);
     useEffect(() => {
-        axios
-            .get("http://localhost:8080/project/all", {headers: authToken()})
+        getProjectList()
             .then(response => setProjects(response.data));
     }, []);
     return (
