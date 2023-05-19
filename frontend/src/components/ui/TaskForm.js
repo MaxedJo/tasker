@@ -12,6 +12,8 @@ import Typography from "@mui/material/Typography";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './TaskForm.css';
+import {getProjectMembers, updateTask} from "../../api/client";
+
 const statuses = [
     {
         value: 'OPENED',
@@ -48,14 +50,13 @@ export default function TaskForm(props) {
             id: props.task.id,
             user: data.get("user")
         }
-        axios
-            .post("http://localhost:8080/task/edit", taskFromData, {headers: authToken()})
+        updateTask(taskFromData)
             .then(r => {
                 window.location.reload();
             });
     }
     useEffect(() => {
-        axios.get("http://localhost:8080/project/" + props.task.project + "/members", {headers: authToken()})
+        getProjectMembers(props.task.project)
             .then(r => {
                 setUsers(r.data);
             })
@@ -86,7 +87,7 @@ export default function TaskForm(props) {
                 </Grid>
                 <Grid item xs={12}>
                     <ReactQuill theme="snow" value={description} onChange={setDescription}
-                                placeholder ="Описание задачи"
+                                placeholder="Описание задачи"
                     />
                 </Grid>
                 <Grid item xs={12}>

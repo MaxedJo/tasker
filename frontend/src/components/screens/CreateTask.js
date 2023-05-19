@@ -5,11 +5,10 @@ import {useEffect, useState} from "react";
 import {Button} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import {useLoaderData, useNavigate} from "react-router-dom";
-import axios from "axios";
-import authToken from "../../authToken";
 import Typography from "@mui/material/Typography";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import {addTask} from "../../api/client";
 
 export default function CreateTask(props) {
     const [task, setTask] = useState();
@@ -32,8 +31,7 @@ export default function CreateTask(props) {
             status: data.get("status"),
             user: data.get("user")
         }
-        axios
-            .post("http://localhost:8080/task/add", taskFromData, {headers: authToken()})
+        addTask(taskFromData)
             .then(r => {
                 setTask(r.data);
                 nav(-1);
@@ -65,7 +63,7 @@ export default function CreateTask(props) {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <ReactQuill theme="snow" value={description} onChange={setDescription} />
+                        <ReactQuill theme="snow" value={description} onChange={setDescription}/>
                     </Grid>
                 </Grid>
                 <Button sx={{mt: 4}} variant="contained" type="submit">Сохранить</Button>

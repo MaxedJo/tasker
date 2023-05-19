@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const auth_api = "http://localhost:8080/auth"
+const auth_api = process.env.REACT_APP_BACKEND_HOST+'/auth';
 
 class AuthService {
     login(username, password) {

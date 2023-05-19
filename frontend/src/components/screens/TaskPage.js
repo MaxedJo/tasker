@@ -1,6 +1,5 @@
 import {Navigate, useLoaderData, useNavigate} from "react-router-dom";
 import Box from "@mui/material/Box";
-import axios from "axios";
 import authToken from "../../authToken";
 import React, {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
@@ -10,6 +9,7 @@ import TaskForm from "../ui/TaskForm";
 import Chat from "../ui/Chat";
 import parse from 'html-react-parser';
 import './assets/TaskPage.css';
+import {deleteTask, getUserInfo} from "../../api/client";
 
 export default function TaskPage() {
     const load = useLoaderData();
@@ -19,28 +19,21 @@ export default function TaskPage() {
     const [edit, setEdit] = useState(true);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/user-api/user/"
-            + task.owner, {headers: authToken()})
-            .then(r => {
-                setOwner(r.data);
-            });
-        axios.get("http://localhost:8080/changes/"
-            + task.id, {headers: authToken()})
-            .then(r => {
-                console.log(r.data);
-            });
-        if (task.user != null) axios.get("http://localhost:8080/user-api/user/"
-            + task.user, {headers: authToken()})
-            .then(r => {
+        getUserInfo(task.owner).then(r => {
+            setOwner(r.data);
+        });
+        if (task.user != null) {
+            getUserInfo(task.user).then(r => {
                 setUser(r.data);
             });
-
+        }
     }, []);
     const handleEdit = () => {
         setEdit(false);
     }
     const handleDelete = () => {
-        axios.get("http://localhost:8080/task/" + task.id + "/delete", {headers: authToken()})
+
+        deleteTask(task.id)
             .then(r => {
                 navigate(-1);
             });

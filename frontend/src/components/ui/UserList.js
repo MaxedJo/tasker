@@ -9,6 +9,7 @@ import authToken from "../../authToken";
 import Typography from "@mui/material/Typography";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {validateUser} from "../../utility";
+import {addProjectMember, getUserList, removeProjectMember} from "../../api/client";
 
 export default function UserList(props) {
     const [users, setUsers] = useState([]);
@@ -22,7 +23,7 @@ export default function UserList(props) {
     }
     const s = new Set(props.users.map(e => e.id));
     useEffect(() => {
-        axios.get("http://localhost:8080/user-api/user/all", {headers: authToken()})
+        getUserList()
             .then(r => {
                 setUsers(r.data.filter(e => !s.has(e.id)))
             })
@@ -30,20 +31,14 @@ export default function UserList(props) {
     const submit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        axios
-            .post(`http://localhost:8080/project/${props.project}/add-user`,
-                {id: data.get("users")},
-                {headers: authToken()}
-            ).then(r => {
-            window.location.reload();
-        })
-        console.log(data.get("users"));
+        addProjectMember(props.project, {id: data.get("users")})
+            .then(r => {
+                window.location.reload();
+            })
     }
 
     function handleDelete(id) {
-        console.log(props)
-        axios
-            .get("http://localhost:8080/project/" + props.project + "/delete-user/" + id, {headers: authToken()});
+        removeProjectMember(props.project,id);
         setBaseusers(baseusers.filter(e => e.id !== id));
     }
 

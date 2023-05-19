@@ -6,6 +6,7 @@ import Grid from "@mui/material/Grid";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import authToken from "../../authToken";
+import {updateUser} from "../../api/client";
 
 export default function ProfileForm(props) {
 
@@ -19,8 +20,7 @@ export default function ProfileForm(props) {
             profession: data.get("profession"),
 
         }
-        axios
-            .post("http://localhost:8080/user-api/user/edit", userFromData, {headers: authToken()});
+        updateUser(userFromData);
         nav("/login");
     }
     return (

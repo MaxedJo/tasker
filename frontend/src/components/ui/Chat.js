@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import {useNavigate} from "react-router-dom";
+import {sendMessage} from "../../api/client";
 
 export default function Chat(props) {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -20,12 +21,12 @@ export default function Chat(props) {
     const send = () => {
         const date = new Date();
         let str = date.getFullYear() + "-" + fix(date.getMonth().toString()) + "-" + date.getDate() + "T" + date.toLocaleTimeString()
-        axios.post("http://localhost:8080/message/send", {
+        sendMessage({
             text: message,
             author: user.id,
             task: props.task,
             localDateTime: str
-        }, {headers: authToken()})
+        });
         setMessage("");
         window.location.reload()
     }
