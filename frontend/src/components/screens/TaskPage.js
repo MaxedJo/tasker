@@ -12,7 +12,7 @@ import TaskForm from "../ui/TaskForm";
 import Chat from "../ui/Chat";
 import parse from 'html-react-parser';
 import './assets/TaskPage.css';
-import {deleteTask, getFileList, getTaskHistory, getUserInfo} from "../../api/client";
+import {deleteFile, deleteTask, getFileList, getTaskHistory, getUserInfo} from "../../api/client";
 import HistoryList from "../history/HistoryList";
 import FileInput from "../ui/FileInput";
 import FileList from "../files/FileList";
@@ -54,12 +54,15 @@ export default function TaskPage() {
     }
 
     const appendFile = file => {
-        console.log('----', file)
         setFileList([...fileList, {...file}])
+    }
+    const removeFile = id => {
+        deleteFile(id).then(() => {
+            setFileList(fileList.filter(file => file.id !== id));
+        })
     }
 
     const handleDelete = () => {
-
         deleteTask(task.id)
             .then(r => {
                 navigate(-1);
@@ -122,6 +125,7 @@ export default function TaskPage() {
                                     error={false}
                                 />
                                 <FileList
+                                    removeFile={removeFile}
                                     items={fileList}
                                 />
                             </TabPanel>

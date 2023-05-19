@@ -7,9 +7,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const columns = [
     {id: 'fileName', label: 'Файл', minWidth: 170},
+    {id: 'delete', label: '', width: 70, align: 'right'},
 ];
 export default function FileList(props) {
     const [page, setPage] = React.useState(0);
@@ -28,6 +31,10 @@ export default function FileList(props) {
         return `${from}–${to} из ${count !== -1 ? count : `больше чем ${to}`}`;
     }
 
+    const rows = props.items.map(item => ({
+        ...item,
+        delete: <IconButton aria-label="delete" onClick={() => props.removeFile(item.id)}> <DeleteIcon/></IconButton>
+    }));
     return (
         <Paper sx={{width: '100%', overflow: 'hidden'}}>
             {props.items.length > 0 ?
@@ -47,7 +54,7 @@ export default function FileList(props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {props.items
+                            {rows
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row) => {
                                     return (
@@ -73,12 +80,13 @@ export default function FileList(props) {
                         labelRowsPerPage="Записей на страницу"
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
-                        count={props.items.length}
+                        count={rows.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
-                    /></>)
+                    />
+                </>)
                 : 'Нет прикрепленных файлов'}
         </Paper>
     );
