@@ -5,37 +5,14 @@ import {useEffect, useState} from "react";
 import {Button} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
-import authToken from "../../authToken";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './TaskForm.css';
 import {getProjectMembers, updateTask} from "../../api/client";
+import {statuses} from "../../enums/Statuses";
 
-const statuses = [
-    {
-        value: 'OPENED',
-        label: 'Открыта',
-    },
-    {
-        value: 'WORKING',
-        label: 'В работе',
-    },
-    {
-        value: 'TESTING',
-        label: 'На тестировании',
-    },
-    {
-        value: 'CLOSED',
-        label: 'Закрыта',
-    },
-    {
-        value: 'ARCHIVED',
-        label: 'В архиве',
-    },
-];
 export default function TaskForm(props) {
     const [users, setUsers] = useState([]);
     const [description, setDescription] = useState(props.task ? props.task.description : "");
