@@ -27,6 +27,11 @@ export default function TaskPage() {
                 setUser(r.data);
             });
         }
+        axios.get("http://localhost:8080/changes/"
+            + task.id, {headers: authToken()})
+            .then(r => {
+                console.log(r.data);
+            });
     }, []);
     const handleEdit = () => {
         setEdit(false);

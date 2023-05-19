@@ -1,14 +1,16 @@
 package ru.vorobev.tasker.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.With;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @With
+@Data
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Change {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,5 +33,8 @@ public class Change {
 
     @Column(name = "new_value", columnDefinition = "TEXT")
     private String newValue;
+
+    @Transient
+    private String username;
 
 }
