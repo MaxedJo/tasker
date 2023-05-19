@@ -3,6 +3,7 @@ import * as React from "react";
 import {fixStatus} from "../../utility";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import DeadLineMark from "./DeadLineMark";
 
 export default function TaskList(props) {
     return (
@@ -25,6 +26,7 @@ export default function TaskList(props) {
                         <ListItem key={`item-${task.id}`}>
                             <ListItemButton href={"/tasks/" + task.id}>
                                 <ListItemText primary={task.title} secondary={fixStatus(task.status)}/>
+                                <DeadLineMark task={task}/>
                             </ListItemButton>
                         </ListItem>
                     ))
