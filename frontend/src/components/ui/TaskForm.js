@@ -9,7 +9,9 @@ import axios from "axios";
 import authToken from "../../authToken";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import './TaskForm.css';
 const statuses = [
     {
         value: 'OPENED',
@@ -33,15 +35,15 @@ const statuses = [
     },
 ];
 export default function TaskForm(props) {
-    console.log(props.task)
     const [users, setUsers] = useState([]);
+    const [description, setDescription] = useState(props.task ? props.task.description : "");
     let nav = useNavigate();
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const taskFromData = {
             title: data.get("title"),
-            description: data.get("description"),
+            description: description,
             status: data.get("status"),
             id: props.task.id,
             user: data.get("user")
@@ -83,15 +85,8 @@ export default function TaskForm(props) {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField
-                        required
-                        multiline
-                        fullWidth
-                        id="description"
-                        label="Описание"
-                        name="description"
-                        autoComplete="description"
-                        defaultValue={props.task.description}
+                    <ReactQuill theme="snow" value={description} onChange={setDescription}
+                                placeholder ="Описание задачи"
                     />
                 </Grid>
                 <Grid item xs={12}>

@@ -8,9 +8,13 @@ import {useLoaderData, useNavigate} from "react-router-dom";
 import axios from "axios";
 import authToken from "../../authToken";
 import Typography from "@mui/material/Typography";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 export default function CreateTask(props) {
     const [task, setTask] = useState();
+    const [description, setDescription] = useState(task ? task.description : "");
+
     useEffect(() => {
         if (props) setTask(props.task);
     }, [])
@@ -21,7 +25,7 @@ export default function CreateTask(props) {
         const data = new FormData(event.currentTarget);
         const taskFromData = {
             title: data.get("title"),
-            description: data.get("description"),
+            description: description,
             id: task ? task.id : null,
             project: load,
             owner: JSON.parse(localStorage.getItem("user")).id,
@@ -61,16 +65,7 @@ export default function CreateTask(props) {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField
-                            required
-                            multiline
-                            fullWidth
-                            id="description"
-                            label="Описание"
-                            name="description"
-                            autoComplete="description"
-                            defaultValue={task ? task.description : ""}
-                        />
+                        <ReactQuill theme="snow" value={description} onChange={setDescription} />
                     </Grid>
                 </Grid>
                 <Button sx={{mt: 4}} variant="contained" type="submit">Сохранить</Button>
