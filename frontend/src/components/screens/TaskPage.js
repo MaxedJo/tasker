@@ -14,6 +14,7 @@ import parse from 'html-react-parser';
 import './assets/TaskPage.css';
 import {deleteTask, getTaskHistory, getUserInfo} from "../../api/client";
 import HistoryList from "../history/HistoryList";
+import FileInput from "../ui/FileInput";
 
 export default function TaskPage() {
     const load = useLoaderData();
@@ -83,11 +84,19 @@ export default function TaskPage() {
                                 <TabList onChange={handleTabChange}>
                                     <Tab label="Обсуждение" value="1"/>
                                     <Tab label="История изменений" value="2"/>
+                                    <Tab label="Файлы" value="3"/>
                                 </TabList>
                             </Box>
                             <TabPanel value="1"><Chat task={task.id} messages={task.messages}/></TabPanel>
                             <TabPanel value="2">
                                 <HistoryList items={history}/>
+                            </TabPanel>
+                            <TabPanel value="3">
+                                <FileInput
+                                    taskId={task.id}
+                                    label="Загрузка файла"
+                                    error={false}
+                                />
                             </TabPanel>
                         </TabContext>
                     </Box>

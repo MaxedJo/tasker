@@ -88,13 +88,20 @@ export const getTaskHistory = (id) => axios.get(
     host + "/changes/" + id,
     {headers: authToken()}
 );
-export const addProjectMember = (projectId,data) => axios.post(
+export const addProjectMember = (projectId, data) => axios.post(
     host + "/project/" + projectId + '/add-user',
     data,
     {headers: authToken()}
 );
-export const removeProjectMember = (projectId,userId) => axios.get(
+export const removeProjectMember = (projectId, userId) => axios.get(
     host + "/project/" + projectId + '/delete-user/' + userId,
     {headers: authToken()}
 );
 
+export const uploadFile = (data, taskId) => axios.post(
+    host + "/files/upload/" + taskId,
+    data,
+    {
+        headers: {...authToken(), 'Content-Type': 'multipart/form-data'}
+    }
+);
