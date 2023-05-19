@@ -25,9 +25,9 @@ export default function TaskPage() {
     const [user, setUser] = useState({});
     const [owner, setOwner] = useState({});
     const [edit, setEdit] = useState(true);
-    const [tab, setTab] = useState('1');
     const [history, setHistory] = useState([]);
     const [fileList, setFileList] = useState([]);
+    const [tab, setTab] = useState('1');
     const handleTabChange = (event, newValue) => {
         setTab(newValue);
     };
