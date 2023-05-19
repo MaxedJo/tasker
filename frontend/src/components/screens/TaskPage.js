@@ -50,6 +50,12 @@ export default function TaskPage() {
     const handleEdit = () => {
         setEdit(false);
     }
+
+    const appendFile = file => {
+        console.log('----', file)
+        setFileList([...fileList, {...file}])
+    }
+
     const handleDelete = () => {
 
         deleteTask(task.id)
@@ -99,6 +105,7 @@ export default function TaskPage() {
                             </TabPanel>
                             <TabPanel value="3">
                                 <FileInput
+                                    onUpload={appendFile}
                                     taskId={task.id}
                                     label="Загрузка файла"
                                     error={false}
