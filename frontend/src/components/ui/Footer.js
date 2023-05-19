@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Copyright from "./Copyright";
 import {List, ListItemButton, ListItemIcon, ListItemText, Stack} from "@mui/material";
-import FacebookIcon from '@mui/icons-material/Facebook';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 
@@ -12,8 +11,8 @@ export default function Footer() {
         <Box
             component="footer"
             sx={{
-                py: 3,
                 px: 2,
+                pb: 1,
                 mt: 'auto',
                 backgroundColor: (theme) =>
                     theme.palette.mode === 'light'
@@ -23,16 +22,6 @@ export default function Footer() {
         >
             <Container maxWidth="sm">
                 <List dense={true} component={Stack} direction="row">
-                    <ListItemButton
-                        style={{paddingTop: ".75em"}}
-                        id="facebook"
-                        href="https://ru-ru.facebook.com/"
-                    >
-                        <ListItemIcon>
-                            <FacebookIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary="Facebook"/>
-                    </ListItemButton>
                     <ListItemButton
                         style={{paddingTop: ".75em"}}
                         id="github"
