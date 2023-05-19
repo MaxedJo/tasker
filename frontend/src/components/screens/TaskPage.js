@@ -1,6 +1,5 @@
 import {Navigate, useLoaderData, useNavigate} from "react-router-dom";
 import Box from "@mui/material/Box";
-import authToken from "../../authToken";
 import React, {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
 import Tab from '@mui/material/Tab';
@@ -80,10 +79,10 @@ export default function TaskPage() {
                             onClick={handleEdit}>Редактировать</Button>))}
                         {validateUser(task.owner, <Button onClick={handleDelete}>Удалить</Button>)}
                         <TabContext value={tab}>
-                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                <TabList onChange={handleTabChange} aria-label="lab API tabs example">
-                                    <Tab label="Обсуждение" value="1" />
-                                    <Tab label="История изменений" value="2" />
+                            <Box ml="auto" mr="auto" maxWidth="50vh" sx={{borderBottom: 1, borderColor: 'divider'}}>
+                                <TabList onChange={handleTabChange}>
+                                    <Tab label="Обсуждение" value="1"/>
+                                    <Tab label="История изменений" value="2"/>
                                 </TabList>
                             </Box>
                             <TabPanel value="1"><Chat task={task.id} messages={task.messages}/></TabPanel>

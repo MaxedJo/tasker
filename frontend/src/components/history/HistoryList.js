@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import {statuses} from "../../enums/Statuses";
+import {fixStatus} from "../../utility";
 
 const fieldName = {
     'NONE': 'Создание задачи',
@@ -33,17 +33,13 @@ export default function HistoryList(props) {
         setPage(newPage);
     };
 
-    const getStatusName = value => {
-        const filtered = (statuses.filter(item => item.value === value));
-        return filtered.length > 0 ? filtered[0].label : 'Неизвестный';
-    }
     const parseChanges = (from, to, field) => {
         let res = [];
         if (from) {
-            res.push(field === 'STATUS' ? getStatusName(from) : from);
+            res.push(field === 'STATUS' ? fixStatus(from) : from);
         }
         if (to) {
-            res.push(field === 'STATUS' ? getStatusName(to) : to);
+            res.push(field === 'STATUS' ? fixStatus(to) : to);
         }
         return res.join(' → ');
     }
