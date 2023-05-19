@@ -4,8 +4,6 @@ import {useEffect, useState} from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import axios from "axios";
-import authToken from "../../authToken";
 import Typography from "@mui/material/Typography";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {validateUser} from "../../utility";

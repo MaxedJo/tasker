@@ -4,8 +4,6 @@ import * as React from "react";
 import {Button} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
-import authToken from "../../authToken";
 import Typography from "@mui/material/Typography";
 import {updateProject} from "../../api/client";
 

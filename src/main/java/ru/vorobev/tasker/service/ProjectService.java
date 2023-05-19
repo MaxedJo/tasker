@@ -3,7 +3,6 @@ package ru.vorobev.tasker.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vorobev.tasker.mapper.ProjectMapper;
@@ -15,6 +14,7 @@ import ru.vorobev.tasker.repository.UserRepository;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -29,13 +29,14 @@ public class ProjectService {
     public List<Project> getAllProjects(String username) {
         User user = userService.getUser(username);
         if (user.getRole().equals(Role.ADMIN))
-            return projectRepository.findAll();
-        return projectRepository.findProjectByMembers_Id(user.getId());
+            return projectRepository.findAll().stream().peek(p -> p.workProgress()).collect(Collectors.toList());
+        return projectRepository.findProjectByMembers_Id(user.getId()).stream().peek(p -> p.workProgress()).collect(Collectors.toList());
     }
 
     public Project getProject(Long id) {
-        Example<Project> example = Example.of(Project.builder().id(id).build());
-        return projectRepository.findAll(example).get(0);
+        Project project = projectRepository.findProjectByIdIs(id);
+        project.workProgress();
+        return project;
     }
 
     public Project updateProject(Project project, String username) {

@@ -31,4 +31,15 @@ public class Project {
 
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    @Transient
+    private Long activeTasks;
+
+    @Transient
+    private Long completedTasks;
+
+    public void workProgress() {
+        activeTasks = tasks.stream().filter(task -> task.getStatus() != Status.ARCHIVED).count();
+        completedTasks = tasks.stream().filter(task -> task.getStatus() == Status.CLOSED).count();
+    }
 }

@@ -45,7 +45,7 @@ const router = createBrowserRouter([
             },
             {path: "/users", element: <UserListPage/>, loader: async () => getUserList()},
             {path: "/register", element: <RegistrationPage/>},
-            {path: "/profile", element: <ProfilePage/>, loader: async ({params}) => getUserCurrent()},
+            {path: "/profile", element: <ProfilePage/>, loader: async () => getUserCurrent()},
             {path: "/profile/:userId", element: <ProfilePage/>, loader: async ({params}) => getUserInfo(params.userId)},
             {path: "/*", element: <NotAllowed/>},
         ],

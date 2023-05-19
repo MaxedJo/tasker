@@ -5,8 +5,6 @@ import {useEffect, useState} from "react";
 import {Button} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
-import authToken from "../../authToken";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import ReactQuill from 'react-quill';
@@ -29,7 +27,7 @@ const statuses = [
     },
     {
         value: 'CLOSED',
-        label: 'Закрыта',
+        label: 'Завершена',
     },
     {
         value: 'ARCHIVED',

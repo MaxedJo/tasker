@@ -9,8 +9,6 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import Button from "@mui/material/Button";
 import CreateProject from "./CreateProject";
 import {validateUser} from "../../utility";
-import axios from "axios";
-import authToken from "../../authToken";
 import {deleteProject, leaveProject} from "../../api/client";
 
 

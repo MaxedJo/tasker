@@ -19,7 +19,7 @@ export function fixStatus(str) {
         case "TESTING":
             return "На тестировании"
         case "CLOSED":
-            return "Закрыта"
+            return "Завершена"
         default :
             return "Не известно"
     }
