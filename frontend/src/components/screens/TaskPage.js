@@ -9,7 +9,7 @@ import TaskForm from "../ui/TaskForm";
 import Chat from "../ui/Chat";
 import parse from 'html-react-parser';
 import './assets/TaskPage.css';
-import {deleteTask, getUserInfo} from "../../api/client";
+import {deleteTask, getTaskHistory, getUserInfo} from "../../api/client";
 
 export default function TaskPage() {
     const load = useLoaderData();
@@ -27,8 +27,7 @@ export default function TaskPage() {
                 setUser(r.data);
             });
         }
-        axios.get("http://localhost:8080/changes/"
-            + task.id, {headers: authToken()})
+        getTaskHistory(task.id)
             .then(r => {
                 console.log(r.data);
             });

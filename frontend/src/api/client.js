@@ -79,6 +79,10 @@ export const sendMessage = (data) => axios.post(
     data,
     {headers: authToken()}
 );
+export const getTaskHistory = (id) => axios.get(
+    host + "/changes/" + id,
+    {headers: authToken()}
+);
 export const addProjectMember = (projectId,data) => axios.post(
     host + "/project/" + projectId + '/add_user',
     data,
