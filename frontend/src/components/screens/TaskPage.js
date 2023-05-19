@@ -12,10 +12,12 @@ import TaskForm from "../ui/TaskForm";
 import Chat from "../ui/Chat";
 import parse from 'html-react-parser';
 import './assets/TaskPage.css';
-import {deleteTask, getTaskHistory, getUserInfo} from "../../api/client";
+import {deleteTask, getFileList, getTaskHistory, getUserInfo} from "../../api/client";
 import HistoryList from "../history/HistoryList";
 import dayjs from "dayjs";
 import DeadLineMark from "../ui/DeadLineMark";
+import FileInput from "../ui/FileInput";
+import FileList from "../files/FileList";
 
 export default function TaskPage() {
     const load = useLoaderData();
@@ -25,6 +27,7 @@ export default function TaskPage() {
     const [edit, setEdit] = useState(true);
     const [tab, setTab] = useState('1');
     const [history, setHistory] = useState([]);
+    const [fileList, setFileList] = useState([]);
     const handleTabChange = (event, newValue) => {
         setTab(newValue);
     };
@@ -37,10 +40,14 @@ export default function TaskPage() {
                 setUser(r.data);
             });
         }
-        getTaskHistory(task.id)
-            .then(r => {
-                setHistory(r.data);
-            });
+        getTaskHistory(task.id).then(r => {
+            setHistory(r.data);
+        });
+        getFileList(task.id).then(r => {
+            console.log(r.data)
+            //setFileList(r.data)
+        });
+
     }, []);
     const handleEdit = () => {
         setEdit(false);
@@ -94,11 +101,22 @@ export default function TaskPage() {
                                 <TabList onChange={handleTabChange}>
                                     <Tab label="Обсуждение" value="1"/>
                                     <Tab label="История изменений" value="2"/>
+                                    <Tab label="Файлы" value="3"/>
                                 </TabList>
                             </Box>
                             <TabPanel value="1"><Chat task={task.id} messages={task.messages}/></TabPanel>
                             <TabPanel value="2">
                                 <HistoryList items={history}/>
+                            </TabPanel>
+                            <TabPanel value="3">
+                                <FileInput
+                                    taskId={task.id}
+                                    label="Загрузка файла"
+                                    error={false}
+                                />
+                                <FileList
+                                    items={fileList}
+                                />
                             </TabPanel>
                         </TabContext>
                     </Box>

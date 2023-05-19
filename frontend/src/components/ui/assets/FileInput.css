@@ -1,0 +1,15 @@
+.file-upload-box {
+    align-items: center;
+}
+
+.file-input-field {
+    color: blue;
+}
+
+.file-input-button {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border: 1px dashed #cecece;
+    text-align: center;
+}
