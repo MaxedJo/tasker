@@ -20,7 +20,7 @@ export default function ProfileForm(props) {
 
         }
         axios
-            .post("http://185.225.34.140:8080/user-api/user/edit", userFromData, {headers: authToken()});
+            .post("http://localhost:8080/user-api/user/edit", userFromData, {headers: authToken()});
         nav("/login");
     }
     return (

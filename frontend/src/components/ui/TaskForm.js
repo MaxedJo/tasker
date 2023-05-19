@@ -47,13 +47,13 @@ export default function TaskForm(props) {
             user: data.get("user")
         }
         axios
-            .post("http://185.225.34.140:8080/task/edit", taskFromData, {headers: authToken()})
+            .post("http://localhost:8080/task/edit", taskFromData, {headers: authToken()})
             .then(r => {
                 window.location.reload();
             });
     }
     useEffect(() => {
-        axios.get("http://185.225.34.140:8080/project/" + props.task.project + "/members", {headers: authToken()})
+        axios.get("http://localhost:8080/project/" + props.task.project + "/members", {headers: authToken()})
             .then(r => {
                 setUsers(r.data);
             })

@@ -29,7 +29,7 @@ const router = createBrowserRouter([
             {
                 path: "/projects/:projectId", element: <ProjectPage/>, loader: async ({params}) => {
                     return axios
-                        .get(`http://185.225.34.140:8080/project/${params.projectId}`, {headers: authToken()});
+                        .get(`http://localhost:8080/project/${params.projectId}`, {headers: authToken()});
                 },
                 children: [{
                     path: "/projects/:projectId/task",
@@ -45,26 +45,26 @@ const router = createBrowserRouter([
             {
                 path: "/tasks/:taskId", element: <TaskPage/>, loader: async ({params}) => {
                     return axios
-                        .get(`http://185.225.34.140:8080/task/${params.taskId}`, {headers: authToken()});
+                        .get(`http://localhost:8080/task/${params.taskId}`, {headers: authToken()});
                 },
             },
             {
                 path: "/users", element: <UserListPage/>, loader: async () => {
                     return axios
-                        .get(`http://185.225.34.140:8080/user-api/user/all`, {headers: authToken()});
+                        .get(`http://localhost:8080/user-api/user/all`, {headers: authToken()});
                 },
             },
             {path: "/register", element: <RegistrationPage/>},
             {
                 path: "/profile", element: <ProfilePage/>, loader: async ({params}) => {
                     return axios
-                        .get(`http://185.225.34.140:8080/user-api/user`, {headers: authToken()});
+                        .get(`http://localhost:8080/user-api/user`, {headers: authToken()});
                 },
             },
             {
                 path: "/profile/:userId", element: <ProfilePage/>, loader: async ({params}) => {
                     return axios
-                        .get(`http://185.225.34.140:8080/user-api/user/${params.userId}`, {headers: authToken()});
+                        .get(`http://localhost:8080/user-api/user/${params.userId}`, {headers: authToken()});
                 },
             },
             {path: "/*", element: <NotAllowed/>},

@@ -1,29 +1,37 @@
 package ru.vorobev.tasker.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import ru.vorobev.tasker.mapper.TaskMapper;
-import ru.vorobev.tasker.model.Project;
-import ru.vorobev.tasker.model.Role;
-import ru.vorobev.tasker.model.Task;
-import ru.vorobev.tasker.model.User;
+import ru.vorobev.tasker.model.*;
+import ru.vorobev.tasker.repository.ChangeRepository;
 import ru.vorobev.tasker.repository.ProjectRepository;
 import ru.vorobev.tasker.repository.TaskRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
 
-    private TaskRepository taskRepository;
-    private TaskMapper taskMapper;
-    private ProjectRepository projectRepository;
-    private UserService userService;
+    private final TaskRepository taskRepository;
+    private final TaskMapper taskMapper;
+    private final ProjectRepository projectRepository;
+    private final UserService userService;
+    private final ChangeRepository changeRepository;
+
 
     @Override
     public Task saveTask(Task task) {
+        Change change = Change.builder()
+                .author(task.getOwner())
+                .task(task.getId())
+                .field(Field.NONE)
+                .changeTime(LocalDateTime.now())
+                .build();
+        changeRepository.save(change);
         return taskRepository.save(task);
     }
 
@@ -46,6 +54,17 @@ public class TaskServiceImpl implements TaskService {
             if (!Role.ADMIN.equals(user.getRole())) {
                 if (!project.getMembers().contains(user))
                     return null;
+            }
+            if (!old.equals(task)) {
+                Change change = Change.builder()
+                        .author(user.getId())
+                        .changeTime(LocalDateTime.now())
+                        .build();
+                if (task.getUser() != old.getUser()) {
+                    changeRepository.save(change.withField(Field.USER)
+                            .withNewValue(String.valueOf(task.getUser()))
+                            .withOldValue(String.valueOf(old.getUser())));
+                }
             }
             taskMapper.updateTaskFromDto(task, old);
             return taskRepository.save(old);

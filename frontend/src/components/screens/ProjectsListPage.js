@@ -13,7 +13,7 @@ export default function ProjectsListPage() {
     const [projects, setProjects] = useState([]);
     useEffect(() => {
         axios
-            .get("http://185.225.34.140:8080/project/all", {headers: authToken()})
+            .get("http://localhost:8080/project/all", {headers: authToken()})
             .then(response => setProjects(response.data));
     }, []);
     return (

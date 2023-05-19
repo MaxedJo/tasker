@@ -29,7 +29,7 @@ export default function CreateTask(props) {
             user: data.get("user")
         }
         axios
-            .post("http://185.225.34.140:8080/task/add", taskFromData, {headers: authToken()})
+            .post("http://localhost:8080/task/add", taskFromData, {headers: authToken()})
             .then(r => {
                 setTask(r.data);
                 nav(-1);

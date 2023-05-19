@@ -22,7 +22,7 @@ export default function UserList(props) {
     }
     const s = new Set(props.users.map(e => e.id));
     useEffect(() => {
-        axios.get("http://185.225.34.140:8080/user-api/user/all", {headers: authToken()})
+        axios.get("http://localhost:8080/user-api/user/all", {headers: authToken()})
             .then(r => {
                 setUsers(r.data.filter(e => !s.has(e.id)))
             })
@@ -31,7 +31,7 @@ export default function UserList(props) {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         axios
-            .post(`http://185.225.34.140:8080/project/${props.project}/add-user`,
+            .post(`http://localhost:8080/project/${props.project}/add-user`,
                 {id: data.get("users")},
                 {headers: authToken()}
             ).then(r => {
@@ -43,7 +43,7 @@ export default function UserList(props) {
     function handleDelete(id) {
         console.log(props)
         axios
-            .get("http://185.225.34.140:8080/project/" + props.project + "/delete-user/" + id, {headers: authToken()});
+            .get("http://localhost:8080/project/" + props.project + "/delete-user/" + id, {headers: authToken()});
         setBaseusers(baseusers.filter(e => e.id !== id));
     }
 
