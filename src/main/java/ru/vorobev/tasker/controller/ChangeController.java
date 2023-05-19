@@ -3,7 +3,7 @@ package ru.vorobev.tasker.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.vorobev.tasker.model.Change;
-import ru.vorobev.tasker.service.ChangeServiceImpl;
+import ru.vorobev.tasker.service.ChangeService;
 
 import java.security.Principal;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/changes")
 public class ChangeController {
 
-    private final ChangeServiceImpl changeService;
+    private final ChangeService changeService;
 
     @GetMapping("/{taskId}")
     public List<Change> getChangesByTaskId(@PathVariable Long taskId, Principal principal) {

@@ -5,5 +5,7 @@ public enum Field {
     STATUS,
     DESCRIPTION,
     USER,
-    NONE
+    NONE,
+    FILE_DELETE,
+    FILE_ADD
 }

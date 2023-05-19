@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ChangeServiceImpl {
+public class ChangeService {
 
     private final ChangeRepository changeRepository;
     private final UserRepository userRepository;
