@@ -86,7 +86,7 @@ public class TaskService {
                 }
             }
             taskMapper.updateTaskFromDto(task, old);
-            if (old.getStatus() == Status.ARCHIVED) {
+            if (old.getStatus() == Status.ARCHIVED || old.getUser() == 0L) {
                 old.setUser(null);
             }
             return taskRepository.save(old);
@@ -96,7 +96,6 @@ public class TaskService {
 
     public void deleteTask(Long id, String username) {
         Task task = taskRepository.getTasksByIdIs(id);
-        User user = userService.getUser(username);
 
         if (ObjectUtils.isNotEmpty(task)) {
             if (!userValidator.ownerByTaskId(id, username)) {

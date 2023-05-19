@@ -101,6 +101,9 @@ export default function TaskForm(props) {
                         autoComplete="user"
                         defaultValue={props.task.user}
                     >
+                        <MenuItem key={0} value={0}>
+                            <Typography variant="h7"></Typography>
+                        </MenuItem>
                         {users.map((option) => (
                             <MenuItem key={option.id} value={option.id}>
                                 <Typography variant="h7">{option.fio} {option.username} {option.profession}</Typography>
