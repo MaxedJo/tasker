@@ -21,11 +21,17 @@ export default function TaskPage() {
             .then(r => {
                 setOwner(r.data);
             });
+        axios.get("http://localhost:8080/changes/"
+            + task.id, {headers: authToken()})
+            .then(r => {
+                console.log(r.data);
+            });
         if (task.user != null) axios.get("http://localhost:8080/user-api/user/"
             + task.user, {headers: authToken()})
             .then(r => {
                 setUser(r.data);
             });
+
     }, []);
     const handleEdit = () => {
         setEdit(false);

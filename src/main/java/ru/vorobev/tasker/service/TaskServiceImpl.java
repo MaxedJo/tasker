@@ -8,9 +8,11 @@ import ru.vorobev.tasker.model.*;
 import ru.vorobev.tasker.repository.ChangeRepository;
 import ru.vorobev.tasker.repository.ProjectRepository;
 import ru.vorobev.tasker.repository.TaskRepository;
+import ru.vorobev.tasker.util.UserValidator;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -21,18 +23,20 @@ public class TaskServiceImpl implements TaskService {
     private final ProjectRepository projectRepository;
     private final UserService userService;
     private final ChangeRepository changeRepository;
+    private final UserValidator userValidator;
 
 
     @Override
     public Task saveTask(Task task) {
+        Task created = taskRepository.save(task);
         Change change = Change.builder()
-                .author(task.getOwner())
-                .task(task.getId())
+                .author(created.getOwner())
+                .task(created.getId())
                 .field(Field.NONE)
                 .changeTime(LocalDateTime.now())
                 .build();
         changeRepository.save(change);
-        return taskRepository.save(task);
+        return created;
     }
 
     @Override
@@ -50,20 +54,34 @@ public class TaskServiceImpl implements TaskService {
         User user = userService.getUser(username);
         var old = taskRepository.getTasksByIdIs(task.getId());
         if (ObjectUtils.isNotEmpty(old)) {
-            Project project = projectRepository.findProjectByIdIs(old.getProject());
-            if (!Role.ADMIN.equals(user.getRole())) {
-                if (!project.getMembers().contains(user))
-                    return null;
+            if (!userValidator.projectMemberByTaskId(task.getId(), username)) {
+                return null;
             }
             if (!old.equals(task)) {
                 Change change = Change.builder()
                         .author(user.getId())
+                        .task(old.getId())
                         .changeTime(LocalDateTime.now())
                         .build();
                 if (task.getUser() != old.getUser()) {
                     changeRepository.save(change.withField(Field.USER)
                             .withNewValue(String.valueOf(task.getUser()))
                             .withOldValue(String.valueOf(old.getUser())));
+                }
+                if (task.getStatus() != old.getStatus()) {
+                    changeRepository.save(change.withField(Field.USER)
+                            .withNewValue(String.valueOf(task.getStatus()))
+                            .withOldValue(String.valueOf(old.getStatus())));
+                }
+                if (!Objects.equals(task.getTitle(), old.getTitle())) {
+                    changeRepository.save(change.withField(Field.TITLE)
+                            .withNewValue(task.getTitle())
+                            .withOldValue(old.getTitle()));
+                }
+                if (!Objects.equals(task.getDescription(), old.getDescription())) {
+                    changeRepository.save(change.withField(Field.DESCRIPTION)
+                            .withNewValue(task.getDescription())
+                            .withOldValue(old.getDescription()));
                 }
             }
             taskMapper.updateTaskFromDto(task, old);
