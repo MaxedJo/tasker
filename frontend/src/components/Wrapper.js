@@ -2,6 +2,7 @@ import NavAppBar from "./ui/NavAppBar";
 import {Outlet} from "react-router-dom";
 import Footer from "./ui/Footer";
 import {Box} from "@mui/material";
+import Container from "@mui/material/Container";
 
 function Wrapper() {
     return (
@@ -11,7 +12,9 @@ function Wrapper() {
             minHeight: '100vh',
         }}>
             <NavAppBar/>
-            <Outlet/>
+            <Container>
+                <Outlet/>
+            </Container>
             <Footer/>
         </Box>
     )
