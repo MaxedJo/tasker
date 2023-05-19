@@ -105,3 +105,7 @@ export const uploadFile = (data, taskId) => axios.post(
         headers: {...authToken(), 'Content-Type': 'multipart/form-data'}
     }
 );
+export const getFileList = taskId => axios.get(
+    host + "/files/" + taskId,
+    {headers: authToken()}
+);
