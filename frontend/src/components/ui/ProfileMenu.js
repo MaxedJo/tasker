@@ -7,9 +7,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import * as React from "react";
-import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {logout} from "../../actions/auth";
+import AuthService from "../../auth/AuthService";
 
 const settings = [
     {
@@ -25,8 +24,6 @@ const settings = [
 
 function ProfileMenu() {
     let navigate = useNavigate();
-    const dispatch = useDispatch();
-    const {isLoggedIn} = useSelector(state => state.auth);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -37,14 +34,15 @@ function ProfileMenu() {
                 navigate("/profile");
                 break;
             case 'logout' :
-                dispatch(logout())
+                AuthService.logout();
+                navigate("/login");
                 break;
         }
         setAnchorElUser(null);
     };
     return (
         <>
-            {isLoggedIn
+            {localStorage.getItem("user")
                 ? <Box sx={{flexGrow: 0}}>
                     <Tooltip title="Настройки">
                         <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>

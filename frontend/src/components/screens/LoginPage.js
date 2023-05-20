@@ -9,28 +9,25 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import {login} from "../../actions/auth";
 import {Navigate, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import AuthService from "../../auth/AuthService";
 
 const theme = createTheme();
 
 export default function LoginPage() {
     let navigate = useNavigate();
-    const dispatch = useDispatch();
-    const {isLoggedIn} = useSelector(state => state.auth);
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        dispatch(login(data.get('username'), data.get('password')))
+        AuthService.login(data.get('username'), data.get('password'))
             .then(() => {
                 navigate("/profile");
             });
 
     };
 
-    if (isLoggedIn) {
+    if (localStorage.getItem("user")) {
         return <Navigate to="/profile"/>;
     }
 

@@ -10,26 +10,23 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import {useDispatch, useSelector} from "react-redux";
-import {register} from "../../actions/auth";
 import {Navigate, useNavigate} from "react-router-dom";
+import AuthService from "../../auth/AuthService";
 
 const theme = createTheme();
 
 export default function RegistrationPage() {
-    const dispatch = useDispatch();
-    const {isLoggedIn} = useSelector(state => state.auth);
     let navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        dispatch(register(data.get("username"), data.get("fio"), data.get("password")))
+        AuthService.register(data.get("username"), data.get("fio"), data.get("password"))
             .then(() => {
                 navigate("/profile");
             });
     };
-    if (isLoggedIn) {
+    if (localStorage.getItem("user")) {
         return <Navigate to="/profile"/>;
     }
 
