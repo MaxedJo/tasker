@@ -46,4 +46,4 @@ export const removeProjectMember = (projectId, userId) => get("/project/" + proj
 export const uploadFile = (data, taskId) => post("/files/upload/" + taskId, data, {'Content-Type': 'multipart/form-data'});
 export const getFileList = taskId => get("/files/" + taskId, {});
 export const deleteFile = id => get("/files/delete/" + id, {});
-export const getFile = id => get("/files/" + id, {});
+export const getFile = id => get("/files/files/" + id, {});

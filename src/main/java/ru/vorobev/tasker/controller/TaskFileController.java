@@ -58,6 +58,7 @@ public class TaskFileController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, file.getFileType())
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"")
+                .header("Filename", file.getFileName())
                 .body(Files.readAllBytes(path));
     }
 
