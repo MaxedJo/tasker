@@ -6,7 +6,7 @@ import './assets/FileInput.css';
 import Button from "@mui/material/Button";
 import {uploadFile} from "../../api/client";
 
-const FileInput = ({taskId, label, onChange, error}) => {
+const FileInput = ({taskId, label, onChange, error, onUpload}) => {
     const ref = useRef();
     const [attachment, setAttachment] = useState(null);
 
@@ -21,7 +21,7 @@ const FileInput = ({taskId, label, onChange, error}) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         data.append("file", attachment);
-        uploadFile(data, taskId);
+        uploadFile(data, taskId).then(r => onUpload(r.data));
     }
     return (
         <Box
@@ -65,7 +65,7 @@ const FileInput = ({taskId, label, onChange, error}) => {
                     />
                 </ButtonBase>
             </Box>
-            <Button variant="outlined" type="submit">Загрузить</Button>
+            <Button variant="outlined" type="submit" disabled={!attachment}>Загрузить</Button>
         </Box>
     );
 };

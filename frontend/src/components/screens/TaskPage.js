@@ -12,12 +12,12 @@ import TaskForm from "../ui/TaskForm";
 import Chat from "../ui/Chat";
 import parse from 'html-react-parser';
 import './assets/TaskPage.css';
-import {deleteTask, getFileList, getTaskHistory, getUserInfo} from "../../api/client";
+import {deleteFile, deleteTask, getFileList, getTaskHistory, getUserInfo} from "../../api/client";
 import HistoryList from "../history/HistoryList";
-import dayjs from "dayjs";
-import DeadLineMark from "../ui/DeadLineMark";
 import FileInput from "../ui/FileInput";
 import FileList from "../files/FileList";
+import dayjs from "dayjs";
+import DeadLineMark from "../ui/DeadLineMark";
 
 export default function TaskPage() {
     const load = useLoaderData();
@@ -25,9 +25,9 @@ export default function TaskPage() {
     const [user, setUser] = useState({});
     const [owner, setOwner] = useState({});
     const [edit, setEdit] = useState(true);
-    const [tab, setTab] = useState('1');
     const [history, setHistory] = useState([]);
     const [fileList, setFileList] = useState([]);
+    const [tab, setTab] = useState('1');
     const handleTabChange = (event, newValue) => {
         setTab(newValue);
     };
@@ -52,8 +52,17 @@ export default function TaskPage() {
     const handleEdit = () => {
         setEdit(false);
     }
-    const handleDelete = () => {
 
+    const appendFile = file => {
+        setFileList([...fileList, {...file}])
+    }
+    const removeFile = id => {
+        deleteFile(id).then(() => {
+            setFileList(fileList.filter(file => file.id !== id));
+        })
+    }
+
+    const handleDelete = () => {
         deleteTask(task.id)
             .then(r => {
                 navigate(-1);
@@ -110,11 +119,13 @@ export default function TaskPage() {
                             </TabPanel>
                             <TabPanel value="3">
                                 <FileInput
+                                    onUpload={appendFile}
                                     taskId={task.id}
                                     label="Загрузка файла"
                                     error={false}
                                 />
                                 <FileList
+                                    removeFile={removeFile}
                                     items={fileList}
                                 />
                             </TabPanel>

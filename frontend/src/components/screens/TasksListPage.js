@@ -1,13 +1,23 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {Grid, Typography} from "@mui/material";
+import {Typography} from "@mui/material";
 import Box from "@mui/material/Box";
-import TaskList from "../ui/TaskList";
 import {getTaskAssigned, getTaskCreated} from "../../api/client";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import Tab from "@mui/material/Tab";
+import TabPanel from "@mui/lab/TabPanel";
+import TasksList from "../task/TasksList";
+
 
 export default function TasksListPage() {
     const [created, setCreated] = useState([]);
     const [assigned, setAssigned] = useState([]);
+    const [tab, setTab] = useState('created');
+    const handleTabChange = (event, newValue) => {
+        setTab(newValue);
+    };
+
     useEffect(() => {
         getTaskCreated()
             .then(response => setCreated(response.data));
@@ -16,18 +26,19 @@ export default function TasksListPage() {
     }, []);
     return (
         <Box position="center" sx={{width: '100%', bgcolor: 'background.paper'}}>
-            <nav>
-                <Grid container>
-                    <Grid item mt={4} ml="auto" mr="auto">
-                        <Typography variant="h5" mb={4}>Созданные задачи</Typography>
-                        <TaskList tasks={created}/>
-                    </Grid>
-                    <Grid item mt={4} mr="auto">
-                        <Typography variant="h5" mb={4}>Назначенные задачи</Typography>
-                        <TaskList tasks={assigned}/>
-                    </Grid>
-                </Grid>
-            </nav>
+            <Typography variant="h2" mb={4}>Задачи</Typography>
+            <TabContext value={tab}>
+                <Box ml="auto" mr="auto" maxWidth="50vh" sx={{borderBottom: 1, borderColor: 'divider'}}>
+                    <TabList onChange={handleTabChange}>
+                        <Tab label="Созданные" value="created"/>
+                        <Tab label="Назначенные" value="assigned"/>
+                    </TabList>
+                </Box>
+                <TabPanel value="created">
+                    <TasksList items={created}/>
+                </TabPanel>
+                <TabPanel value="assigned"><TasksList items={assigned}/></TabPanel>
+            </TabContext>
         </Box>
     );
 }

@@ -109,3 +109,7 @@ export const getFileList = taskId => axios.get(
     host + "/files/" + taskId,
     {headers: authToken()}
 );
+export const deleteFile = id => axios.get(
+    host + "/files/delete/" + id,
+    {headers: authToken()}
+);

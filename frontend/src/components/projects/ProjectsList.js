@@ -7,26 +7,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import {fixStatus} from "../../utility";
 import {Link} from "react-router-dom";
+import CompletitionProgress from "../ui/CompletitionProgress";
+import Typography from "@mui/material/Typography";
 
-const fieldName = {
-    'NONE': 'Создание задачи',
-    'TITLE': 'Название задачи',
-    'DESCRIPTION': 'Описание',
-    'USER': 'Ответственный',
-    'FILE_DELETE': "Удален файл",
-    'FILE_ADD': 'Добавлен файл',
-    'DEADLINE': 'Срок выполнения',
-    'STATUS': "Статус",
-}
 const columns = [
-    {id: 'changeTime', label: 'Дата', minWidth: 170},
-    {id: 'user', label: 'Пользователь', minWidth: 100},
-    {id: 'field', label: 'Поле', minWidth: 170,},
-    {id: 'changes', label: 'Изменения', minWidth: 170,},
+    {id: 'title', label: 'Проект', minWidth: 170},
+    {id: 'progress', label: 'Прогресс', minWidth: 50, align: 'center'},
 ];
-export default function HistoryList(props) {
+export default function ProjectsList(props) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -34,22 +23,19 @@ export default function HistoryList(props) {
         setPage(newPage);
     };
 
-    const parseChanges = (from, to, field) => {
-        let res = [];
-        if (from) {
-            res.push(field === 'STATUS' ? fixStatus(from) : from);
-        }
-        if (to) {
-            res.push(field === 'STATUS' ? fixStatus(to) : to);
-        }
-        return res.join(' → ');
-    }
+    const renderProgress = (completed, active) => (
+        <>
+            <CompletitionProgress
+                value={completed / active * 100}
+            />
+            <Typography style={{fontSize: '0.8em'}} component="div">{completed + "/" + active}</Typography>
+        </>
+    )
+
     const rows = props.items.map(item => ({
-        id: item.id,
-        changeTime: (new Date(item.changeTime,)).toLocaleString(),
-        user: <Link to={'/profile/' + item.author}>{item.username}</Link>,
-        field: fieldName.hasOwnProperty(item.field) ? fieldName[item.field] : 'Общие',
-        changes: parseChanges(item.oldValue, item.newValue, item.field),
+        ...item,
+        title: <Link to={'/projects/' + item.id}>{item.title}</Link>,
+        progress: renderProgress(item.completedTasks, item.activeTasks)
     }));
 
     const handleChangeRowsPerPage = (event) => {

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,47 +10,47 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import {fixStatus} from "../../utility";
 import {Link} from "react-router-dom";
+import {getUserList} from "../../api/client";
+import DeadLineMark from "../ui/DeadLineMark";
 
-const fieldName = {
-    'NONE': 'Создание задачи',
-    'TITLE': 'Название задачи',
-    'DESCRIPTION': 'Описание',
-    'USER': 'Ответственный',
-    'FILE_DELETE': "Удален файл",
-    'FILE_ADD': 'Добавлен файл',
-    'DEADLINE': 'Срок выполнения',
-    'STATUS': "Статус",
-}
 const columns = [
-    {id: 'changeTime', label: 'Дата', minWidth: 170},
-    {id: 'user', label: 'Пользователь', minWidth: 100},
-    {id: 'field', label: 'Поле', minWidth: 170,},
-    {id: 'changes', label: 'Изменения', minWidth: 170,},
+    {id: 'mark', label: '', minWidth: 0, align: 'left'},
+    {id: 'title', label: 'Задача', minWidth: 170},
+    {id: 'status', label: 'Статус', minWidth: 100},
+    {id: 'deadline', label: 'Срок', minWidth: 100},
+    {id: 'user', label: 'Исполнитель', minWidth: 100},
+    {id: 'owner', label: 'Постановщик', minWidth: 100},
 ];
-export default function HistoryList(props) {
+export default function TasksList(props) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [userList, setUserList] = React.useState({});
+
+    useEffect(() => {
+        getUserList().then(r => {
+            let i = 0, c = r.data.length, list = {};
+            for (; i < c; ++i) {
+                list[r.data[i].id] = r.data[i];
+            }
+            setUserList(list);
+        })
+    }, [])
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
 
-    const parseChanges = (from, to, field) => {
-        let res = [];
-        if (from) {
-            res.push(field === 'STATUS' ? fixStatus(from) : from);
-        }
-        if (to) {
-            res.push(field === 'STATUS' ? fixStatus(to) : to);
-        }
-        return res.join(' → ');
-    }
     const rows = props.items.map(item => ({
-        id: item.id,
-        changeTime: (new Date(item.changeTime,)).toLocaleString(),
-        user: <Link to={'/profile/' + item.author}>{item.username}</Link>,
-        field: fieldName.hasOwnProperty(item.field) ? fieldName[item.field] : 'Общие',
-        changes: parseChanges(item.oldValue, item.newValue, item.field),
+        ...item,
+        title: <Link to={"/tasks/" + item.id}>{item.title}</Link>,
+        status: fixStatus(item.status),
+        owner: (userList.hasOwnProperty(item.owner) ?
+            <Link to={"/profile/" + item.owner}>{userList[item.owner].username}</Link>
+            : 'Неизвестный'),
+        user: (userList.hasOwnProperty(item.user) ?
+            <Link to={"/profile/" + item.owner}>{userList[item.user].username}</Link>
+            : ''),
+        mark: <DeadLineMark task={item}/>
     }));
 
     const handleChangeRowsPerPage = (event) => {
