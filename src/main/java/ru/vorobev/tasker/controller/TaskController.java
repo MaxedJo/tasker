@@ -38,6 +38,7 @@ public class TaskController {
 
     @PostMapping("/edit")
     public Task updateTask(@RequestBody Task task, Principal principal) {
+        System.out.println("UPDATE " + task);
         return taskService.updateTask(task, principal.getName());
     }
 
