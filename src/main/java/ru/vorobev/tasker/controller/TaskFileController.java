@@ -3,9 +3,6 @@ package ru.vorobev.tasker.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +13,6 @@ import ru.vorobev.tasker.service.TaskFileService;
 
 import java.io.*;
 import java.net.URLConnection;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
@@ -55,38 +51,22 @@ public class TaskFileController {
         return files;
     }
 
-    @SneakyThrows
-    @GetMapping("/files/{id}")
-    public ResponseEntity<byte[]> findById(@PathVariable Long id) {
-        TaskFile file = taskFileService.findById(id);
-        Path path = Paths.get("files/" + file.getId() + "/" + file.getFileName());
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, file.getFileType())
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"")
-                .body(Files.readAllBytes(path));
-    }
-
-    @RequestMapping("/file/{fileName:.+}")
+    @RequestMapping("/files/{id}")
     public void downloadPDFResource(HttpServletRequest request, HttpServletResponse response,
-                                    @PathVariable("fileName") Long id) throws IOException {
-        TaskFile files = taskFileService.findById(id);
-        Path path = Paths.get("files/" + files.getId() + "/" + files.getFileName());
+                                    @PathVariable Long id) throws IOException {
+        TaskFile fileDB = taskFileService.findById(id);
+        Path path = Paths.get("files/" + fileDB.getId() + "/" + fileDB.getFileName());
         File file = path.toFile();
         if (file.exists()) {
-
             String mimeType = URLConnection.guessContentTypeFromName(file.getName());
             if (mimeType == null) {
                 mimeType = "application/octet-stream";
             }
-
             response.setContentType(mimeType);
             response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
             response.setContentLength((int) file.length());
-
             InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-
             FileCopyUtils.copy(inputStream, response.getOutputStream());
-
         }
     }
 
