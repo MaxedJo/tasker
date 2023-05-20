@@ -4,7 +4,7 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {Button} from "@mui/material";
 import Grid from "@mui/material/Grid";
-import {useLoaderData, useNavigate} from "react-router-dom";
+import {Navigate, useLoaderData, useNavigate} from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -36,6 +36,9 @@ export default function CreateTask(props) {
                 setTask(r.data);
                 nav(-1);
             });
+    }
+    if (!localStorage.getItem("user")) {
+        return <Navigate to="/login"/>;
     }
     return (
         <Box>

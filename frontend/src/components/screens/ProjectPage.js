@@ -1,4 +1,4 @@
-import {Outlet, useLoaderData, useNavigate} from "react-router-dom";
+import {Navigate, Outlet, useLoaderData, useNavigate} from "react-router-dom";
 import {BottomNavigation, BottomNavigationAction, Box, ListItemText, Typography} from "@mui/material";
 import React, {useState} from "react";
 import PersonIcon from "@mui/icons-material/Person";
@@ -63,6 +63,11 @@ export default function ProjectPage() {
                 return <CreateProject project={data}/>
         }
     }
+
+    if (!localStorage.getItem("user")) {
+        return <Navigate to="/login"/>;
+    }
+
     return (
         <Box>
             <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'inline'}}>

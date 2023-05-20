@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import {Button} from "@mui/material";
 import Grid from "@mui/material/Grid";
-import {useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import {updateProject} from "../../api/client";
 import ReactQuill from 'react-quill';
@@ -26,6 +26,9 @@ export default function CreateProject(props) {
             .then(r => {
                 nav("/projects/" + r.data.id);
             });
+    }
+    if (!localStorage.getItem("user")) {
+        return <Navigate to="/login"/>;
     }
     return (
         <Box>
