@@ -53,7 +53,7 @@ export default function LoginPage() {
                     <Typography component="h1" variant="h5">
                         Вход
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
+                    <Box component="form" onSubmit={handleSubmit} sx={{mt: 1}}>
                         <TextField
                             margin="normal"
                             required

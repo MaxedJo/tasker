@@ -30,7 +30,7 @@ export default function TasksListPage() {
     }
     return (
         <Box position="center" sx={{width: '100%', bgcolor: 'background.paper'}}>
-            <Typography variant="h2" mb={4}>Задачи</Typography>
+            <Typography variant="h5" mt={3} mb={4}>Задачи</Typography>
             <TabContext value={tab}>
                 <Box ml="auto" mr="auto" maxWidth="50vh" sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <TabList onChange={handleTabChange}>
