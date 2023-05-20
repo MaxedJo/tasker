@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,18 +12,21 @@ import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {Navigate, useNavigate} from "react-router-dom";
 import AuthService from "../../auth/AuthService";
+import ErrorDialog from "../ui/ErrorDialog";
 
 const theme = createTheme();
 
 export default function LoginPage() {
     let navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState('')
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         AuthService.login(data.get('username'), data.get('password'))
             .then(() => {
-                navigate("/profile");
+                setErrorMessage('Неверные пароль или логин');
+                //navigate("/profile");
             });
 
     };
@@ -84,6 +88,7 @@ export default function LoginPage() {
                     </Box>
                 </Box>
             </Container>
+            <ErrorDialog message={errorMessage} onClose={() => setErrorMessage('')}/>
         </ThemeProvider>
     );
 }
