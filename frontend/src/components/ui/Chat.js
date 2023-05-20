@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import SendIcon from "@mui/icons-material/Send";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
@@ -18,16 +18,24 @@ export default function Chat(props) {
     const send = () => {
         const date = new Date();
         let str = date.getFullYear() + "-" + fix(date.getMonth().toString()) + "-" + date.getDate() + "T" + date.toLocaleTimeString()
-        sendMessage({
+        const toSend = {
             text: message,
             author: user.id,
             task: props.task,
             localDateTime: str
+        };
+        sendMessage(toSend).then(res => {
+            console.log(123123)
+            setMessages([...messages, res.data])
         });
         setMessage("");
-        window.location.reload()
     }
     const [message, setMessage] = useState("");
+    const [messages, setMessages] = useState([]);
+
+    useEffect(() => {
+        setMessages(props.messages)
+    }, [props.messages])
 
     function profile(author) {
         nav("/profile/" + author);
@@ -44,7 +52,7 @@ export default function Chat(props) {
                     </IconButton>
                 }}
             />
-            {props.messages ? [...props.messages].reverse().map(mes => (
+            {messages ? [...messages].reverse().map(mes => (
                 <Box key={mes.id} maxWidth="100vh" mt={1} mr={1}>
                     {user.id === mes.author ?
                         <Box boxShadow={2} borderRadius={5} sx={{display: "flex"}}>
@@ -62,7 +70,7 @@ export default function Chat(props) {
                             </Box>
                         </Box>
                         :
-                        <Box boxShadow={2} borderRadius={5} bord ml="auto" flexDirection="row" sx={{display: "flex"}}>
+                        <Box boxShadow={2} borderRadius={5} ml="auto" flexDirection="row" sx={{display: "flex"}}>
                             <Box mt={0.5} ml="auto" sx={{display: "flex"}} flexDirection={"column"}>
                                 <Typography sx={{color: "grey", fontSize: "0.8rem", display: "inline"}} ml="auto"
                                             mr={1}>{mes.localDateTime.replace("T", " ")}</Typography>
