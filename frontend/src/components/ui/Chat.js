@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import SendIcon from "@mui/icons-material/Send";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
@@ -18,16 +18,22 @@ export default function Chat(props) {
     const send = () => {
         const date = new Date();
         let str = date.getFullYear() + "-" + fix(date.getMonth().toString()) + "-" + date.getDate() + "T" + date.toLocaleTimeString()
-        sendMessage({
+        const toSend = {
             text: message,
             author: user.id,
             task: props.task,
             localDateTime: str
-        });
+        };
+        sendMessage(toSend);
+        props.messages.push(toSend);
         setMessage("");
-        window.location.reload()
     }
     const [message, setMessage] = useState("");
+    const [messages, setMessages] = useState([]);
+
+    useEffect(() => {
+        setMessages(props.messages)
+    }, [props.messages])
 
     function profile(author) {
         nav("/profile/" + author);
