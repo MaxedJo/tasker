@@ -51,7 +51,6 @@ export default function TaskForm(props) {
                  flexDirection: 'column',
                  alignItems: 'center',
              }}
-             noValidate
              onSubmit={handleSubmit}
              autoComplete="off">
             <Grid container spacing={2}>
@@ -73,7 +72,6 @@ export default function TaskForm(props) {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                        required
                         fullWidth
                         select
                         id="user"

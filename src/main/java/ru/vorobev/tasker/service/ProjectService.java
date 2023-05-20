@@ -36,8 +36,12 @@ public class ProjectService {
         return projectRepository.findProjectByMembers_Id(user.getId()).stream().peek(Project::workProgress).collect(Collectors.toList());
     }
 
-    public Project getProject(Long id, String username) {
+    public Project getProject(Long id, String username) throws RuntimeException {
+
         Project project = projectRepository.findProjectByIdIs(id);
+        User user = userService.getUser(username);
+        if (!userValidator.projectMemberById(id, username))
+            throw new RuntimeException("Нет доступа к данному проекту");
         project.workProgress();
         List<Task> tasks = project.getTasks();
         List<Task> taskToDelete = tasks.stream()

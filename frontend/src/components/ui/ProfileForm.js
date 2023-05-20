@@ -30,13 +30,11 @@ export default function ProfileForm(props) {
                  flexDirection: 'column',
                  alignItems: 'center',
              }}
-             noValidate
              onSubmit={handleSubmit}
              autoComplete="off">
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <TextField
-                        // disabled={true}
                         required
                         fullWidth
                         id="username"
@@ -55,7 +53,6 @@ export default function ProfileForm(props) {
                         id="fio"
                         label="ФИО"
                         defaultValue={props.userData.fio}
-                        autoFocus
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -64,7 +61,7 @@ export default function ProfileForm(props) {
                         name="profession"
                         fullWidth
                         id="profession"
-                        label="Профессия"
+                        label="Должность"
                         defaultValue={props.userData.profession}
                         autoFocus
                     />

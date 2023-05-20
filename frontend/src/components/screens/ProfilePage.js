@@ -28,7 +28,7 @@ export default function ProfilePage() {
             value: userBase.fio,
         },
         {
-            key: 'Профессия',
+            key: 'Должность',
             value: userBase.profession,
         },
     ]

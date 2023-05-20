@@ -50,7 +50,6 @@ export default function CreateTask(props) {
                      flexDirection: 'column',
                      alignItems: 'center',
                  }}
-                 noValidate
                  onSubmit={handleSubmit}
                  autoComplete="off">
                 <Grid container spacing={2}>

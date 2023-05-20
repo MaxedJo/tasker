@@ -24,7 +24,7 @@ export default function CreateProject(props) {
         }
         updateProject(projectFromData)
             .then(r => {
-                nav("/projects/" + r.data.id);
+                window.location.reload();
             });
     }
     if (!localStorage.getItem("user")) {
@@ -40,7 +40,6 @@ export default function CreateProject(props) {
                      flexDirection: 'column',
                      alignItems: 'center',
                  }}
-                 noValidate
                  onSubmit={handleSubmit}
                  autoComplete="off">
                 <Grid container spacing={2}>
@@ -53,6 +52,7 @@ export default function CreateProject(props) {
                             name="title"
                             autoComplete="title"
                             defaultValue={props.project ? props.project.title : ""}
+                            autoFocus
                         />
                     </Grid>
                     <Grid item xs={12}>

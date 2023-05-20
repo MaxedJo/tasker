@@ -88,7 +88,7 @@ export default function TaskPage() {
                 ?
                 <>
                     <Box>
-                        <Typography m={3} variant="h4">{task.title}</Typography>
+                        <Typography m={3} variant="h3">{task.title}</Typography>
                         <StatusSwitcher task={task} owner={project.owner.id}/>
                         <Box
                             sx={{gap: 2}}
