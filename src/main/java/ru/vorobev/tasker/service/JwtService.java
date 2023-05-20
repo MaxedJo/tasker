@@ -32,17 +32,10 @@ public class JwtService {
 
     public boolean isTokenValid(String token, UserDetails userDetails){
         String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()))
-                && !isTokenExpired(token);
+        return (username.equals(userDetails.getUsername()));
     }
 
-    private boolean isTokenExpired(String token) {
-        return extractExpireDate(token).before(new Date());
-    }
 
-    private Date extractExpireDate(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
 
     public String generate(
             Map<String, Object> claims,
@@ -50,7 +43,6 @@ public class JwtService {
     ){
         return Jwts.builder().setClaims(claims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(Long.MAX_VALUE))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
