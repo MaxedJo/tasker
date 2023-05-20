@@ -10,7 +10,6 @@ import TableRow from '@mui/material/TableRow';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Link from "@mui/material/Link";
-import {getFile} from "../../api/client";
 
 const columns = [
     {id: 'fileName', label: 'Файл', minWidth: 170},
@@ -40,40 +39,7 @@ export default function FileList(props) {
         delete: <IconButton aria-label="delete" onClick={() => props.removeFile(item.fileId)}>
             <DeleteIcon/></IconButton>
     }));
-    const b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
-        const byteCharacters = atob(b64Data);
-        const byteArrays = [];
 
-        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-            const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-            const byteNumbers = new Array(slice.length);
-            for (let i = 0; i < slice.length; i++) {
-                byteNumbers[i] = slice.charCodeAt(i);
-            }
-
-            const byteArray = new Uint8Array(byteNumbers);
-            byteArrays.push(byteArray);
-        }
-
-        const blob = new Blob(byteArrays, {type: contentType});
-        return blob;
-    }
-    const download = (id, fileName) => {
-        getFile(id).then(res => {
-            //const blob1 = b64toBlob(res.data, res.headers.getContentType());
-            // const blobUrl = URL.createObjectURL(blob1);
-            //
-            // window.location = blobUrl;
-            let link = document.createElement('a');
-            link.download = fileName;
-            console.log(res.data)
-            let blob = new Blob([res.data], {type: res.headers.getContentType()});
-            link.href = URL.createObjectURL(blob);
-            link.click();
-            URL.revokeObjectURL(link.href);
-        })
-    }
     return (
         <Paper sx={{width: '100%', overflow: 'hidden'}}>
             {props.items.length > 0 ?
