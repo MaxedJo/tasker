@@ -26,11 +26,7 @@ export default function RegistrationPage() {
         const data = new FormData(event.currentTarget);
         dispatch(register(data.get("username"), data.get("fio"), data.get("password")))
             .then(() => {
-                console.log("Register successful");
                 navigate("/profile");
-            })
-            .catch(() => {
-                console.log("Register failed");
             });
     };
     if (isLoggedIn) {

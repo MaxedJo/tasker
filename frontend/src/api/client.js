@@ -6,16 +6,12 @@ const host = process.env.REACT_APP_BACKEND_HOST;
 const get = (uri, headers) =>
     axios.get(host + uri, {headers: {...headers, ...authToken()}})
         .catch(error => {
-            if (error.response && error.response.status === 403) {
-                localStorage.removeItem('user')
-            }
+            console.log(error.response.data)
         });
 const post = (uri, data, headers) =>
     axios.post(host + uri, data, {headers: {...headers, ...authToken()}})
         .catch(error => {
-            if (error.response && error.response.status === 403) {
-                localStorage.removeItem('user')
-            }
+            console.log(error.response.data)
         });
 
 export const getUserInfo = userId => get("/user-api/user/" + userId, {});

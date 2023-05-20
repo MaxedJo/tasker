@@ -17,9 +17,7 @@ class AuthService {
                 return response.data;
             })
             .catch(error => {
-                if (error.response && error.response.status === 403) {
-                    localStorage.removeItem('user')
-                }
+                console.log(error.response.data)
             })
             ;
     }
@@ -40,9 +38,8 @@ class AuthService {
             return response;
         })
             .catch(error => {
-                if (error.response && error.response.status === 403) {
-                    localStorage.removeItem('user')
-                }
+                console.log(error.response.data)
+
             })
             ;
     }
