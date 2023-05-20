@@ -94,7 +94,7 @@ public class TaskService {
             System.out.println("TEST");
             taskMapper.updateTaskFromDto(task, old);
             if (old.getStatus() == Status.ARCHIVED
-//                    || Objects.equals(task.getUser(),0L)
+                    || Objects.equals(task.getUser(), 0L)
             ) {
                 old.setUser(null);
             }

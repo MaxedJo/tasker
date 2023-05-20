@@ -103,7 +103,7 @@ export default function TaskForm(props) {
                         label="Испольнитель"
                         name="user"
                         autoComplete="user"
-                        defaultValue={props.task.user}
+                        defaultValue={props.task.user ? props.task.user : 0}
                     >
                         <MenuItem key={0} value={0}>
                             <Typography variant="h7"></Typography>
