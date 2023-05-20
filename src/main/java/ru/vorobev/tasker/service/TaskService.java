@@ -51,6 +51,9 @@ public class TaskService {
     }
 
     public Task updateTask(Task task, String username) {
+        if (Objects.equals(task.getUser(), 0L)) {
+            task.setUser(null);
+        }
         User user = userService.getUser(username);
         var old = taskRepository.getTasksByIdIs(task.getId());
         System.out.println(task);
@@ -93,9 +96,7 @@ public class TaskService {
             }
             System.out.println("TEST");
             taskMapper.updateTaskFromDto(task, old);
-            if (old.getStatus() == Status.ARCHIVED
-                    || Objects.equals(task.getUser(), 0L)
-            ) {
+            if (old.getStatus() == Status.ARCHIVED) {
                 old.setUser(null);
             }
             System.out.println(task);

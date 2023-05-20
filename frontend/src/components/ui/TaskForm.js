@@ -30,7 +30,7 @@ export default function TaskForm(props) {
             status: data.get("status"),
             id: props.task.id,
             user: data.get("user"),
-            deadline: deadline.format('YYYY-MM-DD'),
+            deadline: deadline.isValid() ? deadline.format('YYYY-MM-DD') : null,
         }
         updateTask(taskFromData)
             .then(r => {
