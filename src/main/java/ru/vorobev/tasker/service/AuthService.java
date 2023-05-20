@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.vorobev.tasker.controller.dto.AuthRequest;
@@ -20,10 +21,15 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    public AuthenticationResponse auth(AuthRequest request) {
-        authenticationManager.authenticate(
-          new UsernamePasswordAuthenticationToken(request.getUsername(),request.getPassword())
-        );
+
+    public AuthenticationResponse auth(AuthRequest request) throws RuntimeException {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+            );
+        } catch (AuthenticationException e) {
+            throw new RuntimeException("Неправильный логин или пароль");
+        }
         User user = userRepository.findByUsername(request.getUsername()).orElseThrow();
         String token = jwtService.generate(user);
         return AuthenticationResponse.builder()

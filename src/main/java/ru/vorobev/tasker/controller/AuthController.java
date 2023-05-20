@@ -13,8 +13,6 @@ import ru.vorobev.tasker.controller.dto.AuthRequest;
 import ru.vorobev.tasker.controller.dto.RegisterRequest;
 import ru.vorobev.tasker.service.AuthService;
 
-import java.util.NoSuchElementException;
-
 @Controller
 @RequestMapping("/auth")
 @CrossOrigin
@@ -40,7 +38,7 @@ public class AuthController {
     ) {
         try {
             return ResponseEntity.ok(authService.auth(request));
-        } catch (NoSuchElementException e) {
+        } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
