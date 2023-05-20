@@ -54,6 +54,7 @@ export default function TaskPage() {
     }
 
     const appendFile = file => {
+        console.log(file)
         setFileList([...fileList, {...file}])
     }
     const removeFile = id => {

@@ -43,7 +43,7 @@ public class TaskFileController {
                             .toUriString();
                     return FileResponse.builder()
                             .fileType(file.getFileType())
-                            .fileId(file.getId())
+                            .id(file.getId())
                             .fileName(file.getFileName())
                             .fileDownloadUri(fileDownloadUri)
                             .size((file.getFileSize()))

@@ -11,6 +11,6 @@ public class FileResponse {
     private String fileName;
     private String fileDownloadUri;
     private String fileType;
-    private Long fileId;
+    private Long id;
     private Long size;
 }

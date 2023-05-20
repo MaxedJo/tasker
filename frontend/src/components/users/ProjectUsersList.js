@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-import UsersList from "./UsresList";
+import UsersList from "./UsersList";
 import Toolbar from "@mui/material/Toolbar";
 import {arrayIntersectionFilter, validateUser} from "../../utility";
 import {Button, Select} from "@mui/material";

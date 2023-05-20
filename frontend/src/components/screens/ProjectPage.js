@@ -11,7 +11,7 @@ import {deleteProject, leaveProject} from "../../api/client";
 import parse from "html-react-parser";
 import CompletitionProgress from "../ui/CompletitionProgress";
 import ProjectTasksList from "../task/ProjectTasksList";
-import ProjectUsersList from "../usres/ProjectUsresList";
+import ProjectUsersList from "../users/ProjectUsersList";
 
 
 const saveCurrent = id => localStorage.setItem('PROJECT_ACTIVE_TAB', id);

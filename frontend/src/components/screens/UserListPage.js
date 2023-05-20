@@ -1,7 +1,7 @@
 import {Box} from "@mui/material";
 import {useLoaderData} from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import UsersList from "../usres/UsresList";
+import UsersList from "../users/UsersList";
 
 export default function UserListPage() {
     const load = useLoaderData();

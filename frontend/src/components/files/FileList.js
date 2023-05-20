@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -18,6 +19,17 @@ const columns = [
 export default function FileList(props) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rows, setRows] = React.useState([]);
+
+    useEffect(() => {
+        setRows(props.items.map(item => ({
+            ...item,
+            fileName: <Link
+                href={process.env.REACT_APP_BACKEND_HOST + '/files/files/' + item.id}>{item.fileName}</Link>,
+            delete: <IconButton aria-label="delete" onClick={() => props.removeFile(item.id)}>
+                <DeleteIcon/></IconButton>
+        })));
+    }, [props.items])
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -31,14 +43,6 @@ export default function FileList(props) {
     function defaultLabelDisplayedRows({from, to, count}) {
         return `${from}–${to} из ${count !== -1 ? count : `больше чем ${to}`}`;
     }
-
-    const rows = props.items.map(item => ({
-        ...item,
-        fileName: <Link
-            href={process.env.REACT_APP_BACKEND_HOST + '/files/files/' + item.fileId}>{item.fileName}</Link>,
-        delete: <IconButton aria-label="delete" onClick={() => props.removeFile(item.fileId)}>
-            <DeleteIcon/></IconButton>
-    }));
 
     return (
         <Paper sx={{width: '100%', overflow: 'hidden', margin: '0 0 40px'}}>
