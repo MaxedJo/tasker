@@ -4,8 +4,6 @@ import * as React from "react";
 import {Button} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
-import authToken from "../../authToken";
 import {updateUser} from "../../api/client";
 
 export default function ProfileForm(props) {
@@ -20,8 +18,9 @@ export default function ProfileForm(props) {
             profession: data.get("profession"),
 
         }
-        updateUser(userFromData);
-        nav("/login");
+        updateUser(userFromData).then(() => {
+            nav("/login");
+        })
     }
     return (
         <Box component="form"
