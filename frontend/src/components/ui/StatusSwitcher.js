@@ -10,13 +10,13 @@ export default function StatusSwitcher(props) {
     function generateButtons(status) {
         switch (status) {
             case 'OPENED':
-                return <Button onClick={() => changeStatus('WORKING')}>В работу</Button>
+                return <Button key={0} onClick={() => changeStatus('WORKING')}>В работу</Button>
             case 'WORKING':
-                return [<Button onClick={() => changeStatus('OPENED')}>Необходимо уточнение</Button>,
-                    <Button onClick={() => changeStatus('TESTING')}>На тестирование</Button>]
+                return [<Button key={0} onClick={() => changeStatus('OPENED')}>Необходимо уточнение</Button>,
+                    <Button key={1} onClick={() => changeStatus('TESTING')}>На тестирование</Button>]
             case 'TESTING':
-                return [<Button onClick={() => changeStatus('WORKING')}>На доработку</Button>,
-                    <Button onClick={() => changeStatus('CLOSED')}>Завершить</Button>]
+                return [<Button key={0} onClick={() => changeStatus('WORKING')}>На доработку</Button>,
+                    <Button key={1} onClick={() => changeStatus('CLOSED')}>Завершить</Button>]
         }
     }
 
@@ -42,7 +42,7 @@ export default function StatusSwitcher(props) {
                 {generateButtons(props.task.status)}
                 {props.task.status !== 'ARCHIVED' ?
                     validateUser([props.owner],
-                        <Button onClick={() => changeStatus('ARCHIVED')}>В архив</Button>) : <></>}
+                        <Button key={2} onClick={() => changeStatus('ARCHIVED')}>В архив</Button>) : <></>}
             </ButtonGroup>
         </Box>
     );
