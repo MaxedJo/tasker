@@ -43,8 +43,6 @@ public class UserService implements UserDetailsService {
     public User updateUser(User user) {
         var old = userRepository.findByUsername(user.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         mapper.updateCustomerFromDto(user, old);
-        System.out.println("||" + user);
-        System.out.println(old);
         return userRepository.save(old);
     }
 

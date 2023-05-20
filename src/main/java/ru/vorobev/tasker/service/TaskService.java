@@ -55,8 +55,6 @@ public class TaskService {
         }
         User user = userService.getUser(username);
         var old = taskRepository.getTasksByIdIs(task.getId());
-        System.out.println(task);
-        System.out.println(old);
         if (ObjectUtils.isNotEmpty(old)) {
             if (!userValidator.projectMemberByTaskId(task.getId(), username)) {
                 return null;
@@ -97,13 +95,10 @@ public class TaskService {
                     changeRepository.save(change.withField(Field.DESCRIPTION));
                 }
             }
-            System.out.println("TEST");
             taskMapper.updateTaskFromDto(task, old);
             if (old.getStatus() == Status.ARCHIVED) {
                 old.setUser(null);
             }
-            System.out.println(task);
-            System.out.println(old);
             return taskRepository.save(old);
         }
         return null;

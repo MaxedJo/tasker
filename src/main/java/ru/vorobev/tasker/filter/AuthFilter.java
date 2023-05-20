@@ -36,7 +36,6 @@ public class AuthFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
         String jwt;
         String username;
-        System.out.println("Header" + authHeader);
         if (ObjectUtils.isEmpty(authHeader) || !authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request,response);
             return;
@@ -44,12 +43,10 @@ public class AuthFilter extends OncePerRequestFilter {
         jwt = authHeader.substring(7);
 
         username = jwtService.extractUsername(jwt);
-        System.out.println("USER : "+username);
         if(!ObjectUtils.isEmpty(username) && ObjectUtils.isEmpty(SecurityContextHolder.getContext().getAuthentication())) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
             if (jwtService.isTokenValid(jwt,userDetails)){
-                System.out.println("VAILD");
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,

@@ -25,7 +25,6 @@ export default function Chat(props) {
             localDateTime: str
         };
         sendMessage(toSend).then(res => {
-            console.log(123123)
             setMessages([...messages, res.data])
         });
         setMessage("");

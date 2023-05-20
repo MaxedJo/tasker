@@ -59,7 +59,6 @@ public class ProjectService {
     public Project updateProject(Project project, String username) {
         User user = userService.getUser(username);
         var old = projectRepository.findProjectByIdIs(project.getId());
-        System.out.println(old);
         if (ObjectUtils.isNotEmpty(old)) {
             if (!Objects.equals(user.getId(), old.getOwner().getId()) && !Role.ADMIN.equals(user.getRole()))
                 return null;
@@ -125,7 +124,6 @@ public class ProjectService {
 
     public Project getProjectsForTask(Long taskId) {
         Task task = taskRepository.getTasksByIdIs(taskId);
-        System.out.println(task);
         return projectRepository.findProjectByIdIs(task.getProject());
     }
 }

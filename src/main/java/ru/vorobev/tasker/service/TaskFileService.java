@@ -72,7 +72,6 @@ public class TaskFileService {
                 .oldValue(file.getFileName())
                 .field(Field.FILE_DELETE)
                 .build());
-        System.out.println(id);
         taskFileRepository.deleteById(id);
     }
 }

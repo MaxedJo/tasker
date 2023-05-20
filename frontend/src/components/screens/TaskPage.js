@@ -12,7 +12,15 @@ import TaskForm from "../ui/TaskForm";
 import Chat from "../ui/Chat";
 import parse from 'html-react-parser';
 import './assets/TaskPage.css';
-import {deleteFile, deleteTask, getFileList, getProjectByTask, getTaskHistory, getUserInfo} from "../../api/client";
+import {
+    deleteFile,
+    deleteTask,
+    getFileList,
+    getProjectByTask,
+    getTask,
+    getTaskHistory,
+    getUserInfo
+} from "../../api/client";
 import HistoryList from "../history/HistoryList";
 import FileInput from "../ui/FileInput";
 import FileList from "../files/FileList";
@@ -31,6 +39,7 @@ export default function TaskPage() {
     const [edit, setEdit] = useState(true);
     const [history, setHistory] = useState([]);
     const [fileList, setFileList] = useState([]);
+    const [messages, setMessages] = useState(load.data.messages);
     const [tab, setTab] = useState('1');
     const handleTabChange = (event, newValue) => {
         setTab(newValue);
@@ -53,14 +62,17 @@ export default function TaskPage() {
         getProjectByTask(task.id).then(r => {
             setProject(r.data);
         });
-
+        const timer = 10000;
+        const interval = setInterval(() => {
+            getTask(task.id).then(r => setMessages(r.data.messages));
+        }, timer);
+        return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
     }, []);
     const handleEdit = () => {
         setEdit(false);
     }
 
     const appendFile = file => {
-        console.log(file)
         setFileList([...fileList, {...file}])
     }
     const removeFile = id => {
@@ -155,7 +167,7 @@ export default function TaskPage() {
                                     <Tab label="Файлы" value="3"/>
                                 </TabList>
                             </Box>
-                            <TabPanel value="1"><Chat task={task.id} messages={task.messages}/></TabPanel>
+                            <TabPanel value="1"><Chat task={task.id} messages={messages}/></TabPanel>
                             <TabPanel value="2">
                                 <HistoryList items={history}/>
                             </TabPanel>
