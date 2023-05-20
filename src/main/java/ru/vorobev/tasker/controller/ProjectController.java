@@ -24,7 +24,11 @@ public class ProjectController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getProject(@PathVariable Long id, Principal principal) {
-        return ResponseEntity.ok(service.getProject(id, principal.getName()));
+        try {
+            return ResponseEntity.ok(service.getProject(id, principal.getName()));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
     }
 
     @PostMapping("/edit")

@@ -28,6 +28,15 @@ public class UserValidator {
         return true;
     }
 
+    public boolean projectMemberById(Long id, String username) {
+        User user = userService.getUser(username);
+        Project project = projectRepository.findProjectByIdIs(id);
+        if (!Role.ADMIN.equals(user.getRole())) {
+            return project.getMembers().contains(user);
+        }
+        return true;
+    }
+
     public boolean ownerByTaskId(Long taskId, String username) {
         User user = userService.getUser(username);
         Task task = taskRepository.getTasksByIdIs(taskId);

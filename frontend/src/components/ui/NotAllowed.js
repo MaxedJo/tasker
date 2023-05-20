@@ -2,6 +2,8 @@ import Typography from "@mui/material/Typography";
 import {Box} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
+import NavAppBar from "./NavAppBar";
+import Footer from "./Footer";
 
 export default function NotAllowed() {
     const navigate = useNavigate();
@@ -12,8 +14,15 @@ export default function NotAllowed() {
         }
     }, []);
     return (
-        <Box m="auto" position="absolute">
-            <Typography maxWidth="70vh" variant="h3">У вас недостаточно прав для просмотра данной страницы</Typography>
+        <Box className="App" sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: '100vh',
+            justifyContent: 'center'
+        }}>
+            <NavAppBar/>
+            <Typography m="auto" variant={"h2"}>Нет доступа</Typography>
+            <Footer/>
         </Box>
     );
 }
