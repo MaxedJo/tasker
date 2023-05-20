@@ -50,6 +50,7 @@ export default function ProjectPage() {
             case 2:
                 return <>
                     <Typography sx={{whiteSpace: 'pre-line'}} ml="auto" mr="auto"
+                                component="div"
                                 className="tmx-description"
                                 mb={2}>{parse(data.description)}</Typography>
                     {validateUser(data.owner.id, <Button onClick={handleEdit}>Редактировать</Button>)}
