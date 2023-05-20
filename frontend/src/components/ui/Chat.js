@@ -24,8 +24,10 @@ export default function Chat(props) {
             task: props.task,
             localDateTime: str
         };
-        sendMessage(toSend);
-        props.messages.push(toSend);
+        sendMessage(toSend).then(res => {
+            console.log(123123)
+            setMessages([...messages, res.data])
+        });
         setMessage("");
     }
     const [message, setMessage] = useState("");
@@ -50,7 +52,7 @@ export default function Chat(props) {
                     </IconButton>
                 }}
             />
-            {props.messages ? [...props.messages].reverse().map(mes => (
+            {messages ? [...messages].reverse().map(mes => (
                 <Box key={mes.id} maxWidth="100vh" mt={1} mr={1}>
                     {user.id === mes.author ?
                         <Box boxShadow={2} borderRadius={5} sx={{display: "flex"}}>
@@ -68,7 +70,7 @@ export default function Chat(props) {
                             </Box>
                         </Box>
                         :
-                        <Box boxShadow={2} borderRadius={5} bord ml="auto" flexDirection="row" sx={{display: "flex"}}>
+                        <Box boxShadow={2} borderRadius={5} ml="auto" flexDirection="row" sx={{display: "flex"}}>
                             <Box mt={0.5} ml="auto" sx={{display: "flex"}} flexDirection={"column"}>
                                 <Typography sx={{color: "grey", fontSize: "0.8rem", display: "inline"}} ml="auto"
                                             mr={1}>{mes.localDateTime.replace("T", " ")}</Typography>
