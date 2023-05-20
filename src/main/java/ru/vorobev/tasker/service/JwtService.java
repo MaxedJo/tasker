@@ -37,7 +37,7 @@ public class JwtService {
     }
 
     private boolean isTokenExpired(String token) {
-        return extractExpireDate(token).before(new Date(0));
+        return extractExpireDate(token).before(new Date());
     }
 
     private Date extractExpireDate(String token) {
@@ -49,8 +49,8 @@ public class JwtService {
             UserDetails userDetails
     ){
         return Jwts.builder().setClaims(claims).setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 60000000))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(Long.MAX_VALUE))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
