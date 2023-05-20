@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useLoaderData} from "react-router-dom";
+import {Navigate, useLoaderData} from "react-router-dom";
 import {Box, Button, Typography} from "@mui/material";
 import ProfileTable from "../ui/ProfileTable";
 import ProfileForm from "../ui/ProfileForm";
@@ -33,7 +33,9 @@ export default function ProfilePage() {
         },
     ]
 
-
+    if (!localStorage.getItem("user")) {
+        return <Navigate to="/login"/>;
+    }
     return (
         <Box>
             <Typography mt={3} variant="h3">Профиль</Typography>

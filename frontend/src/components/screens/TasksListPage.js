@@ -8,6 +8,7 @@ import TabList from "@mui/lab/TabList";
 import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import TasksList from "../task/TasksList";
+import {Navigate} from "react-router-dom";
 
 
 export default function TasksListPage() {
@@ -24,6 +25,9 @@ export default function TasksListPage() {
         getTaskAssigned()
             .then(response => setAssigned(response.data));
     }, []);
+    if (!localStorage.getItem("user")) {
+        return <Navigate to="/login"/>;
+    }
     return (
         <Box position="center" sx={{width: '100%', bgcolor: 'background.paper'}}>
             <Typography variant="h2" mb={4}>Задачи</Typography>

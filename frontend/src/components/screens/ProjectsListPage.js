@@ -7,6 +7,7 @@ import {getProjectList} from "../../api/client";
 import ProjectsList from "../projects/ProjectsList";
 import {ButtonGroup} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
+import {Navigate} from "react-router-dom";
 
 export default function ProjectsListPage() {
     const [projects, setProjects] = useState([]);
@@ -14,6 +15,9 @@ export default function ProjectsListPage() {
         getProjectList()
             .then(response => setProjects(response.data));
     }, []);
+    if (!localStorage.getItem("user")) {
+        return <Navigate to="/login"/>;
+    }
     return (
         <Box pt={10}>
             <Typography variant="h5">Ваши проекты</Typography>

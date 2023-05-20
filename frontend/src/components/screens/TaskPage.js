@@ -126,6 +126,7 @@ export default function TaskPage() {
                             </TabPanel>
                             <TabPanel value="3">
                                 <FileInput
+                                    max
                                     onUpload={appendFile}
                                     taskId={task.id}
                                     label="Загрузка файла"
