@@ -59,7 +59,7 @@ export default function Chat(props) {
                         </Box>
                         :
                         <Box flexDirection="row" sx={{display: "flex"}}>
-                            <Box mt={0.5} ml="auto">
+                            <Box mt={0.5} ml="auto" right={0}>
                                 <Typography sx={{color: "grey", fontSize: "0.8rem", display: "inline"}} ml="auto"
                                             mr={1}>{mes.localDateTime.replace("T", " ")}</Typography>
                                 <Typography ml="auto" mr={1} mt={2}>{mes.text}</Typography>
