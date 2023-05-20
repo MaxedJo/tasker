@@ -9,6 +9,8 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Link from "@mui/material/Link";
+import {getFile} from "../../api/client";
 
 const columns = [
     {id: 'fileName', label: 'Файл', minWidth: 170},
@@ -33,6 +35,7 @@ export default function FileList(props) {
 
     const rows = props.items.map(item => ({
         ...item,
+        fileName: <Link href="#" onClick={() => getFile(item.id)}>{item.fileName}</Link>,
         delete: <IconButton aria-label="delete" onClick={() => props.removeFile(item.id)}> <DeleteIcon/></IconButton>
     }));
     return (

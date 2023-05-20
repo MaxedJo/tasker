@@ -14,8 +14,11 @@ import CompletitionProgress from "../ui/CompletitionProgress";
 import ProjectTasksList from "../task/ProjectTasksList";
 
 
+const saveCurrent = id => localStorage.setItem('PROJECT_ACTIVE_TAB', id);
+const getCurrent = () => localStorage.getItem('PROJECT_ACTIVE_TAB') || 1;
+
 export default function ProjectPage() {
-    const [value, setValue] = useState(4);
+    const [value, setValue] = useState(getCurrent);
     const load = useLoaderData();
     const nav = useNavigate();
     const data = load.data;
@@ -77,6 +80,7 @@ export default function ProjectPage() {
                     showLabels
                     value={value}
                     onChange={(event, newValue) => {
+                        saveCurrent(newValue);
                         setValue(newValue);
                     }}
                 >
