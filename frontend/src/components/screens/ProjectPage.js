@@ -15,7 +15,10 @@ import ProjectUsersList from "../users/ProjectUsersList";
 
 
 const saveCurrent = id => localStorage.setItem('PROJECT_ACTIVE_TAB', id);
-const getCurrent = () => localStorage.getItem('PROJECT_ACTIVE_TAB') || 1;
+const getCurrent = () => {
+    const value = localStorage.getItem('PROJECT_ACTIVE_TAB');
+    return value === '' ? 1 : +value;
+}
 
 export default function ProjectPage() {
     const [value, setValue] = useState(getCurrent);
