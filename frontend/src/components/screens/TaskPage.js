@@ -133,7 +133,7 @@ export default function TaskPage() {
                                         <Link href={"/profile/" + owner.id}>{owner.fio}</Link>
                                     </Typography>
                                 </Box>
-                                {user ? <Box>
+                                {user && user.id ? <Box>
                                     <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                                         Исполнитель
                                     </Typography>
