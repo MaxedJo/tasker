@@ -41,7 +41,7 @@ export default function ProfilePage() {
                 ?
                 <>
                     <ProfileTable userData={userData}/>
-                    {validateUser(user.id, <Button sx={{mt: 4}} variant="contained" onClick={handleEdit}>Редактировать
+                    {validateUser([user.id], <Button sx={{mt: 4}} variant="contained" onClick={handleEdit}>Редактировать
                         профиль</Button>)}
                 </>
             :

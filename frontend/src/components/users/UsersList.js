@@ -46,7 +46,7 @@ export default function UsersList(props) {
             username: <Link href={'/profile/' + item.id}>{item.username}</Link>,
             delete:
                 props.ownerId !== item.id
-                    ? validateUser(props.ownerId,
+                    ? validateUser([props.ownerId],
                         <IconButton aria-label="delete"
                                     onClick={() => props.onDelete(item.id)}>
                             <DeleteIcon/>

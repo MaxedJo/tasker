@@ -30,6 +30,7 @@ export const addTask = data => post("/task/add", data, {});
 
 export const getProjectList = () => get("/project/all", {});
 export const getProjectInfo = id => get("/project/" + id, {});
+export const getProjectByTask = id => get("/project/task/" + id, {});
 export const getProjectMembers = id => get("/project/" + id + '/members', {});
 export const leaveProject = id => get("/project/" + id + '/leave', {});
 export const deleteProject = id => get("/project/" + id + '/delete', {});

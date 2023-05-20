@@ -37,6 +37,11 @@ public class ProjectController {
         return ResponseEntity.ok(service.updateProject(user, principal.getName(), id));
     }
 
+    @GetMapping("/task/{id}")
+    public ResponseEntity<?> getProjectsForTask(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getProjectsForTask(id));
+    }
+
     @GetMapping("/{id}/members")
     public ResponseEntity<?> getMembers(Principal principal, @PathVariable Long id) {
         return ResponseEntity.ok(service.getProject(id, principal.getName()).getMembers());

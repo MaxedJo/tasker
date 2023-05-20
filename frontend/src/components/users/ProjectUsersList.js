@@ -57,7 +57,7 @@ export default function ProjectUsersList(props) {
     }
     return (
         <>
-            {validateUser(props.ownerId,
+            {validateUser([props.ownerId],
                 <Toolbar disabled={true}>
                     <Button
                         startIcon={<AddIcon/>}

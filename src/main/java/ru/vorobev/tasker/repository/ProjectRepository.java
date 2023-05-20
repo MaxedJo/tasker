@@ -14,4 +14,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     void deleteProjectByIdIs(Long id);
 
+    Project findProjectByTasks_Id(Long taskId);
 }

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.vorobev.tasker.mapper.ProjectMapper;
 import ru.vorobev.tasker.model.*;
 import ru.vorobev.tasker.repository.ProjectRepository;
+import ru.vorobev.tasker.repository.TaskRepository;
 import ru.vorobev.tasker.repository.UserRepository;
 import ru.vorobev.tasker.util.UserValidator;
 
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ProjectService {
     private final ProjectRepository projectRepository;
+    private final TaskRepository taskRepository;
     private final ProjectMapper mapper;
     private final UserService userService;
     private final UserRepository userRepository;
@@ -30,8 +32,8 @@ public class ProjectService {
     public List<Project> getAllProjects(String username) {
         User user = userService.getUser(username);
         if (user.getRole().equals(Role.ADMIN))
-            return projectRepository.findAll().stream().peek(p -> p.workProgress()).collect(Collectors.toList());
-        return projectRepository.findProjectByMembers_Id(user.getId()).stream().peek(p -> p.workProgress()).collect(Collectors.toList());
+            return projectRepository.findAll().stream().peek(Project::workProgress).collect(Collectors.toList());
+        return projectRepository.findProjectByMembers_Id(user.getId()).stream().peek(Project::workProgress).collect(Collectors.toList());
     }
 
     public Project getProject(Long id, String username) {
@@ -115,5 +117,11 @@ public class ProjectService {
             project.getMembers().remove(user);
             projectRepository.save(project);
         }
+    }
+
+    public Project getProjectsForTask(Long taskId) {
+        Task task = taskRepository.getTasksByIdIs(taskId);
+        System.out.println(task);
+        return projectRepository.findProjectByIdIs(task.getProject());
     }
 }

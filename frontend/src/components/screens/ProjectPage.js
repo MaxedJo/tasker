@@ -28,7 +28,7 @@ export default function ProjectPage() {
 
     const leave = () => {
         leaveProject(data.id)
-            .then(r => {
+            .then(() => {
                 nav("/projects");
             });
     }
@@ -37,7 +37,7 @@ export default function ProjectPage() {
     }
     const handleDelete = () => {
         deleteProject(data.id)
-            .then(r => {
+            .then(() => {
                 nav("/projects");
             });
     }
@@ -54,9 +54,9 @@ export default function ProjectPage() {
                                 component="div"
                                 className="tmx-description"
                                 mb={2}>{parse(data.description)}</Typography>
-                    {validateUser(data.owner.id, <Button onClick={handleEdit}>Редактировать</Button>)}
-                    {validateUser(data.owner.id, <Button onClick={handleDelete}>Удалить</Button>)}
-                    {validateUser(data.owner.id, <></>, <Button onClick={leave}>Покинуть</Button>)}
+                    {validateUser([data.owner.id], <> <Button onClick={handleEdit}>Редактировать</Button>
+                        <Button onClick={handleDelete}>Удалить</Button></>)}
+                    {validateUser([data.owner.id], <></>, <Button onClick={leave}>Покинуть</Button>)}
 
                 </>
             case 3:

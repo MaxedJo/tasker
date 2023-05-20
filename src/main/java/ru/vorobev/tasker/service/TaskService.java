@@ -7,7 +7,6 @@ import ru.vorobev.tasker.controller.dto.StatusValues;
 import ru.vorobev.tasker.mapper.TaskMapper;
 import ru.vorobev.tasker.model.*;
 import ru.vorobev.tasker.repository.ChangeRepository;
-import ru.vorobev.tasker.repository.ProjectRepository;
 import ru.vorobev.tasker.repository.TaskRepository;
 import ru.vorobev.tasker.repository.UserRepository;
 import ru.vorobev.tasker.util.UserValidator;
@@ -23,7 +22,6 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
-    private final ProjectRepository projectRepository;
     private final UserService userService;
     private final UserRepository userRepository;
     private final ChangeRepository changeRepository;
@@ -69,8 +67,12 @@ public class TaskService {
                         .task(old.getId())
                         .changeTime(LocalDateTime.now())
                         .build();
-                if (task.getUser() != old.getUser()) {
+                if (!Objects.equals(task.getUser(), old.getUser())) {
                     User userOld = userRepository.findUserByIdIs(old.getUser());
+                    if (userOld == null) {
+                        userOld = new User();
+                        userOld.setFio("Не назначен");
+                    }
                     User userNew = userRepository.findUserByIdIs(task.getUser());
                     changeRepository.save(change.withField(Field.USER)
                             .withNewValue(String.valueOf(userNew.getFio()))

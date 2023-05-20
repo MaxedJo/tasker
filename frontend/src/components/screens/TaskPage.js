@@ -12,7 +12,7 @@ import TaskForm from "../ui/TaskForm";
 import Chat from "../ui/Chat";
 import parse from 'html-react-parser';
 import './assets/TaskPage.css';
-import {deleteFile, deleteTask, getFileList, getTaskHistory, getUserInfo} from "../../api/client";
+import {deleteFile, deleteTask, getFileList, getProjectByTask, getTaskHistory, getUserInfo} from "../../api/client";
 import HistoryList from "../history/HistoryList";
 import FileInput from "../ui/FileInput";
 import FileList from "../files/FileList";
@@ -23,6 +23,7 @@ export default function TaskPage() {
     const load = useLoaderData();
     const navigate = useNavigate();
     const [user, setUser] = useState({});
+    const [project, setProject] = useState({owner: {}});
     const [owner, setOwner] = useState({});
     const [edit, setEdit] = useState(true);
     const [history, setHistory] = useState([]);
@@ -44,8 +45,10 @@ export default function TaskPage() {
             setHistory(r.data);
         });
         getFileList(task.id).then(r => {
-            console.log(r.data)
             setFileList(r.data)
+        });
+        getProjectByTask(task.id).then(r => {
+            setProject(r.data);
         });
 
     }, []);
@@ -65,7 +68,7 @@ export default function TaskPage() {
 
     const handleDelete = () => {
         deleteTask(task.id)
-            .then(r => {
+            .then(() => {
                 navigate(-1);
             });
     }
@@ -104,10 +107,9 @@ export default function TaskPage() {
                                 <DeadLineMark task={task}/>
                             </Box>
                         </Box>
-                        {validateUser(task.owner, <Button
-                            onClick={handleEdit}>Редактировать</Button>, validateUser(task.member, <Button
-                            onClick={handleEdit}>Редактировать</Button>))}
-                        {validateUser(task.owner, <Button onClick={handleDelete}>Удалить</Button>)}
+                        {validateUser([task.owner, task.member, project.owner.id], <Button
+                            onClick={handleEdit}>Редактировать</Button>)}
+                        {validateUser([task.owner, project.owner.id], <Button onClick={handleDelete}>Удалить</Button>)}
                         <TabContext value={tab}>
                             <Box ml="auto" mr="auto" maxWidth="50vh" sx={{borderBottom: 1, borderColor: 'divider'}}>
                                 <TabList onChange={handleTabChange}>

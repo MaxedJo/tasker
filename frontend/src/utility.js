@@ -1,7 +1,7 @@
 export function validateUser(id, elem, def = null) {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user.role === "ADMIN") return elem;
-    return user.id === id ? elem : def;
+    return id.indexOf(user.id) >= 0 ? elem : def;
 }
 
 export function fixStatus(str) {
