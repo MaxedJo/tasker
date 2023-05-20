@@ -25,10 +25,10 @@ export default function LoginPage() {
         const data = new FormData(event.currentTarget);
         AuthService.login(data.get('username'), data.get('password'))
             .then(() => {
-                setErrorMessage('Неверные пароль или логин');
-                //navigate("/profile");
-            });
-
+                navigate("/tasks");
+            }).catch(r => {
+            setErrorMessage(r.response.data === '' ? 'Неверные пароль или логин' : r.response.data);
+        });
     };
 
     if (localStorage.getItem("user")) {

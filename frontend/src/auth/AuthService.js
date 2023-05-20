@@ -15,11 +15,7 @@ class AuthService {
                     localStorage.setItem("user", JSON.stringify(response.data))
                 }
                 return response.data;
-            })
-            .catch(error => {
-                console.log(error.response.data)
-            })
-            ;
+            });
     }
 
     logout() {
@@ -36,12 +32,7 @@ class AuthService {
                 localStorage.setItem("user", JSON.stringify(response.data))
             }
             return response;
-        })
-            .catch(error => {
-                console.log(error.response.data)
-
-            })
-            ;
+        });
     }
 
     getCurrentUser() {

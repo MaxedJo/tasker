@@ -4,15 +4,9 @@ import authToken from "../authToken";
 const host = process.env.REACT_APP_BACKEND_HOST;
 
 const get = (uri, headers) =>
-    axios.get(host + uri, {headers: {...headers, ...authToken()}})
-        .catch(error => {
-            console.log(error.response.data)
-        });
+    axios.get(host + uri, {headers: {...headers, ...authToken()}});
 const post = (uri, data, headers) =>
-    axios.post(host + uri, data, {headers: {...headers, ...authToken()}})
-        .catch(error => {
-            console.log(error.response.data)
-        });
+    axios.post(host + uri, data, {headers: {...headers, ...authToken()}});
 
 export const getUserInfo = userId => get("/user-api/user/" + userId, {});
 export const getUserCurrent = () => get("/user-api/user", {});
