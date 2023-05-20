@@ -35,9 +35,22 @@ export default function FileList(props) {
 
     const rows = props.items.map(item => ({
         ...item,
-        fileName: <Link href="#" onClick={() => getFile(item.id)}>{item.fileName}</Link>,
-        delete: <IconButton aria-label="delete" onClick={() => props.removeFile(item.id)}> <DeleteIcon/></IconButton>
+        fileName: <Link href="#" onClick={() => download(item.fileId)}>{item.fileName}</Link>,
+        delete: <IconButton aria-label="delete" onClick={() => props.removeFile(item.fileId)}>
+            <DeleteIcon/></IconButton>
     }));
+
+    const download = id => {
+        getFile(id).then(res => {
+            console.log(res.headers)
+            let link = document.createElement('a');
+            link.download = 'hello.txt';
+            let blob = new Blob([res.data], {type: res.headers.getContentType()});
+            link.href = URL.createObjectURL(blob);
+            link.click();
+            URL.revokeObjectURL(link.href);
+        })
+    }
     return (
         <Paper sx={{width: '100%', overflow: 'hidden'}}>
             {props.items.length > 0 ?
