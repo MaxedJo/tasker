@@ -18,6 +18,7 @@ import FileInput from "../ui/FileInput";
 import FileList from "../files/FileList";
 import dayjs from "dayjs";
 import DeadLineMark from "../ui/DeadLineMark";
+import StatusSwitcher from "../ui/StatusSwitcher";
 
 export default function TaskPage() {
     const load = useLoaderData();
@@ -86,6 +87,7 @@ export default function TaskPage() {
                 <>
                     <Box>
                         <Typography m={3} variant="h4">{task.title}</Typography>
+                        <StatusSwitcher task={task} owner={project.owner.id}/>
                         <Box display="flex">
                             <Box ml="auto" mr="auto" width="100vh">
                                 <Typography m={3} variant="h6">Описание</Typography>

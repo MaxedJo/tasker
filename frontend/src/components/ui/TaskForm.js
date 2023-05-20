@@ -10,14 +10,13 @@ import Typography from "@mui/material/Typography";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './TaskForm.css';
-import {getProjectMembers, getStatuses, updateTask} from "../../api/client";
+import {getProjectMembers, updateTask} from "../../api/client";
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 
 export default function TaskForm(props) {
     const [users, setUsers] = useState([]);
-    const [statuses, setStatuses] = useState([]);
     const [deadline, setDeadline] = useState(dayjs(props.task.deadline));
     const [description, setDescription] = useState(props.task ? props.task.description : "");
     let nav = useNavigate();
@@ -27,7 +26,7 @@ export default function TaskForm(props) {
         const taskFromData = {
             title: data.get("title"),
             description: description,
-            status: data.get("status"),
+            status: props.task.status,
             id: props.task.id,
             user: data.get("user"),
             deadline: deadline.isValid() ? deadline.format('YYYY-MM-DD') : null,
@@ -42,10 +41,6 @@ export default function TaskForm(props) {
             .then(r => {
                 setUsers(r.data);
             });
-        getStatuses(props.task.id)
-            .then(r => {
-                setStatuses(r.data);
-            })
     }, []);
 
     return (
@@ -81,26 +76,8 @@ export default function TaskForm(props) {
                         required
                         fullWidth
                         select
-                        id="status"
-                        label="Статус задачи"
-                        name="status"
-                        autoComplete="status"
-                        defaultValue={props.task.status}
-                    >
-                        {statuses.map((option) => (
-                            <MenuItem key={option.status} value={option.status}>
-                                <Typography variant="h7">{option.description}</Typography>
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        required
-                        fullWidth
-                        select
                         id="user"
-                        label="Испольнитель"
+                        label="Исполнитель"
                         name="user"
                         autoComplete="user"
                         defaultValue={props.task.user ? props.task.user : 0}
