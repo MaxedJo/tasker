@@ -25,9 +25,9 @@ export default function ProjectsList(props) {
 
     const renderProgress = (completed, active) => (
         <>
-            <CompletitionProgress
+            {active > 0 ? <CompletitionProgress
                 value={completed / active * 100}
-            />
+            /> : ''}
             <Typography style={{fontSize: '0.8em'}} component="div">{completed + "/" + active}</Typography>
         </>
     )

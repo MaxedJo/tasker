@@ -4,7 +4,6 @@ import React, {useState} from "react";
 import UserList from "../ui/UserList";
 import PersonIcon from "@mui/icons-material/Person";
 import ListAltIcon from "@mui/icons-material/ListAlt";
-import TaskList from "../ui/TaskList";
 import DescriptionIcon from '@mui/icons-material/Description';
 import Button from "@mui/material/Button";
 import CreateProject from "./CreateProject";
@@ -12,15 +11,19 @@ import {validateUser} from "../../utility";
 import {deleteProject, leaveProject} from "../../api/client";
 import parse from "html-react-parser";
 import CompletitionProgress from "../ui/CompletitionProgress";
+import ProjectTasksList from "../task/ProjectTasksList";
 
+
+const saveCurrent = id => localStorage.setItem('PROJECT_ACTIVE_TAB', id);
+const getCurrent = () => localStorage.getItem('PROJECT_ACTIVE_TAB') || 1;
 
 export default function ProjectPage() {
-    const [value, setValue] = useState(4);
+    const [value, setValue] = useState(getCurrent);
     const load = useLoaderData();
     const nav = useNavigate();
     const data = load.data;
     const leave = () => {
-       leaveProject(data.id)
+        leaveProject(data.id)
             .then(r => {
                 nav("/projects");
             });
@@ -29,7 +32,7 @@ export default function ProjectPage() {
         setValue(3)
     }
     const handleDelete = () => {
-        deleteProject( data.id)
+        deleteProject(data.id)
             .then(r => {
                 nav("/projects");
             });
@@ -39,7 +42,7 @@ export default function ProjectPage() {
             case 0 :
                 return <UserList users={data.members} create project={data.id} delete owner={data.owner.id}/>
             case 1 :
-                return <TaskList tasks={data.tasks} id={data.id} create={true}/>
+                return <ProjectTasksList items={data.tasks} projectId={data.id}/>
             case 2:
                 return <>
                     <Typography sx={{whiteSpace: 'pre-line'}} ml="auto" mr="auto"
@@ -77,6 +80,7 @@ export default function ProjectPage() {
                     showLabels
                     value={value}
                     onChange={(event, newValue) => {
+                        saveCurrent(newValue);
                         setValue(newValue);
                     }}
                 >
