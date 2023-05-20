@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const auth_api = process.env.REACT_APP_BACKEND_HOST+'/auth';
+const auth_api = process.env.REACT_APP_BACKEND_HOST + '/auth';
 
 class AuthService {
     login(username, password) {
@@ -15,7 +15,13 @@ class AuthService {
                     localStorage.setItem("user", JSON.stringify(response.data))
                 }
                 return response.data;
-            });
+            })
+            .catch(error => {
+                if (error.response && error.response.status === 403) {
+                    localStorage.removeItem('user')
+                }
+            })
+            ;
     }
 
     logout() {
@@ -32,7 +38,13 @@ class AuthService {
                 localStorage.setItem("user", JSON.stringify(response.data))
             }
             return response;
-        });
+        })
+            .catch(error => {
+                if (error.response && error.response.status === 403) {
+                    localStorage.removeItem('user')
+                }
+            })
+            ;
     }
 
     getCurrentUser() {

@@ -67,5 +67,4 @@ public class UserController {
     public List<Task> getAssigned(Principal principal) {
         return userRepository.findByUsername(principal.getName()).get().getAssigned();
     }
-
 }
