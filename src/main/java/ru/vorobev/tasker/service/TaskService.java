@@ -31,6 +31,7 @@ public class TaskService {
 
 
     public Task saveTask(Task task) {
+        task.setStatus(Status.OPENED);
         Task created = taskRepository.save(task);
         Change change = Change.builder()
                 .author(created.getOwner())

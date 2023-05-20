@@ -1,6 +1,7 @@
 package ru.vorobev.tasker.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,6 +34,9 @@ public class AuthService {
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
+        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+            throw new DuplicateKeyException("Пользователь с таким именем уже существует");
+        }
         User user = User.builder()
                 .fio(request.getFio())
                 .username(request.getUsername())

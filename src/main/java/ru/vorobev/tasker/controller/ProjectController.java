@@ -1,13 +1,14 @@
 package ru.vorobev.tasker.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vorobev.tasker.model.Project;
 import ru.vorobev.tasker.model.User;
 import ru.vorobev.tasker.service.ProjectService;
 
 import java.security.Principal;
-import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -17,42 +18,44 @@ public class ProjectController {
     private final ProjectService service;
 
     @GetMapping("/all")
-    public List<Project> getAll(Principal principal) {
-        return service.getAllProjects(principal.getName());
+    public ResponseEntity<?> getAll(Principal principal) {
+        return ResponseEntity.ok(service.getAllProjects(principal.getName()));
     }
 
     @GetMapping("/{id}")
-    public Project getProject(@PathVariable Long id, Principal principal) {
-        return service.getProject(id, principal.getName());
+    public ResponseEntity<?> getProject(@PathVariable Long id, Principal principal) {
+        return ResponseEntity.ok(service.getProject(id, principal.getName()));
     }
 
     @PostMapping("/edit")
-    public Project editUser(Principal principal, @RequestBody Project project) {
-        return service.updateProject(project, principal.getName());
+    public ResponseEntity<?> editUser(Principal principal, @RequestBody Project project) {
+        return ResponseEntity.ok(service.updateProject(project, principal.getName()));
     }
 
     @PostMapping("/{id}/add-user")
-    public Project addUserToProject(Principal principal, @PathVariable Long id, @RequestBody User user) {
-        return service.updateProject(user, principal.getName(), id);
+    public ResponseEntity<?> addUserToProject(Principal principal, @PathVariable Long id, @RequestBody User user) {
+        return ResponseEntity.ok(service.updateProject(user, principal.getName(), id));
     }
 
     @GetMapping("/{id}/members")
-    public List<User> getMembers(Principal principal, @PathVariable Long id) {
-        return service.getProject(id, principal.getName()).getMembers();
+    public ResponseEntity<?> getMembers(Principal principal, @PathVariable Long id) {
+        return ResponseEntity.ok(service.getProject(id, principal.getName()).getMembers());
     }
 
     @GetMapping("/{id}/delete")
-    public void deleteProject(@PathVariable Long id, Principal principal) {
+    public ResponseEntity<?> deleteProject(@PathVariable Long id, Principal principal) {
         service.deleteProject(id, principal.getName());
+        return ResponseEntity.status(HttpStatus.OK).body("Проект успешно удалён");
     }
 
     @GetMapping("/{id}/leave")
-    public void leaveProject(@PathVariable Long id, Principal principal) {
+    public ResponseEntity<?> leaveProject(@PathVariable Long id, Principal principal) {
         service.leaveProject(id, principal.getName());
+        return ResponseEntity.status(HttpStatus.OK).body("Проект успешно покинут");
     }
 
     @GetMapping("/{id}/delete-user/{userId}")
-    public Project deleteUserFromProject(@PathVariable Long id, Principal principal, @PathVariable Long userId) {
-        return service.deleteUserFromProject(id, principal.getName(), userId);
+    public ResponseEntity<?> deleteUserFromProject(@PathVariable Long id, Principal principal, @PathVariable Long userId) {
+        return ResponseEntity.ok(service.deleteUserFromProject(id, principal.getName(), userId));
     }
 }

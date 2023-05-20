@@ -3,6 +3,8 @@ package ru.vorobev.tasker.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,12 +29,12 @@ public class TaskFileController {
     private final TaskFileService taskFileService;
 
     @PostMapping("/upload/{taskId}")
-    public TaskFile uploadFile(@RequestParam("file") MultipartFile file, @PathVariable Long taskId, Principal principal) {
-        return taskFileService.save(file, taskId, principal.getName());
+    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable Long taskId, Principal principal) {
+        return ResponseEntity.ok(taskFileService.save(file, taskId, principal.getName()));
     }
 
     @GetMapping("/{taskId}")
-    public List<FileResponse> findAllByTaskId(@PathVariable Long taskId) {
+    public ResponseEntity<?> findAllByTaskId(@PathVariable Long taskId) {
         List<FileResponse> files = taskFileService.findAllByTaskId(taskId).map(file -> {
                     String fileDownloadUri = ServletUriComponentsBuilder
                             .fromCurrentContextPath()
@@ -48,7 +50,7 @@ public class TaskFileController {
                             .build();
                 })
                 .collect(Collectors.toList());
-        return files;
+        return ResponseEntity.ok(files);
     }
 
     @RequestMapping("/files/{id}")
@@ -72,7 +74,8 @@ public class TaskFileController {
 
 
     @GetMapping("/delete/{id}")
-    public void findById(@PathVariable Long id, Principal principal) {
+    public ResponseEntity<?> deleteById(@PathVariable Long id, Principal principal) {
         taskFileService.delete(id, principal.getName());
+        return ResponseEntity.status(HttpStatus.OK).body("Задача успешно удалена");
     }
 }
