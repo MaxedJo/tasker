@@ -58,11 +58,15 @@ export default function Chat(props) {
                             </Box>
                         </Box>
                         :
-                        <>
-                            <Typography ml="auto" mr={1} mt={2}>{mes.text}</Typography>
+                        <Box flexDirection="row" sx={{display: "flex"}}>
+                            <Box mt={0.5}>
+                                <Typography sx={{color: "grey", fontSize: "0.8rem", display: "inline"}} ml="auto"
+                                            mr={1}>{mes.localDateTime.replace("T", " ")}</Typography>
+                                <Typography ml="auto" mr={1} mt={2}>{mes.text}</Typography>
+                            </Box>
                             <IconButton onClick={() => profile(mes.author)}><Avatar/></IconButton>
-                        </>}
-
+                        </Box>
+                    }
                 </Box>
             )) : <></>}
 
