@@ -49,7 +49,7 @@ const router = createBrowserRouter([
             {path: "/profile/:userId", element: <ProfilePage/>, loader: async ({params}) => getUserInfo(params.userId)},
             {path: "/*", element: <NotAllowed/>},
         ],
-        errorElement: <NotAllowed/>
+        errorElement: <NotAllowed/>,
     }
 ])
 
