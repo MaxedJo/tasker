@@ -24,7 +24,7 @@ export default function UsersList(props) {
     const [rows, setRows] = React.useState([]);
 
     let columns = props.canDelete
-        ? [...columnsDefault, {id: 'delete', label: 'ss', width: 70}]
+        ? [...columnsDefault, {id: 'delete', label: '', width: 70}]
         : columnsDefault;
 
     const handleChangePage = (event, newPage) => {
