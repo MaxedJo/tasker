@@ -45,7 +45,7 @@ export default function TaskPage() {
         });
         getFileList(task.id).then(r => {
             console.log(r.data)
-            //setFileList(r.data)
+            setFileList(r.data)
         });
 
     }, []);

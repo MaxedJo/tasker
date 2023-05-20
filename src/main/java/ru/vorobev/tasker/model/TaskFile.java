@@ -21,8 +21,7 @@ public class TaskFile {
 
     private String fileType;
 
-    @Lob
-    private byte[] fileData;
+    private Long fileSize;
 
     private Long taskId;
 }

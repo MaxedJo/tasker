@@ -11,6 +11,9 @@ import ru.vorobev.tasker.model.TaskFile;
 import ru.vorobev.tasker.repository.ChangeRepository;
 import ru.vorobev.tasker.repository.TaskFileRepository;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
@@ -23,13 +26,14 @@ public class TaskFileService {
 
     public TaskFile findById(Long id) {
         return taskFileRepository.findById(id).orElseThrow();
+//        return new File("/HELP.md");
     }
 
     @SneakyThrows
     public TaskFile save(MultipartFile file, Long taskId, String username) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         TaskFile taskFile = TaskFile.builder()
-                .fileData(file.getBytes())
+                .fileSize((long) file.getBytes().length)
                 .fileName(filename)
                 .taskId(taskId)
                 .fileType(file.getContentType())
@@ -41,15 +45,26 @@ public class TaskFileService {
                 .oldValue(filename)
                 .field(Field.FILE_ADD)
                 .build());
-        return taskFileRepository.save(taskFile);
+        TaskFile created = taskFileRepository.save(taskFile);
+        if (!file.isEmpty()) {
+            byte[] bytes = file.getBytes();
+            Path directory = Paths.get("files/" + created.getId());
+            Path path = Paths.get("files/" + created.getId() + "/" + file.getOriginalFilename());
+            Files.createDirectories(directory);
+            Files.write(path, bytes);
+        }
+        return created;
     }
 
     public Stream<TaskFile> findAllByTaskId(Long taskId) {
         return taskFileRepository.findAllByTaskId(taskId).stream();
     }
 
+    @SneakyThrows
     public void delete(Long id, String username) {
         TaskFile file = taskFileRepository.findById(id).orElseThrow();
+        Files.deleteIfExists(Paths.get("files/" + id + "/" + file.getFileName()));
+        Files.deleteIfExists(Paths.get("files/" + id));
         changeRepository.save(Change.builder()
                 .task(file.getTaskId())
                 .changeTime(LocalDateTime.now())
@@ -57,6 +72,7 @@ public class TaskFileService {
                 .oldValue(file.getFileName())
                 .field(Field.FILE_DELETE)
                 .build());
+        System.out.println(id);
         taskFileRepository.deleteById(id);
     }
 }
