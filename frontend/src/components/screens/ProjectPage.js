@@ -40,7 +40,11 @@ export default function ProjectPage() {
     const renderAll = (state) => {
         switch (state) {
             case 0 :
-                return <UserList users={data.members} create project={data.id} delete owner={data.owner.id}/>
+                return <>
+                    {/*<UsersList items={data.members}  projectId={data.id} ownerId={data.owner.id}/>*/}
+                    <UserList users={data.members} create project={data.id} delete owner={data.owner.id}/>
+                </>
+
             case 1 :
                 return <ProjectTasksList items={data.tasks} projectId={data.id}/>
             case 2:

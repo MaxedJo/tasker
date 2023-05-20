@@ -7,16 +7,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Link from "@mui/material/Link";
-import {getFile} from "../../api/client";
 
 const columns = [
-    {id: 'fileName', label: 'Файл', minWidth: 170},
-    {id: 'delete', label: '', width: 70, align: 'right'},
+    {id: 'username', label: 'Пользователь', minWidth: 170},
+    {id: 'fio', label: 'ФИО', minWidth: 170},
+    {id: 'profession', label: 'Должность', minWidth: 170}
 ];
-export default function FileList(props) {
+export default function UsersList(props) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -35,44 +33,8 @@ export default function FileList(props) {
 
     const rows = props.items.map(item => ({
         ...item,
-        fileName: <Link href="#" onClick={() => download(item.fileId, item.fileName)}>{item.fileName}</Link>,
-        delete: <IconButton aria-label="delete" onClick={() => props.removeFile(item.fileId)}>
-            <DeleteIcon/></IconButton>
+        username: <Link href={'/profile/' + item.id}>{item.username}</Link>
     }));
-    const b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
-        const byteCharacters = atob(b64Data);
-        const byteArrays = [];
-
-        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-            const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-            const byteNumbers = new Array(slice.length);
-            for (let i = 0; i < slice.length; i++) {
-                byteNumbers[i] = slice.charCodeAt(i);
-            }
-
-            const byteArray = new Uint8Array(byteNumbers);
-            byteArrays.push(byteArray);
-        }
-
-        const blob = new Blob(byteArrays, {type: contentType});
-        return blob;
-    }
-    const download = (id, fileName) => {
-        getFile(id).then(res => {
-            //const blob1 = b64toBlob(res.data, res.headers.getContentType());
-            // const blobUrl = URL.createObjectURL(blob1);
-            //
-            // window.location = blobUrl;
-            let link = document.createElement('a');
-            link.download = fileName;
-            console.log(res.headers.getContentType())
-            let blob = new Blob([res.data], {type: res.headers.getContentType()});
-            link.href = URL.createObjectURL(blob);
-            link.click();
-            URL.revokeObjectURL(link.href);
-        })
-    }
     return (
         <Paper sx={{width: '100%', overflow: 'hidden'}}>
             {props.items.length > 0 ?
@@ -125,7 +87,7 @@ export default function FileList(props) {
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                 </>)
-                : 'Нет прикрепленных файлов'}
+                : 'Нет пользователей'}
         </Paper>
     );
 }
