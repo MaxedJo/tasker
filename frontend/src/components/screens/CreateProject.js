@@ -24,7 +24,7 @@ export default function CreateProject(props) {
         }
         updateProject(projectFromData)
             .then(r => {
-                nav("/projects/" + r.data.id);
+                window.location.reload();
             });
     }
     if (!localStorage.getItem("user")) {

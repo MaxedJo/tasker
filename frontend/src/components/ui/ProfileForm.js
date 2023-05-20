@@ -64,7 +64,7 @@ export default function ProfileForm(props) {
                         name="profession"
                         fullWidth
                         id="profession"
-                        label="Профессия"
+                        label="Должность"
                         defaultValue={props.userData.profession}
                         autoFocus
                     />

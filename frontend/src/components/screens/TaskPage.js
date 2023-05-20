@@ -99,7 +99,7 @@ export default function TaskPage() {
                             </Box>
                             <Box mr={4}>
                                 <Button sx={{color: "black"}}
-                                        href={"/profile/" + owner.id}>Создатель: {owner ? owner.fio : null}</Button>
+                                        href={"/profile/" + owner.id}>Постановщик: {owner ? owner.fio : null}</Button>
                                 <Typography/>
                                 <Button sx={{color: "black"}}
                                         href={"/profile/" + user.id}>Исполнитель: {user ? user.fio : null}</Button>
