@@ -19,6 +19,8 @@ import FileList from "../files/FileList";
 import dayjs from "dayjs";
 import DeadLineMark from "../ui/DeadLineMark";
 import StatusSwitcher from "../ui/StatusSwitcher";
+import {Card} from "@mui/material";
+import Link from "@mui/material/Link";
 
 export default function TaskPage() {
     const load = useLoaderData();
@@ -88,26 +90,59 @@ export default function TaskPage() {
                     <Box>
                         <Typography m={3} variant="h4">{task.title}</Typography>
                         <StatusSwitcher task={task} owner={project.owner.id}/>
-                        <Box display="flex">
-                            <Box ml="auto" mr="auto" width="100vh">
-                                <Typography m={3} variant="h6">Описание</Typography>
-                                <Typography
-                                    component="div"
-                                    sx={{whiteSpace: 'pre-line'}} ml="auto" mr="auto" maxWidth={800}
-                                    className="tmx-description"
-                                    mb={2}>{parse(task.description)}</Typography>
-                            </Box>
-                            <Box mr={4}>
-                                <Button sx={{color: "black"}}
-                                        href={"/profile/" + owner.id}>Создатель: {owner ? owner.fio : null}</Button>
-                                <Typography/>
-                                <Button sx={{color: "black"}}
-                                        href={"/profile/" + user.id}>Исполнитель: {user ? user.fio : null}</Button>
-                                <Typography>Статус: {fixStatus(task.status)}</Typography>
-                                <Typography mt={1}>Срок выполнения: {!task.deadline ? 'без срока' :
-                                    dayjs(task.deadline).format('DD.MM.YYYY')}</Typography>
-                                <DeadLineMark task={task}/>
-                            </Box>
+                        <Box
+                            sx={{gap: 2}}
+                            display="flex"
+                        >
+                            <Typography
+                                margin="0"
+                                component="div"
+                                className="tmx-description"
+                                sx={{flex: 1}}>{parse(task.description)}</Typography>
+                            <Card
+                                sx={{
+                                    width: '200px', flexGrow: 0,
+                                    position: 'relative',
+                                    padding: 1, display: 'flex', flexDirection: 'column', gap: 2
+                                }}
+                            >
+                                <Box>
+                                    <Typography>Статус: {fixStatus(task.status)}</Typography>
+                                </Box>
+                                <Box>
+                                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                        Срок исполнения
+                                    </Typography>
+                                    <Typography component="div" sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        gap: 1
+
+                                    }}>
+                                        <DeadLineMark task={task}/>
+                                        {!task.deadline ? 'без срока' :
+                                            dayjs(task.deadline).format('DD.MM.YYYY')}
+                                    </Typography>
+                                </Box>
+                                <Box>
+                                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                        Постановщик
+                                    </Typography>
+                                    <Typography component="div">
+                                        <Link href={"/profile/" + owner.id}>{owner.fio}</Link>
+                                    </Typography>
+                                </Box>
+                                {user ? <Box>
+                                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                        Исполнитель
+                                    </Typography>
+                                    <Typography component="div">
+                                        <Link href={"/profile/" + user.id}>{user.fio}</Link>
+                                    </Typography>
+                                </Box> : ''}
+                            </Card>
+
                         </Box>
                         {validateUser([task.owner, task.member, project.owner.id], <Button
                             onClick={handleEdit}>Редактировать</Button>)}
