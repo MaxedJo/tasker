@@ -35,7 +35,7 @@ export default function FileList(props) {
 
     const rows = props.items.map(item => ({
         ...item,
-        fileName: <Link href="#" onClick={() => download(item.fileId, item.fileName)}>{item.fileName}</Link>,
+        fileName: <Link href={'/files/files/' + item.fileId}>{item.fileName}</Link>,
         delete: <IconButton aria-label="delete" onClick={() => props.removeFile(item.fileId)}>
             <DeleteIcon/></IconButton>
     }));
@@ -66,7 +66,7 @@ export default function FileList(props) {
             // window.location = blobUrl;
             let link = document.createElement('a');
             link.download = fileName;
-            console.log(res.headers.getContentType())
+            console.log(res.data)
             let blob = new Blob([res.data], {type: res.headers.getContentType()});
             link.href = URL.createObjectURL(blob);
             link.click();
