@@ -85,9 +85,11 @@ export default function TaskPage() {
                         <Box display="flex">
                             <Box ml="auto" mr="auto" width="100vh">
                                 <Typography m={3} variant="h6">Описание</Typography>
-                                <Typography sx={{whiteSpace: 'pre-line'}} ml="auto" mr="auto" maxWidth={800}
-                                            className="tmx-description"
-                                            mb={2}>{parse(task.description)}</Typography>
+                                <Typography
+                                    component="div"
+                                    sx={{whiteSpace: 'pre-line'}} ml="auto" mr="auto" maxWidth={800}
+                                    className="tmx-description"
+                                    mb={2}>{parse(task.description)}</Typography>
                             </Box>
                             <Box mr={4}>
                                 <Button sx={{color: "black"}}
