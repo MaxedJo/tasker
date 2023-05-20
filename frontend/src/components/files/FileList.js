@@ -66,7 +66,7 @@ export default function FileList(props) {
             // window.location = blobUrl;
             let link = document.createElement('a');
             link.download = fileName;
-            console.log(res.headers.getContentType())
+            console.log(res.data)
             let blob = new Blob([res.data], {type: res.headers.getContentType()});
             link.href = URL.createObjectURL(blob);
             link.click();
