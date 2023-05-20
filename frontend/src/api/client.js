@@ -39,7 +39,7 @@ export const leaveProject = id => get("/project/" + id + '/leave', {});
 export const deleteProject = id => get("/project/" + id + '/delete', {});
 export const updateProject = data => post("/project/edit", data, {});
 export const sendMessage = data => post("/message/send", data, {});
-export const getTaskHistory = id => axios.get("/changes/" + id, {});
+export const getTaskHistory = id => get("/changes/" + id, {});
 export const addProjectMember = (projectId, data) => post("/project/" + projectId + '/add-user', data, {});
 export const removeProjectMember = (projectId, userId) => get("/project/" + projectId + '/delete-user/' + userId, {});
 
