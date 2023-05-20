@@ -1,6 +1,8 @@
 package ru.vorobev.tasker.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +19,8 @@ public class MessageController {
     private final MessageRepository messageRepository;
 
     @PostMapping("/send")
-    public void getAll(@RequestBody Message message) {
+    public ResponseEntity<?> sendMessage(@RequestBody Message message) {
         messageRepository.save(message);
+        return ResponseEntity.status(HttpStatus.OK).body("Сообщение отправлено");
     }
 }

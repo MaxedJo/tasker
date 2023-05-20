@@ -1,12 +1,12 @@
 package ru.vorobev.tasker.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.vorobev.tasker.model.Change;
 import ru.vorobev.tasker.service.ChangeService;
 
 import java.security.Principal;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,7 +17,11 @@ public class ChangeController {
     private final ChangeService changeService;
 
     @GetMapping("/{taskId}")
-    public List<Change> getChangesByTaskId(@PathVariable Long taskId, Principal principal) {
-        return changeService.getChangesByTaskId(taskId, principal.getName());
+    public ResponseEntity<?> getChangesByTaskId(@PathVariable Long taskId, Principal principal) {
+        try {
+            return ResponseEntity.ok(changeService.getChangesByTaskId(taskId, principal.getName()));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
     }
 }

@@ -30,7 +30,7 @@ export default function TaskForm(props) {
             status: data.get("status"),
             id: props.task.id,
             user: data.get("user"),
-            deadline: deadline.format('YYYY-MM-DD'),
+            deadline: deadline.isValid() ? deadline.format('YYYY-MM-DD') : null,
         }
         updateTask(taskFromData)
             .then(r => {
@@ -103,7 +103,7 @@ export default function TaskForm(props) {
                         label="Испольнитель"
                         name="user"
                         autoComplete="user"
-                        defaultValue={props.task.user}
+                        defaultValue={props.task.user ? props.task.user : 0}
                     >
                         <MenuItem key={0} value={0}>
                             <Typography variant="h7"></Typography>
