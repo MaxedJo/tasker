@@ -48,8 +48,8 @@ export default function ProjectsList(props) {
     }
 
     return (
-        <Paper sx={{width: '100%', overflow: 'hidden'}}>
-            <TableContainer sx={{maxHeight: 440}}>
+        <Paper sx={{width: '100%', overflow: 'hidden', margin: '0 0 40px'}}>
+            <TableContainer>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>

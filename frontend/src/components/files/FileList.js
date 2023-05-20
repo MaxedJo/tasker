@@ -41,9 +41,9 @@ export default function FileList(props) {
     }));
 
     return (
-        <Paper sx={{width: '100%', overflow: 'hidden'}}>
+        <Paper sx={{width: '100%', overflow: 'hidden', margin: '0 0 40px'}}>
             {props.items.length > 0 ?
-                (<><TableContainer sx={{maxHeight: 440}}>
+                (<><TableContainer>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>

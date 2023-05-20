@@ -24,7 +24,7 @@ export default function UsersList(props) {
     const [rows, setRows] = React.useState([]);
 
     let columns = props.canDelete
-        ? [...columnsDefault, {id: 'delete', label: 'ss', width: 70}]
+        ? [...columnsDefault, {id: 'delete', label: '', width: 70}]
         : columnsDefault;
 
     const handleChangePage = (event, newPage) => {
@@ -56,9 +56,9 @@ export default function UsersList(props) {
 
     }, [props.items])
     return (
-        <Paper sx={{width: '100%', overflow: 'hidden'}}>
+        <Paper sx={{width: '100%', overflow: 'hidden', margin: '0 0 40px'}}>
             {props.items.length > 0 ?
-                (<><TableContainer sx={{maxHeight: 440}}>
+                (<><TableContainer>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>
