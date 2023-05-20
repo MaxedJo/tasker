@@ -35,7 +35,8 @@ export default function FileList(props) {
 
     const rows = props.items.map(item => ({
         ...item,
-        fileName: <Link href={'/files/files/' + item.fileId}>{item.fileName}</Link>,
+        fileName: <Link
+            href={process.env.REACT_APP_BACKEND_HOST + '/files/files/' + item.fileId}>{item.fileName}</Link>,
         delete: <IconButton aria-label="delete" onClick={() => props.removeFile(item.fileId)}>
             <DeleteIcon/></IconButton>
     }));
