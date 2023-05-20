@@ -1,7 +1,6 @@
 import {Outlet, useLoaderData, useNavigate} from "react-router-dom";
 import {BottomNavigation, BottomNavigationAction, Box, ListItemText, Typography} from "@mui/material";
 import React, {useState} from "react";
-import UserList from "../ui/UserList";
 import PersonIcon from "@mui/icons-material/Person";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -12,6 +11,7 @@ import {deleteProject, leaveProject} from "../../api/client";
 import parse from "html-react-parser";
 import CompletitionProgress from "../ui/CompletitionProgress";
 import ProjectTasksList from "../task/ProjectTasksList";
+import ProjectUsersList from "../usres/ProjectUsresList";
 
 
 const saveCurrent = id => localStorage.setItem('PROJECT_ACTIVE_TAB', id);
@@ -22,6 +22,7 @@ export default function ProjectPage() {
     const load = useLoaderData();
     const nav = useNavigate();
     const data = load.data;
+
     const leave = () => {
         leaveProject(data.id)
             .then(r => {
@@ -40,10 +41,7 @@ export default function ProjectPage() {
     const renderAll = (state) => {
         switch (state) {
             case 0 :
-                return <>
-                    {/*<UsersList items={data.members}  projectId={data.id} ownerId={data.owner.id}/>*/}
-                    <UserList users={data.members} create project={data.id} delete owner={data.owner.id}/>
-                </>
+                return <ProjectUsersList items={data.members} projectId={data.id} canDelete ownerId={data.owner.id}/>
 
             case 1 :
                 return <ProjectTasksList items={data.tasks} projectId={data.id}/>

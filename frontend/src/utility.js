@@ -20,3 +20,12 @@ export function fixStatus(str) {
             return "Не известно"
     }
 }
+
+export function arrayIntersectionFilter(src, filter, filterUser, field) {
+    let i = 0, c = filter.length, index = {};
+    for (; i < c; ++i) {
+        index[filter[i][field]] = 1;
+    }
+    index[filterUser] = 1;
+    return src.filter(item => !index.hasOwnProperty(item[field]));
+}
