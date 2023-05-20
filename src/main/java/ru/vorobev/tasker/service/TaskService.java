@@ -9,6 +9,7 @@ import ru.vorobev.tasker.model.*;
 import ru.vorobev.tasker.repository.ChangeRepository;
 import ru.vorobev.tasker.repository.ProjectRepository;
 import ru.vorobev.tasker.repository.TaskRepository;
+import ru.vorobev.tasker.repository.UserRepository;
 import ru.vorobev.tasker.util.UserValidator;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ public class TaskService {
     private final TaskMapper taskMapper;
     private final ProjectRepository projectRepository;
     private final UserService userService;
+    private final UserRepository userRepository;
     private final ChangeRepository changeRepository;
     private final UserValidator userValidator;
 
@@ -62,9 +64,12 @@ public class TaskService {
                         .changeTime(LocalDateTime.now())
                         .build();
                 if (task.getUser() != old.getUser()) {
+                    User userOld = userRepository.findUserByIdIs(old.getUser());
+                    User userNew = userRepository.findUserByIdIs(task.getUser());
+
                     changeRepository.save(change.withField(Field.USER)
-                            .withNewValue(String.valueOf(task.getUser()))
-                            .withOldValue(String.valueOf(old.getUser())));
+                            .withNewValue(String.valueOf(userOld.getFio()))
+                            .withOldValue(String.valueOf(userNew.getFio())));
                 }
                 if (task.getStatus() != old.getStatus()) {
                     changeRepository.save(change.withField(Field.STATUS)
