@@ -36,7 +36,7 @@ public class TaskFileController {
         List<FileResponse> files = taskFileService.findAllByTaskId(taskId).map(file -> {
                     String fileDownloadUri = ServletUriComponentsBuilder
                             .fromCurrentContextPath()
-                            .path("/files/")
+                            .path("/files/files/")
                             .path(file.getId().toString())
                             .toUriString();
                     return FileResponse.builder()
