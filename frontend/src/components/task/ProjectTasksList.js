@@ -20,7 +20,14 @@ export default function ProjectTasksList(props) {
 
     useEffect(() => {
         setFilteredTask(
-            tasks.filter(item => showClosed || (!showClosed && item.status !== 'CLOSED'))
+            tasks
+                .filter(item => showClosed || (!showClosed && item.status !== 'CLOSED'))
+                .sort((itemA, itemB) => {
+                    if (itemA.deadline === itemB.deadline) {
+                        return 0;
+                    }
+                    return itemA.deadline > itemB.deadline ? 1 : -1;
+                })
         );
     }, [showClosed, tasks])
 
