@@ -21,6 +21,24 @@ export function fixStatus(str) {
     }
 }
 
+export function getStatusColor(str) {
+    switch (str) {
+        case "OPENED":
+            return "#00d1fa"
+        case "WORKING":
+            return "#00FF00"
+        case "ARCHIVED":
+            return "#777777"
+        case "TESTING":
+            return "#eed802"
+        case "CLOSED":
+            return "#cecece"
+        default :
+            return "#fff"
+    }
+}
+
+
 export function arrayIntersectionFilter(src, filter, filterUser, field) {
     let i = 0, c = filter.length, index = {};
     for (; i < c; ++i) {

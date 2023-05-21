@@ -8,10 +8,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import {fixStatus} from "../../utility";
+import {fixStatus, getStatusColor} from "../../utility";
 import {Link} from "react-router-dom";
 import {getUserList} from "../../api/client";
 import DeadLineMark from "../ui/DeadLineMark";
+import Box from "@mui/material/Box";
 
 const columns = [
     {id: 'mark', label: '', minWidth: 0, align: 'left'},
@@ -50,7 +51,17 @@ export default function TasksList(props) {
         user: (userList.hasOwnProperty(item.user) ?
             <Link to={"/profile/" + item.owner}>{userList[item.user].fio}</Link>
             : ''),
-        mark: <DeadLineMark task={item}/>
+        mark: <Box sx={{display: 'flex', alignItems: 'center'}}>
+            <Box
+                sx={{
+                    display: "block",
+                    width: '16px',
+                    height: '16px',
+                    borderRadius: '8px',
+                    backgroundColor: getStatusColor(item.status)
+                }}/>
+            <DeadLineMark task={item}/>
+        </Box>
     }));
 
     const handleChangeRowsPerPage = (event) => {
