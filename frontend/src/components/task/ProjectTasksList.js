@@ -19,7 +19,9 @@ export default function ProjectTasksList(props) {
     };
 
     useEffect(() => {
-        setFilteredTask(tasks.filter(item => showClosed || (!showClosed && item.status !== 'CLOSED')));
+        setFilteredTask(
+            tasks.filter(item => showClosed || (!showClosed && item.status !== 'CLOSED'))
+        );
     }, [showClosed, tasks])
 
     const handleClose = () => {
@@ -51,7 +53,7 @@ export default function ProjectTasksList(props) {
                 </Button>
                 <FormControlLabel
                     control={<Switch size="small" checked={showClosed} onChange={toggleChecked}/>}
-                    label="Закрытые"
+                    label="Завершенные"
                 />
             </Toolbar>
             <TasksList items={filteredTask}/>
