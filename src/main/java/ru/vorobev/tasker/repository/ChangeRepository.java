@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ChangeRepository extends JpaRepository<Change, Long> {
-    List<Change> getChangesByTaskIsOrderByChangeTimeDesc(Long taskId);
+    List<Change> getChangesByTaskIsOrderByChangeTimeAsc(Long taskId);
 
 }

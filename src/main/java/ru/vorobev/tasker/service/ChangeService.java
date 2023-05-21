@@ -23,7 +23,7 @@ public class ChangeService {
         if (!userValidator.projectMemberByTaskId(taskId, username)) {
             throw new RuntimeException("Вы не участник данного проекта");
         }
-        List<Change> changes = changeRepository.getChangesByTaskIsOrderByChangeTimeDesc(taskId);
+        List<Change> changes = changeRepository.getChangesByTaskIsOrderByChangeTimeAsc(taskId);
         changes.forEach(change -> change.setUsername(
                 userRepository.findUserByIdIs(change.getAuthor()).getFio()));
         Collections.reverse(changes);
