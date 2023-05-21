@@ -20,7 +20,7 @@ public class UserValidator {
 
     public boolean projectMemberByTaskId(Long taskId, String username) {
         User user = userService.getUser(username);
-        Task task = taskRepository.getTasksByIdIsOrderByDeadlineAsc(taskId);
+        Task task = taskRepository.getTasksByIdIs(taskId);
         Project project = projectRepository.findProjectByIdIs(task.getProject());
         if (!Role.ADMIN.equals(user.getRole())) {
             return project.getMembers().contains(user);
@@ -39,7 +39,7 @@ public class UserValidator {
 
     public boolean ownerByTaskId(Long taskId, String username) {
         User user = userService.getUser(username);
-        Task task = taskRepository.getTasksByIdIsOrderByDeadlineAsc(taskId);
+        Task task = taskRepository.getTasksByIdIs(taskId);
         Project project = projectRepository.findProjectByIdIs(task.getProject());
         if (!Role.ADMIN.equals(user.getRole())) {
             if (!project.getOwner().getId().equals(user.getId()))
@@ -50,7 +50,7 @@ public class UserValidator {
 
     public boolean projectOwnerByTaskId(Long taskId, String username) {
         User user = userService.getUser(username);
-        Task task = taskRepository.getTasksByIdIsOrderByDeadlineAsc(taskId);
+        Task task = taskRepository.getTasksByIdIs(taskId);
         Project project = projectRepository.findProjectByIdIs(task.getProject());
         if (!Role.ADMIN.equals(user.getRole())) {
             return user.getId().equals(project.getOwner().getId());

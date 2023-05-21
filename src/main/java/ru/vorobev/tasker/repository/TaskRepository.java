@@ -7,7 +7,7 @@ import ru.vorobev.tasker.model.Task;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task,Long> {
-     Task getTasksByIdIsOrderByDeadlineAsc(Long id);
+     Task getTasksByIdIs(Long id);
 
      void deleteTaskByIdIs(Long id);
 }

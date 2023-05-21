@@ -46,7 +46,7 @@ public class TaskService {
     }
 
     public Task getTask(Long id) {
-        return taskRepository.getTasksByIdIsOrderByDeadlineAsc(id);
+        return taskRepository.getTasksByIdIs(id);
     }
 
     public Task updateTask(Task task, String username) {
@@ -54,7 +54,7 @@ public class TaskService {
             task.setUser(null);
         }
         User user = userService.getUser(username);
-        var old = taskRepository.getTasksByIdIsOrderByDeadlineAsc(task.getId());
+        var old = taskRepository.getTasksByIdIs(task.getId());
         if (ObjectUtils.isNotEmpty(old)) {
             if (!userValidator.projectMemberByTaskId(task.getId(), username)) {
                 return null;
@@ -105,7 +105,7 @@ public class TaskService {
     }
 
     public void deleteTask(Long id, String username) {
-        Task task = taskRepository.getTasksByIdIsOrderByDeadlineAsc(id);
+        Task task = taskRepository.getTasksByIdIs(id);
 
         if (ObjectUtils.isNotEmpty(task)) {
             if (!userValidator.ownerByTaskId(id, username)) {

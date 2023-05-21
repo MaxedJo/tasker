@@ -123,7 +123,7 @@ public class ProjectService {
     }
 
     public Project getProjectsForTask(Long taskId) {
-        Task task = taskRepository.getTasksByIdIsOrderByDeadlineAsc(taskId);
+        Task task = taskRepository.getTasksByIdIs(taskId);
         return projectRepository.findProjectByIdIs(task.getProject());
     }
 }
