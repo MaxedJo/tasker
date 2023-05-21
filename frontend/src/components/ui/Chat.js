@@ -41,7 +41,7 @@ export default function Chat(props) {
     }
 
     return (
-        <Box sx={{maxWidth: "80vw", ml: "auto", mr: "auto", pb: 1, mb: 3}}>
+        <Box sx={{maxWidth: "600px", ml: "auto", mr: "auto", pb: 1, mb: 3}}>
             <TextField
                 fullWidth
                 value={message} onChange={(e) => setMessage(e.target.value)}
