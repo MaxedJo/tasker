@@ -38,6 +38,7 @@ export default function ProjectUsersList(props) {
                     props.ownerId,
                     'id'
                 ))
+                setSelected('');
             })
     }
     const handleDelete = id => {

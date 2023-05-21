@@ -119,6 +119,14 @@ export default function TaskPage() {
                                 }}
                             >
                                 <Box>
+                                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                        Задача в проекте
+                                    </Typography>
+                                    <Typography component="div">
+                                        <Link href={"/projects/" + project.id}>{project.title}</Link>
+                                    </Typography>
+                                </Box>
+                                <Box>
                                     <Typography>Статус: {fixStatus(task.status)}</Typography>
                                 </Box>
                                 <Box>
