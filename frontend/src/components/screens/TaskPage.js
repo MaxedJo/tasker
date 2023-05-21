@@ -160,7 +160,7 @@ export default function TaskPage() {
                             onClick={handleEdit}>Редактировать</Button>)}
                         {validateUser([task.owner, project.owner.id], <Button onClick={handleDelete}>Удалить</Button>)}
                         <TabContext value={tab}>
-                            <Box ml="auto" mr="auto" maxWidth="50vh" sx={{borderBottom: 1, borderColor: 'divider'}}>
+                            <Box ml="auto" mr="auto" sx={{borderBottom: 1, borderColor: 'divider'}}>
                                 <TabList onChange={handleTabChange}>
                                     <Tab label="Обсуждение" value="1"/>
                                     <Tab label="История изменений" value="2"/>
