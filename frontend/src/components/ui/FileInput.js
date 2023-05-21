@@ -22,6 +22,7 @@ const FileInput = ({taskId, label, onChange, error, onUpload}) => {
         const data = new FormData(event.currentTarget);
         data.append("file", attachment);
         uploadFile(data, taskId).then(r => onUpload(r.data));
+        setAttachment(null);
     }
     return (
         <Box
