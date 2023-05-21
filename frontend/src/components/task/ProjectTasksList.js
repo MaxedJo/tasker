@@ -23,10 +23,12 @@ export default function ProjectTasksList(props) {
             tasks
                 .filter(item => showClosed || (!showClosed && item.status !== 'CLOSED'))
                 .sort((itemA, itemB) => {
-                    if (itemA.deadline === itemB.deadline) {
+                    const a = itemA.deadline || '99999999';
+                    const b = itemB.deadline || '99999999';
+                    if (a === b) {
                         return 0;
                     }
-                    return itemA.deadline > itemB.deadline ? 1 : -1;
+                    return a > b ? 1 : -1;
                 })
         );
     }, [showClosed, tasks])
