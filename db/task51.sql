@@ -5,6 +5,7 @@ where task_id = 51;
 insert into change (author_id, change_time, field, new_value, old_value, task_id)
 VALUES (2, '2023-02-20 10:20:00', 'NONE', '', '', 51),
        (2, '2023-02-20 10:21:00', 'USER', 'Петров', 'Не назначено', 51),
+       (2, '2023-02-20 10:21:00', 'DEADLINE', '2023-04-28', '', 51),
        (2, '2023-02-20 10:21:01', 'STATUS', 'OPENED', '', 51),
        (31, '2023-02-20 10:23:00', 'STATUS', 'WORKING', 'OPENED', 51),
        (31, '2023-04-25 10:10:20', 'STATUS', 'TESTING', 'WORKING', 51),
