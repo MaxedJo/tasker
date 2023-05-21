@@ -41,7 +41,7 @@ export default function Chat(props) {
     }
 
     return (
-        <Box sx={{maxWidth: "80vh", ml: "auto", mr: "auto", pb: 1, mb: 3}}>
+        <Box sx={{maxWidth: "600px", ml: "auto", mr: "auto", pb: 1, mb: 3}}>
             <TextField
                 fullWidth
                 value={message} onChange={(e) => setMessage(e.target.value)}
@@ -52,7 +52,7 @@ export default function Chat(props) {
                 }}
             />
             {messages ? [...messages].reverse().map(mes => (
-                <Box key={mes.id} maxWidth="100vh" mt={1} mr={1}>
+                <Box key={mes.id} maxWidth="600px" mt={1} mr={1}>
                     {user.id === mes.author ?
                         <Box boxShadow={2} borderRadius={5} sx={{display: "flex"}}>
                             <IconButton onClick={() => profile(mes.author)}><Avatar/></IconButton>

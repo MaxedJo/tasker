@@ -45,10 +45,10 @@ export default function TasksList(props) {
         title: <Link to={"/tasks/" + item.id}>{item.title}</Link>,
         status: fixStatus(item.status),
         owner: (userList.hasOwnProperty(item.owner) ?
-            <Link to={"/profile/" + item.owner}>{userList[item.owner].username}</Link>
+            <Link to={"/profile/" + item.owner}>{userList[item.owner].fio}</Link>
             : 'Неизвестный'),
         user: (userList.hasOwnProperty(item.user) ?
-            <Link to={"/profile/" + item.owner}>{userList[item.user].username}</Link>
+            <Link to={"/profile/" + item.owner}>{userList[item.user].fio}</Link>
             : ''),
         mark: <DeadLineMark task={item}/>
     }));
