@@ -44,9 +44,4 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.OK).body("Задача успешно удалена");
     }
 
-    @GetMapping("/{id}/statuses")
-    public ResponseEntity<?> getStatuses(@PathVariable Long id, Principal principal) {
-        return ResponseEntity.ok(taskService.getStatuses(id, principal.getName()));
-    }
-
 }

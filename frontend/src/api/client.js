@@ -13,8 +13,6 @@ export const getUserCurrent = () => get("/user-api/user", {});
 export const getUserList = () => get("/user-api/user/all", {});
 export const updateUser = data => post("/user-api/user/edit", data, {});
 
-export const getStatuses = taskId => get("/task/" + taskId + '/statuses', {});
-
 export const deleteTask = taskId => get("/task/" + taskId + '/delete', {});
 export const getTaskCreated = () => get("/user-api/created-tasks", {});
 export const getTaskAssigned = () => get("/user-api/assigned-tasks", {});

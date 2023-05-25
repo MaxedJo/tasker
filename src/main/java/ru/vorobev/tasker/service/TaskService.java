@@ -3,7 +3,6 @@ package ru.vorobev.tasker.service;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
-import ru.vorobev.tasker.controller.dto.StatusValues;
 import ru.vorobev.tasker.mapper.TaskMapper;
 import ru.vorobev.tasker.model.*;
 import ru.vorobev.tasker.repository.ChangeRepository;
@@ -12,7 +11,6 @@ import ru.vorobev.tasker.repository.UserRepository;
 import ru.vorobev.tasker.util.UserValidator;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,7 +24,6 @@ public class TaskService {
     private final UserRepository userRepository;
     private final ChangeRepository changeRepository;
     private final UserValidator userValidator;
-
 
     public Task saveTask(Task task) {
         task.setStatus(Status.OPENED);
@@ -113,16 +110,5 @@ public class TaskService {
             }
             taskRepository.delete(task);
         }
-    }
-
-    public List<StatusValues> getStatuses(Long taskId, String username) {
-        List<StatusValues> statuses = new ArrayList<>();
-        statuses.add(new StatusValues(Status.OPENED.name(), "Открыта"));
-        statuses.add(new StatusValues(Status.WORKING.name(), "В работе"));
-        statuses.add(new StatusValues(Status.TESTING.name(), "На тестировании"));
-        statuses.add(new StatusValues(Status.CLOSED.name(), "Завершена"));
-        if (userValidator.projectOwnerByTaskId(taskId, username))
-            statuses.add(new StatusValues(Status.ARCHIVED.name(), "В архиве"));
-        return statuses;
     }
 }
